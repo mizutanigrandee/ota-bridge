@@ -105,36 +105,36 @@
       "enabled": true,
       "tags": ["競合", "ミナミ"]
     },
-    {
-      "id": "hotel_nikko_osaka",
-      "name": "ホテル日航大阪",
+   {
+      "id": "sotetsu_grand_fresa_osaka_namba",
+      "name": "相鉄グランドフレッサ 大阪なんば",
       "rooms": null,
-      "rakuten_hotel_no": 167,
-      "jalan_hotel_id": "yad312812",
+      "rakuten_hotel_no": 151202,
+      "jalan_hotel_id": "yad352344",
       "ikyu_hotel_id": "",
       "enabled": true,
-      "tags": ["競合", "ミナミ"]
+      "tags": ["競合","ミナミ"]
     },
-    {
-      "id": "cross_hotel_osaka",
-      "name": "クロスホテル大阪",
+   {
+      "id": "hotel_code_shinsaibashi",
+      "name": "ホテルコード心斎橋",
       "rooms": null,
-      "rakuten_hotel_no": 7801,
-      "jalan_hotel_id": "yad319945",
+      "rakuten_hotel_no": 160925,
+      "jalan_hotel_id": "yad378446",
       "ikyu_hotel_id": "",
       "enabled": true,
-      "tags": ["競合", "ミナミ"]
+      "tags": ["競合","ミナミ"]
     },
-    {
-      "id": "hotel_the_flag_shinsaibashi",
-      "name": "HOTEL THE FLAG 心斎橋",
+   {
+      "id": "shizutetsu_prezio_osaka_shinsaibashi",
+      "name": "静鉄ホテルプレジオ大阪心斎橋",
       "rooms": null,
-      "rakuten_hotel_no": 165198,
-      "jalan_hotel_id": "yad373521",
+      "rakuten_hotel_no": 187299,
+      "jalan_hotel_id": "yad345542",
       "ikyu_hotel_id": "",
       "enabled": true,
-      "tags": ["競合", "ミナミ"]
-    },
+      "tags": ["競合","ミナミ"]
+    }
     {
       "id": "via_inn_shinsaibashi",
       "name": "ヴィアイン心斎橋（JR西日本グループ）",
