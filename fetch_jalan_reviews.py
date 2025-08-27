@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 """
 fetch_jalan_reviews.py
 - hotel_master.json を読み込み、jalan_hotel_id を持つ施設の
-  口コミ「総合評価」「口コミ件数」を施設ページから取得（低頻度スクレイピング）
-- data/ota_facility_meta.json を更新（既存の楽天データに jalan をマージ）
+  「口コミ平均」「口コミ件数」を じゃらん施設ページから取得（低頻度スクレイピング）
+- data/ota_facility_meta.json へ jalan ブロックをマージ
 - 失敗時は前回値を保持（0/NaNは出さない）
-- 取得間隔は polite に 3 秒
 """
 
 import json, re, time, datetime as dt
@@ -20,7 +20,7 @@ DATA_DIR = ROOT / "data"
 MASTER_PATH = DATA_DIR / "hotel_master.json"
 OUT_PATH = DATA_DIR / "ota_facility_meta.json"
 
-# ブラウザっぽいヘッダ（弾かれにくい）
+# ブラウザ相当のヘッダ
 UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
       "AppleWebKit/537.36 (KHTML, like Gecko) "
       "Chrome/124.0.0.0 Safari/537.36")
@@ -31,18 +31,17 @@ HEADERS = {
     "Referer": "https://www.jalan.net/"
 }
 TIMEOUT = 25
-DELAY_SEC = 3.0  # polite
+DELAY_SEC = 3.0  # 1施設あたりの待機
 
 def load_master():
     with MASTER_PATH.open("r", encoding="utf-8") as f:
         m = json.load(f)
-    hotels = m.get("hotels", [])
-    return [h for h in hotels if h.get("enabled") and h.get("jalan_hotel_id")]
+    return [h for h in m.get("hotels", []) if h.get("enabled") and h.get("jalan_hotel_id")]
 
 def _try_get(url: str) -> Optional[str]:
     try:
         r = requests.get(url, headers=HEADERS, timeout=TIMEOUT, allow_redirects=True)
-        if r.status_code == 200 and r.text and "robots" not in r.url:
+        if r.status_code == 200 and r.text:
             return r.text
         return None
     except Exception:
@@ -50,52 +49,76 @@ def _try_get(url: str) -> Optional[str]:
 
 def parse_from_json_ld(soup: BeautifulSoup) -> Tuple[Optional[float], Optional[int]]:
     """
-    schema.org の aggregateRating を優先的に探す。
-    @graph 配下にも対応。
+    schema.org の aggregateRating を最優先。type 属性のバリエーションや @graph にも対応。
+    BeautifulSoup の .string は None になりがちなので .get_text() を使用。
     """
-    for tag in soup.find_all("script", {"type": "application/ld+json"}):
+    def to_float(x):
         try:
-            data = json.loads(tag.string or "")
+            return float(x)
+        except Exception:
+            return None
+
+    def to_int(x):
+        try:
+            return int(str(x).replace(",", ""))
+        except Exception:
+            return None
+
+    for tag in soup.find_all("script", lambda t: t and "ld+json" in t.lower()):
+        raw = (tag.get_text() or "").strip()
+        if not raw:
+            continue
+        try:
+            data = json.loads(raw)
         except Exception:
             continue
 
-        # 候補を列挙（dict, list, @graph のどれでも）
         candidates = []
-        if isinstance(data, list):
-            candidates.extend(data)
-        elif isinstance(data, dict):
+        if isinstance(data, dict):
             candidates.append(data)
             if isinstance(data.get("@graph"), list):
                 candidates.extend(data["@graph"])
+        elif isinstance(data, list):
+            candidates.extend(data)
 
         for d in candidates:
             if not isinstance(d, dict):
                 continue
             ar = d.get("aggregateRating")
             if isinstance(ar, dict):
-                rv = ar.get("ratingValue")
-                rc = ar.get("reviewCount") or ar.get("ratingCount")
-                try:
-                    avg = float(rv) if rv is not None else None
-                except Exception:
-                    avg = None
-                try:
-                    cnt = int(str(rc).replace(",", "")) if rc is not None else None
-                except Exception:
-                    cnt = None
+                avg = to_float(ar.get("ratingValue"))
+                cnt = to_int(ar.get("reviewCount") or ar.get("ratingCount"))
                 if avg is not None or cnt is not None:
                     return avg, cnt
     return None, None
 
+def parse_from_microdata(soup: BeautifulSoup) -> Tuple[Optional[float], Optional[int]]:
+    """
+    itemtype=AggregateRating の Microdata を拾う（念のためのフォールバック）
+    """
+    avg = cnt = None
+    for div in soup.find_all(attrs={"itemtype": re.compile("AggregateRating")}):
+        rv = div.find(attrs={"itemprop": "ratingValue"})
+        rc = div.find(attrs={"itemprop": re.compile("reviewCount|ratingCount")})
+        if rv and (avg is None):
+            try: avg = float(rv.get_text().strip())
+            except Exception: pass
+        if rc and (cnt is None):
+            try: cnt = int(rc.get_text().strip().replace(",", ""))
+            except Exception: pass
+        if avg is not None or cnt is not None:
+            return avg, cnt
+    return None, None
+
 def parse_from_text(soup: BeautifulSoup) -> Tuple[Optional[float], Optional[int]]:
     """
-    テキストから概算で抽出（フォールバック）
-    - 「総合4.3」「総合評価 4.3」など
-    - 「クチコミ 1,234件」「口コミ 1,234件」両表記に対応
+    テキストから概算抽出（最終フォールバック）
+    - 「総合4.3」「総合評価 4.3」「クチコミ総合4.3」等
+    - 「クチコミ 1,234件」「口コミ 1,234件」等
     """
     text = soup.get_text(" ", strip=True)
 
-    # 総合評価 (0.0~5.0)
+    # 総合評価
     avg = None
     for pat in [
         r"(?:総合(?:評価)?|クチコミ総合)\s*([0-5](?:\.\d)?)",
@@ -112,7 +135,7 @@ def parse_from_text(soup: BeautifulSoup) -> Tuple[Optional[float], Optional[int]
             except Exception:
                 pass
 
-    # 口コミ件数（カタカナ/漢字どちらも）
+    # 口コミ件数（カタカナ/漢字）
     cnt = None
     for word in ["クチコミ", "口コミ"]:
         for m in re.finditer(rf"{word}.{{0,50}}?([0-9,]+)\s*件", text):
@@ -128,48 +151,61 @@ def parse_from_text(soup: BeautifulSoup) -> Tuple[Optional[float], Optional[int]
                 cnt = max(cnt or 0, c)
             except Exception:
                 pass
+
     return avg, cnt
 
 def fetch_jalan_review(jalan_hotel_id: str) -> Tuple[Optional[float], Optional[int]]:
     """
-    じゃらんの施設ページから 口コミ平均/件数 を取得
-    優先: https://www.jalan.net/<yadXXXXXX>/
-    次点: https://www.jalan.net/<yadXXXXXX>/kuchikomi/
-    最後: https://www.jalan.net/uw/uwp3200/uww3201.do?yadNo=<digits>
+    じゃらんの施設ページから口コミ平均/件数を取得（順に試行）
+      1) https://www.jalan.net/yadXXXXXX/
+      2) https://www.jalan.net/yadXXXXXX/kuchikomi/
+      3) https://www.jalan.net/uw/uwp3200/uww3201.do?yadNo=XXXXXX
     """
-    # 1) 施設トップ
-    urls = [f"https://www.jalan.net/{jalan_hotel_id}/",
-            f"https://www.jalan.net/{jalan_hotel_id}/kuchikomi/"]
-
-    # 2) フォールバック（yadNo= 数値）
+    urls = [
+        f"https://www.jalan.net/{jalan_hotel_id}/",
+        f"https://www.jalan.net/{jalan_hotel_id}/kuchikomi/",
+    ]
     m = re.search(r"(\d+)", jalan_hotel_id)
     if m:
         yad_no = m.group(1)
         urls.append(f"https://www.jalan.net/uw/uwp3200/uww3201.do?yadNo={yad_no}")
 
-    html = None
+    last_html = None
     for u in urls:
         html = _try_get(u)
         if html:
-            break
+            last_html = html
+            soup = BeautifulSoup(html, "html.parser")
 
-    if not html:
-        return None, None
+            # 1) JSON-LD
+            avg, cnt = parse_from_json_ld(soup)
+            if avg is not None or cnt is not None:
+                print(f"[jalan] {jalan_hotel_id}: found in JSON-LD at {u}")
+                return avg, cnt
 
-    soup = BeautifulSoup(html, "html.parser")
+            # 2) Microdata
+            avg, cnt = parse_from_microdata(soup)
+            if avg is not None or cnt is not None:
+                print(f"[jalan] {jalan_hotel_id}: found in microdata at {u}")
+                return avg, cnt
 
-    # JSON-LD優先
-    avg, cnt = parse_from_json_ld(soup)
-    if avg is not None or cnt is not None:
-        return avg, cnt
+            # 3) テキスト
+            avg, cnt = parse_from_text(soup)
+            if avg is not None or cnt is not None:
+                print(f"[jalan] {jalan_hotel_id}: found in text at {u}")
+                return avg, cnt
 
-    # テキスト抽出フォールバック
-    return parse_from_text(soup)
+        time.sleep(1.0)  # URL切替時の短い待機
+
+    # ここまで見つからなければ None
+    if last_html is None:
+        print(f"[jalan] {jalan_hotel_id}: failed to fetch any page")
+    else:
+        print(f"[jalan] {jalan_hotel_id}: fetched but not found rating")
+    return None, None
 
 def main():
     DATA_DIR.mkdir(parents=True, exist_ok=True)
-
-    # 既存の出力（楽天を含む）を読み込む
     base = {"date": dt.date.today().isoformat(), "last_updated": None, "hotels": {}}
     if OUT_PATH.exists():
         try:
@@ -179,21 +215,20 @@ def main():
             pass
 
     hotels = load_master()
-
     for h in hotels:
         hid = h["id"]
-        jalan_id = h.get("jalan_hotel_id")
-        if not jalan_id:
+        jid = h.get("jalan_hotel_id")
+        if not jid:
             continue
 
-        avg, cnt = None, None
+        avg = cnt = None
         try:
-            avg, cnt = fetch_jalan_review(jalan_id)
+            avg, cnt = fetch_jalan_review(jid)
             time.sleep(DELAY_SEC)  # polite
-        except Exception:
-            pass
+        except Exception as e:
+            print(f"[jalan] {jid}: error {e!r}")
 
-        # 失敗時は前回値フォールバック
+        # 前回値フォールバック
         prev = (base.get("hotels") or {}).get(hid, {}).get("jalan", {})
         if avg is None:
             avg = prev.get("review_avg")
@@ -201,9 +236,9 @@ def main():
             cnt = prev.get("review_count")
 
         entry = base.setdefault("hotels", {}).setdefault(hid, {})
-        jalan_block = entry.setdefault("jalan", {})
-        jalan_block["review_avg"] = avg
-        jalan_block["review_count"] = cnt
+        entry.setdefault("jalan", {})
+        entry["jalan"]["review_avg"] = avg
+        entry["jalan"]["review_count"] = cnt
 
     base["date"] = dt.date.today().isoformat()
     base["last_updated"] = dt.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
