@@ -105,7 +105,7 @@
       "enabled": true,
       "tags": ["競合", "ミナミ"]
     },
-   {
+    {
       "id": "sotetsu_grand_fresa_osaka_namba",
       "name": "相鉄グランドフレッサ 大阪なんば",
       "rooms": null,
@@ -115,7 +115,7 @@
       "enabled": true,
       "tags": ["競合","ミナミ"]
     },
-   {
+    {
       "id": "hotel_code_shinsaibashi",
       "name": "ホテルコード心斎橋",
       "rooms": null,
@@ -125,7 +125,7 @@
       "enabled": true,
       "tags": ["競合","ミナミ"]
     },
-   {
+    {
       "id": "shizutetsu_prezio_osaka_shinsaibashi",
       "name": "静鉄ホテルプレジオ大阪心斎橋",
       "rooms": null,
@@ -134,7 +134,7 @@
       "ikyu_hotel_id": "",
       "enabled": true,
       "tags": ["競合","ミナミ"]
-    }
+    },
     {
       "id": "via_inn_shinsaibashi",
       "name": "ヴィアイン心斎橋（JR西日本グループ）",
