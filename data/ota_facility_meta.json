@@ -1,0 +1,24 @@
+{
+  "date": "2025-08-27",
+  "last_updated": "2025-08-27T03:27:41Z",
+  "hotels": {
+    "hotel_grandee": {
+      "rakuten": {
+        "review_avg": 4.27,
+        "review_count": 1776
+      }
+    },
+    "comp_a": {
+      "rakuten": {
+        "review_avg": 4.22,
+        "review_count": 353
+      }
+    },
+    "comp_b": {
+      "rakuten": {
+        "review_avg": 4.33,
+        "review_count": 3583
+      }
+    }
+  }
+}
