@@ -80,20 +80,31 @@ def extract_min_price_from_response(js: dict):
     return None  # 空室なし等
 
 def fetch_min_price_for(hotel_no: int, ymd: str):
-    """指定ホテル×日付の最安値（円）を取得"""
+    """指定ホテル×日付の最安値（円）を取得（1泊）"""
+    # checkoutDate = 翌日
+    from datetime import datetime, timedelta
+    checkout = (datetime.strptime(ymd, "%Y-%m-%d") + timedelta(days=1)).strftime("%Y-%m-%d")
+
     params = {
         "applicationId": APP_ID,
         "format": "json",
+        "formatVersion": 2,      # JSONをフラットに
         "hotelNo": hotel_no,
-        "checkinDate": ymd,   # 1泊想定
+        "checkinDate": ymd,
+        "checkoutDate": checkout,  # ★必須
         "adultNum": 1,
-        "roomNum": 1
+        "roomNum": 1,
+        "searchPattern": 1,      # ★プラン単位
+        "sort": "+roomCharge",   # ★料金が安い順
+        "hits": 1,               # ★最安プランだけ取る
+        "responseType": "large"  # 料金情報を確実に含める
     }
     headers = {"User-Agent": UA, "Accept": "application/json"}
     r = requests.get(API_URL, params=params, headers=headers, timeout=25)
     r.raise_for_status()
     js = r.json()
     return extract_min_price_from_response(js)
+
 
 def main():
     DATA_DIR.mkdir(parents=True, exist_ok=True)
