@@ -38,7 +38,7 @@
     {
       "id": "hotel_hillarys_shinsaibashi",
       "name": "ホテルヒラリーズ心斎橋",
-      "rooms": null,
+      "rooms": 225,
       "rakuten_hotel_no": 166514,
       "jalan_hotel_id": "yad363847",
       "ikyu_hotel_id": "",
@@ -48,7 +48,7 @@
     {
       "id": "hotel_sobial_namba_daikokucho",
       "name": "ホテルソビアルなんば大国町",
-      "rooms": null,
+      "rooms": 171,
       "rakuten_hotel_no": 172871,
       "jalan_hotel_id": "yad358180",
       "ikyu_hotel_id": "",
@@ -58,7 +58,7 @@
     {
       "id": "delstyle_osaka_shinsaibashi",
       "name": "DEL style 大阪心斎橋 by Daiwa Roynet Hotel",
-      "rooms": null,
+      "rooms": 190,
       "rakuten_hotel_no": 172161,
       "jalan_hotel_id": "yad361060",
       "ikyu_hotel_id": "",
@@ -68,7 +68,7 @@
     {
       "id": "ark_hotel_osaka_shinsaibashi",
       "name": "アークホテル大阪心斎橋―ルートインホテルズ―",
-      "rooms": null,
+      "rooms": 384,
       "rakuten_hotel_no": 153,
       "jalan_hotel_id": "yad329484",
       "ikyu_hotel_id": "",
@@ -78,7 +78,7 @@
     {
       "id": "richmond_namba_daikokucho",
       "name": "リッチモンドホテルなんば大国町",
-      "rooms": null,
+      "rooms": 201,
       "rakuten_hotel_no": 144974,
       "jalan_hotel_id": "yad322856",
       "ikyu_hotel_id": "",
@@ -88,7 +88,7 @@
     {
       "id": "hennna_hotel_osaka_namba",
       "name": "変なホテル大阪 なんば",
-      "rooms": null,
+      "rooms": 99,
       "rakuten_hotel_no": 168794,
       "jalan_hotel_id": "yad332142",
       "ikyu_hotel_id": "",
@@ -98,7 +98,7 @@
     {
       "id": "dormy_inn_premium_namba_annex",
       "name": "天然温泉朝霧の湯 ドーミーインPREMIUMなんばANNEX",
-      "rooms": null,
+      "rooms": 150,
       "rakuten_hotel_no": 143240,
       "jalan_hotel_id": "yad399079",
       "ikyu_hotel_id": "",
@@ -108,7 +108,7 @@
     {
       "id": "sotetsu_grand_fresa_osaka_namba",
       "name": "相鉄グランドフレッサ 大阪なんば",
-      "rooms": null,
+      "rooms": 698,
       "rakuten_hotel_no": 151202,
       "jalan_hotel_id": "yad352344",
       "ikyu_hotel_id": "",
@@ -118,7 +118,7 @@
     {
       "id": "hotel_code_shinsaibashi",
       "name": "ホテルコード心斎橋",
-      "rooms": null,
+      "rooms": 82,
       "rakuten_hotel_no": 160925,
       "jalan_hotel_id": "yad378446",
       "ikyu_hotel_id": "",
@@ -128,7 +128,7 @@
     {
       "id": "shizutetsu_prezio_osaka_shinsaibashi",
       "name": "静鉄ホテルプレジオ大阪心斎橋",
-      "rooms": null,
+      "rooms": 150,
       "rakuten_hotel_no": 187299,
       "jalan_hotel_id": "yad345542",
       "ikyu_hotel_id": "",
@@ -138,7 +138,7 @@
     {
       "id": "via_inn_shinsaibashi",
       "name": "ヴィアイン心斎橋（JR西日本グループ）",
-      "rooms": null,
+      "rooms": 197,
       "rakuten_hotel_no": 128269,
       "jalan_hotel_id": "yad378268",
       "ikyu_hotel_id": "",
@@ -148,7 +148,7 @@
     {
       "id": "sotetsu_fresa_inn_osaka_shinsaibashi",
       "name": "相鉄フレッサイン 大阪心斎橋",
-      "rooms": null,
+      "rooms": 175,
       "rakuten_hotel_no": 167892,
       "jalan_hotel_id": "yad358304",
       "ikyu_hotel_id": "",
@@ -158,7 +158,7 @@
     {
       "id": "hearton_hotel_shinsaibashi",
       "name": "ハートンホテル心斎橋",
-      "rooms": null,
+      "rooms": 302,
       "rakuten_hotel_no": 145,
       "jalan_hotel_id": "yad320736",
       "ikyu_hotel_id": "",
@@ -168,7 +168,7 @@
     {
       "id": "tokyustay_mercure_osaka_namba",
       "name": "東急ステイ メルキュール 大阪なんば",
-      "rooms": null,
+      "rooms": 288,
       "rakuten_hotel_no": 184561,
       "jalan_hotel_id": "yad351841",
       "ikyu_hotel_id": "",
@@ -178,7 +178,7 @@
     {
       "id": "quintessa_hotel_osaka_shinsaibashi",
       "name": "クインテッサホテル大阪心斎橋 Comic＆Books",
-      "rooms": null,
+      "rooms": 132,
       "rakuten_hotel_no": 164578,
       "jalan_hotel_id": "yad396238",
       "ikyu_hotel_id": "",
@@ -188,7 +188,7 @@
     {
       "id": "bestwestern_hotel_fino_osaka_shinsaibashi",
       "name": "ベストウェスタン ホテルフィーノ大阪心斎橋",
-      "rooms": null,
+      "rooms": 161,
       "rakuten_hotel_no": 107851,
       "jalan_hotel_id": "yad306347",
       "ikyu_hotel_id": "",
@@ -198,7 +198,7 @@
     {
       "id": "koko_hotel_osaka_shinsaibashi",
       "name": "KOKO HOTEL 大阪心斎橋",
-      "rooms": null,
+      "rooms": 211,
       "rakuten_hotel_no": 184124,
       "jalan_hotel_id": "yad322290",
       "ikyu_hotel_id": "",
