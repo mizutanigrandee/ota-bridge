@@ -1,0 +1,18 @@
+{
+  "meta": {
+    "version": 1,
+    "currency": "JPY",
+    "source": "rakuten_travel",
+    "window_days": 28,
+    "note": "当面は次の28日分を日次更新。UI側では7日単位でページング表示。"
+  },
+  "last_updated": "2025-08-27T00:00:00Z",
+  "days": {
+    "2025-08-27": {
+      "hotel_grandee": null,
+      "comp_a": null,
+      "comp_b": null
+    }
+    /* 以後、日付キーを増やしていく（スクリプトで自動生成）。値は最安値（整数） */
+  }
+}
