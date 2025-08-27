@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>最安値プレビュー（7日ウィンドウ）</title>
+  <style>
+    :root {
+      --bg:#f7f7fb; --card:#fff; --line:#e9e9f0; --txt:#222; --muted:#6b7280; --accent:#2563eb;
+    }
+    body { margin:0; font-family:system-ui, -apple-system, "Segoe UI", Roboto, "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Yu Gothic", "メイリオ", sans-serif; color:var(--txt); background:var(--bg); }
+    header { padding:16px; border-bottom:1px solid var(--line); background:#fff; }
+    h1 { font-size:18px; margin:0 0 4px; }
+    .sub { color:var(--muted); font-size:12px; }
+
+    .wrap { max-width:1200px; margin:16px auto; padding:0 12px; }
+    .panel { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:12px; }
+    .controls { display:flex; gap:12px; flex-wrap:wrap; align-items:center; }
+    .controls .group { display:flex; gap:8px; align-items:center; }
+    .btn { padding:8px 12px; border:1px solid var(--line); background:#fff; border-radius:999px; cursor:pointer; }
+    .btn:hover { border-color:#cfd3e1; }
+    .btn.primary { background:var(--accent); color:#fff; border-color:var(--accent); }
+    .range { font-weight:600; }
+
+    .chart-card { margin-top:12px; background:#fff; border:1px solid var(--line); border-radius:10px; padding:8px; }
+    .table-wrap { margin-top:12px; background:#fff; border:1px solid var(--line); border-radius:10px; overflow:auto; }
+    table { width:100%; border-collapse:collapse; font-size:13px; }
+    th, td { padding:8px 10px; border-bottom:1px solid var(--line); white-space:nowrap; text-align:right; }
+    th:first-child, td:first-child { text-align:left; position:sticky; left:0; background:#fff; }
+    thead th { position:sticky; top:0; background:#fafafa; z-index:2; }
+    .min { font-weight:700; }
+    .note { color:var(--muted); font-size:12px; margin-top:6px; }
+
+    select[multiple] { min-width:220px; min-height:120px; }
+    @media (max-width: 768px) {
+      select[multiple] { min-width:180px; min-height:100px; }
+    }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1"></script>
+</head>
+<body>
+  <header>
+    <h1>最安値プレビュー（7日ウィンドウ）</h1>
+    <div class="sub">データソース：<code>data/competitor_min_prices.json</code> / <code>data/hotel_master.json</code></div>
+  </header>
+
+  <div class="wrap">
+    <div class="panel">
+      <div class="controls">
+        <div class="group">
+          <button id="prev7" class="btn">← 前の7日間</button>
+          <span id="rangeLbl" class="range">-</span>
+          <button id="next7" class="btn">翌週 →</button>
+        </div>
+        <div class="group">
+          <label>表示ホテル</label>
+          <select id="hotelSel" multiple></select>
+          <button id="selAll" class="btn">全選択</button>
+          <button id="clearAll" class="btn">全解除</button>
+          <button id="apply" class="btn primary">反映</button>
+        </div>
+      </div>
+
+      <div class="chart-card">
+        <canvas id="chart" height="110"></canvas>
+        <div class="note">※ 欠損（空室なし/取得失敗）は線が切れます。凡例クリックで系列のON/OFF切替。</div>
+      </div>
+
+      <div class="table-wrap">
+        <table id="grid">
+          <thead></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <div class="note">最安値は税込・円換算（JSONの値をそのまま表示）。7日ウィンドウはボタンで±7日移動できます。</div>
+    </div>
+  </div>
+
+<script>
+(async function(){
+  // ▼ 読み込み（同一Pages配下なので相対パスでOK）
+  const MASTER_URL = "./data/hotel_master.json";
+  const PRICE_URL  = "./data/competitor_min_prices.json";
+
+  const [master, priceData] = await Promise.all([
+    fetch(MASTER_URL).then(r=>r.json()),
+    fetch(PRICE_URL + "?v=" + Date.now()).then(r=>r.json())
+  ]);
+
+  // ▼ ホテル一覧（enabledのみ）
+  const hotels = (master.hotels || []).filter(h => h.enabled);
+  const hotelMap = Object.fromEntries(hotels.map(h => [h.id, h]));
+  const hotelIds = hotels.map(h => h.id);
+
+  // ▼ 日付キーを昇順に
+  const dayKeys = Object.keys(priceData.days || {}).sort();
+
+  // 今日に一番近い開始位置（なければ0）
+  const today = new Date(); const todayStr = today.toISOString().slice(0,10);
+  let startIdx = Math.max(0, dayKeys.findIndex(d => d >= todayStr));
+  if (startIdx === -1) startIdx = 0;
+
+  const windowSize = 7;
+  let chart; // Chart.js instance
+
+  // ▼ UI要素
+  const hotelSel = document.getElementById("hotelSel");
+  const rangeLbl = document.getElementById("rangeLbl");
+  const prevBtn = document.getElementById("prev7");
+  const nextBtn = document.getElementById("next7");
+  const selAll  = document.getElementById("selAll");
+  const clearAll= document.getElementById("clearAll");
+  const applyBtn= document.getElementById("apply");
+  const thead = document.querySelector("#grid thead");
+  const tbody = document.querySelector("#grid tbody");
+
+  // ▼ ホテル選択を生成（デフォルト＝全選択）
+  hotelSel.innerHTML = hotels.map(h => `<option value="${h.id}" selected>${h.name}</option>`).join("");
+
+  selAll.onclick   = () => { [...hotelSel.options].forEach(o => o.selected = true); };
+  clearAll.onclick = () => { [...hotelSel.options].forEach(o => o.selected = false); };
+
+  prevBtn.onclick = () => { moveWindow(-windowSize); };
+  nextBtn.onclick = () => { moveWindow(+windowSize); };
+  applyBtn.onclick= () => { render(); };
+
+  function moveWindow(delta){
+    const newIdx = startIdx + delta;
+    if (newIdx < 0) return;
+    if (newIdx > dayKeys.length - windowSize) return;
+    startIdx = newIdx;
+    render();
+  }
+
+  function getSelectedHotelIds(){
+    return [...hotelSel.selectedOptions].map(o => o.value);
+  }
+
+  function ymdLabel(ymd){
+    const d = new Date(ymd + "T00:00:00");
+    const w = "日月火水木金土"[d.getDay()];
+    return `${ymd}（${w}）`;
+  }
+
+  function formatYen(n){
+    return typeof n === "number" ? "¥" + n.toLocaleString() : "-";
+    }
+
+  function computeRowMin(prices){
+    let min = Infinity;
+    for (const val of prices) if (typeof val === "number") min = Math.min(min, val);
+    return (min === Infinity) ? null : min;
+  }
+
+  function render(){
+    const ids = getSelectedHotelIds();
+    const winDays = dayKeys.slice(startIdx, startIdx + windowSize);
+
+    // 範囲ラベル
+    rangeLbl.textContent = (winDays.length)
+      ? `${ymdLabel(winDays[0])} 〜 ${ymdLabel(winDays[winDays.length-1])}`
+      : "—";
+
+    // 折れ線データセット
+    const datasets = ids.map((hid) => {
+      const data = winDays.map(d => {
+        const v = (priceData.days[d] || {})[hid];
+        return (typeof v === "number") ? v : null;
+      });
+      return {
+        label: hotelMap[hid]?.name || hid,
+        data,
+        borderWidth: 2,
+        pointRadius: 2,
+        spanGaps: true,
+      };
+    });
+
+    // グラフ再描画
+    const ctx = document.getElementById("chart").getContext("2d");
+    if (chart) chart.destroy();
+    chart = new Chart(ctx, {
+      type: "line",
+      data: { labels: winDays, datasets },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        interaction: { mode: "nearest", intersect: false },
+        plugins: {
+          legend: { position: "bottom" },
+          tooltip: { callbacks: {
+            label: (ctx) => `${ctx.dataset.label}: ${formatYen(ctx.parsed.y)}`
+          }}
+        },
+        scales: {
+          y: { ticks: { callback: v => "¥" + Number(v).toLocaleString() }, title: { display:true, text:"最安値（円）" } },
+          x: { ticks: { callback: (v, i) => ymdLabel(winDays[i]).replace(/\d{4}-/,'') } }
+        }
+      }
+    });
+
+    // テーブル描画（行=日付 / 列=ホテル）
+    thead.innerHTML = "<tr>" + ["日付", ...ids.map(hid => hotelMap[hid]?.name || hid)]
+      .map((t,i)=>`<th${i===0?' style="min-width:140px"':''}>${t}</th>`).join("") + "</tr>";
+
+    const rows = [];
+    for (const d of winDays){
+      const vals = ids.map(hid => (priceData.days[d] || {})[hid]);
+      const rowMin = computeRowMin(vals);
+      const tds = vals.map(v => {
+        const isMin = (typeof v === "number" && v === rowMin);
+        return `<td${isMin?' class="min"':''}>${formatYen(v)}</td>`;
+      }).join("");
+      rows.push(`<tr><td>${ymdLabel(d)}</td>${tds}</tr>`);
+    }
+    tbody.innerHTML = rows.join("");
+
+    // ボタンの有効/無効
+    prevBtn.disabled = (startIdx <= 0);
+    nextBtn.disabled = (startIdx + windowSize >= dayKeys.length);
+  }
+
+  // 初回表示（既定＝全ホテル / 今日以降の最初の7日）
+  render();
+})();
+</script>
+</body>
+</html>
