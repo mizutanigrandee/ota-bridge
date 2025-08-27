@@ -1,6 +1,6 @@
 {
   "date": "2025-08-27",
-  "last_updated": "2025-08-27T05:16:46Z",
+  "last_updated": "2025-08-27T05:29:32Z",
   "hotels": {
     "hotel_grandee": {
       "rakuten": {
@@ -8,8 +8,8 @@
         "review_count": 1776
       },
       "jalan": {
-        "review_avg": null,
-        "review_count": null
+        "review_avg": 4.6,
+        "review_count": 2701
       }
     },
     "comp_a": {
@@ -18,8 +18,8 @@
         "review_count": 353
       },
       "jalan": {
-        "review_avg": null,
-        "review_count": null
+        "review_avg": 4.2,
+        "review_count": 272
       }
     },
     "comp_b": {
@@ -28,8 +28,8 @@
         "review_count": 3583
       },
       "jalan": {
-        "review_avg": null,
-        "review_count": null
+        "review_avg": 4.5,
+        "review_count": 3483
       }
     }
   }
