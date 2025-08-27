@@ -4,15 +4,149 @@
     "currency": "JPY",
     "source": "rakuten_travel",
     "window_days": 28,
-    "note": "当面は次の28日分を日次更新。UI側では7日単位でページング表示。"
+    "note": "次の28日分を日次更新。UIでは7日単位でページング表示。"
   },
-  "last_updated": "2025-08-27T00:00:00Z",
+  "last_updated": "2025-08-27T03:55:01Z",
   "days": {
     "2025-08-27": {
       "hotel_grandee": null,
       "comp_a": null,
       "comp_b": null
+    },
+    "2025-08-28": {
+      "hotel_grandee": null,
+      "comp_a": null,
+      "comp_b": null
+    },
+    "2025-08-29": {
+      "hotel_grandee": null,
+      "comp_a": null,
+      "comp_b": null
+    },
+    "2025-08-30": {
+      "hotel_grandee": null,
+      "comp_a": null,
+      "comp_b": null
+    },
+    "2025-08-31": {
+      "hotel_grandee": null,
+      "comp_a": null,
+      "comp_b": null
+    },
+    "2025-09-01": {
+      "hotel_grandee": null,
+      "comp_a": null,
+      "comp_b": null
+    },
+    "2025-09-02": {
+      "hotel_grandee": null,
+      "comp_a": null,
+      "comp_b": null
+    },
+    "2025-09-03": {
+      "hotel_grandee": null,
+      "comp_a": null,
+      "comp_b": null
+    },
+    "2025-09-04": {
+      "hotel_grandee": null,
+      "comp_a": null,
+      "comp_b": null
+    },
+    "2025-09-05": {
+      "hotel_grandee": null,
+      "comp_a": null,
+      "comp_b": null
+    },
+    "2025-09-06": {
+      "hotel_grandee": null,
+      "comp_a": null,
+      "comp_b": null
+    },
+    "2025-09-07": {
+      "hotel_grandee": null,
+      "comp_a": null,
+      "comp_b": null
+    },
+    "2025-09-08": {
+      "hotel_grandee": null,
+      "comp_a": null,
+      "comp_b": null
+    },
+    "2025-09-09": {
+      "hotel_grandee": null,
+      "comp_a": null,
+      "comp_b": null
+    },
+    "2025-09-10": {
+      "hotel_grandee": null,
+      "comp_a": null,
+      "comp_b": null
+    },
+    "2025-09-11": {
+      "hotel_grandee": null,
+      "comp_a": null,
+      "comp_b": null
+    },
+    "2025-09-12": {
+      "hotel_grandee": null,
+      "comp_a": null,
+      "comp_b": null
+    },
+    "2025-09-13": {
+      "hotel_grandee": null,
+      "comp_a": null,
+      "comp_b": null
+    },
+    "2025-09-14": {
+      "hotel_grandee": null,
+      "comp_a": null,
+      "comp_b": null
+    },
+    "2025-09-15": {
+      "hotel_grandee": null,
+      "comp_a": null,
+      "comp_b": null
+    },
+    "2025-09-16": {
+      "hotel_grandee": null,
+      "comp_a": null,
+      "comp_b": null
+    },
+    "2025-09-17": {
+      "hotel_grandee": null,
+      "comp_a": null,
+      "comp_b": null
+    },
+    "2025-09-18": {
+      "hotel_grandee": null,
+      "comp_a": null,
+      "comp_b": null
+    },
+    "2025-09-19": {
+      "hotel_grandee": null,
+      "comp_a": null,
+      "comp_b": null
+    },
+    "2025-09-20": {
+      "hotel_grandee": null,
+      "comp_a": null,
+      "comp_b": null
+    },
+    "2025-09-21": {
+      "hotel_grandee": null,
+      "comp_a": null,
+      "comp_b": null
+    },
+    "2025-09-22": {
+      "hotel_grandee": null,
+      "comp_a": null,
+      "comp_b": null
+    },
+    "2025-09-23": {
+      "hotel_grandee": null,
+      "comp_a": null,
+      "comp_b": null
     }
-    /* 以後、日付キーを増やしていく（スクリプトで自動生成）。値は最安値（整数） */
   }
 }
