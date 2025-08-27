@@ -10,8 +10,8 @@
       "name": "ホテル ザ グランデ 心斎橋",
       "rooms": 45,
       "rakuten_hotel_no": 29246,
-      "jalan_hotel_id": "yad340057",  
-      "ikyu_hotel_id": "", 
+      "jalan_hotel_id": "yad340057",
+      "ikyu_hotel_id": "",
       "enabled": true,
       "tags": ["自館", "ミナミ"]
     },
@@ -34,162 +34,176 @@
       "ikyu_hotel_id": "",
       "enabled": true,
       "tags": ["競合", "ミナミ"]
+    },
+    {
+      "id": "hotel_hillarys_shinsaibashi",
+      "name": "ホテルヒラリーズ心斎橋",
+      "rooms": null,
+      "rakuten_hotel_no": 166514,
+      "jalan_hotel_id": "yad363847",
+      "ikyu_hotel_id": "",
+      "enabled": true,
+      "tags": ["競合", "ミナミ"]
+    },
+    {
+      "id": "hotel_sobial_namba_daikokucho",
+      "name": "ホテルソビアルなんば大国町",
+      "rooms": null,
+      "rakuten_hotel_no": 172871,
+      "jalan_hotel_id": "yad358180",
+      "ikyu_hotel_id": "",
+      "enabled": true,
+      "tags": ["競合", "ミナミ"]
+    },
+    {
+      "id": "delstyle_osaka_shinsaibashi",
+      "name": "DEL style 大阪心斎橋 by Daiwa Roynet Hotel",
+      "rooms": null,
+      "rakuten_hotel_no": 172161,
+      "jalan_hotel_id": "yad361060",
+      "ikyu_hotel_id": "",
+      "enabled": true,
+      "tags": ["競合", "ミナミ"]
+    },
+    {
+      "id": "ark_hotel_osaka_shinsaibashi",
+      "name": "アークホテル大阪心斎橋―ルートインホテルズ―",
+      "rooms": null,
+      "rakuten_hotel_no": 153,
+      "jalan_hotel_id": "yad329484",
+      "ikyu_hotel_id": "",
+      "enabled": true,
+      "tags": ["競合", "ミナミ"]
+    },
+    {
+      "id": "richmond_namba_daikokucho",
+      "name": "リッチモンドホテルなんば大国町",
+      "rooms": null,
+      "rakuten_hotel_no": 144974,
+      "jalan_hotel_id": "yad322856",
+      "ikyu_hotel_id": "",
+      "enabled": true,
+      "tags": ["競合", "ミナミ"]
+    },
+    {
+      "id": "hennna_hotel_osaka_namba",
+      "name": "変なホテル大阪 なんば",
+      "rooms": null,
+      "rakuten_hotel_no": 168794,
+      "jalan_hotel_id": "yad332142",
+      "ikyu_hotel_id": "",
+      "enabled": true,
+      "tags": ["競合", "ミナミ"]
+    },
+    {
+      "id": "dormy_inn_premium_namba_annex",
+      "name": "天然温泉朝霧の湯 ドーミーインPREMIUMなんばANNEX",
+      "rooms": null,
+      "rakuten_hotel_no": 170359,
+      "jalan_hotel_id": "yad399079",
+      "ikyu_hotel_id": "",
+      "enabled": true,
+      "tags": ["競合", "ミナミ"]
+    },
+    {
+      "id": "hotel_nikko_osaka",
+      "name": "ホテル日航大阪",
+      "rooms": null,
+      "rakuten_hotel_no": 167,
+      "jalan_hotel_id": "yad312812",
+      "ikyu_hotel_id": "",
+      "enabled": true,
+      "tags": ["競合", "ミナミ"]
+    },
+    {
+      "id": "cross_hotel_osaka",
+      "name": "クロスホテル大阪",
+      "rooms": null,
+      "rakuten_hotel_no": 7801,
+      "jalan_hotel_id": "yad319945",
+      "ikyu_hotel_id": "",
+      "enabled": true,
+      "tags": ["競合", "ミナミ"]
+    },
+    {
+      "id": "hotel_the_flag_shinsaibashi",
+      "name": "HOTEL THE FLAG 心斎橋",
+      "rooms": null,
+      "rakuten_hotel_no": 165198,
+      "jalan_hotel_id": "yad373521",
+      "ikyu_hotel_id": "",
+      "enabled": true,
+      "tags": ["競合", "ミナミ"]
+    },
+    {
+      "id": "via_inn_shinsaibashi",
+      "name": "ヴィアイン心斎橋（JR西日本グループ）",
+      "rooms": null,
+      "rakuten_hotel_no": 128269,
+      "jalan_hotel_id": "yad378268",
+      "ikyu_hotel_id": "",
+      "enabled": true,
+      "tags": ["競合", "ミナミ"]
+    },
+    {
+      "id": "sotetsu_fresa_inn_osaka_shinsaibashi",
+      "name": "相鉄フレッサイン 大阪心斎橋",
+      "rooms": null,
+      "rakuten_hotel_no": 167892,
+      "jalan_hotel_id": "yad358304",
+      "ikyu_hotel_id": "",
+      "enabled": true,
+      "tags": ["競合", "ミナミ"]
+    },
+    {
+      "id": "hearton_hotel_shinsaibashi",
+      "name": "ハートンホテル心斎橋",
+      "rooms": null,
+      "rakuten_hotel_no": 145,
+      "jalan_hotel_id": "yad320736",
+      "ikyu_hotel_id": "",
+      "enabled": true,
+      "tags": ["競合", "ミナミ"]
+    },
+    {
+      "id": "tokyustay_mercure_osaka_namba",
+      "name": "東急ステイ メルキュール 大阪なんば",
+      "rooms": null,
+      "rakuten_hotel_no": 184561,
+      "jalan_hotel_id": "yad351841",
+      "ikyu_hotel_id": "",
+      "enabled": true,
+      "tags": ["競合", "ミナミ"]
+    },
+    {
+      "id": "quintessa_hotel_osaka_shinsaibashi",
+      "name": "クインテッサホテル大阪心斎橋 Comic＆Books",
+      "rooms": null,
+      "rakuten_hotel_no": 164578,
+      "jalan_hotel_id": "yad396238",
+      "ikyu_hotel_id": "",
+      "enabled": true,
+      "tags": ["競合", "ミナミ"]
+    },
+    {
+      "id": "bestwestern_hotel_fino_osaka_shinsaibashi",
+      "name": "ベストウェスタン ホテルフィーノ大阪心斎橋",
+      "rooms": null,
+      "rakuten_hotel_no": 107851,
+      "jalan_hotel_id": "yad306347",
+      "ikyu_hotel_id": "",
+      "enabled": true,
+      "tags": ["競合", "ミナミ"]
+    },
+    {
+      "id": "koko_hotel_osaka_shinsaibashi",
+      "name": "KOKO HOTEL 大阪心斎橋",
+      "rooms": null,
+      "rakuten_hotel_no": 184124,
+      "jalan_hotel_id": "yad322290",
+      "ikyu_hotel_id": "",
+      "enabled": true,
+      "tags": ["競合", "ミナミ"]
     }
-  {
-    "id": "hotel_hillarys_shinsaibashi",
-    "name": "ホテルヒラリーズ心斎橋",
-    "rooms": null,
-    "rakuten_hotel_no": 166514,
-    "jalan_hotel_id": "yad363847",
-    "enabled": true,
-    "tags": ["競合","ミナミ"]
-  },
-  {
-    "id": "hotel_sobial_namba_daikokucho",
-    "name": "ホテルソビアルなんば大国町",
-    "rooms": null,
-    "rakuten_hotel_no": 172871,
-    "jalan_hotel_id": "yad358180",
-    "enabled": true,
-    "tags": ["競合","ミナミ"]
-  },
-  {
-    "id": "delstyle_osaka_shinsaibashi",
-    "name": "DEL style 大阪心斎橋 by Daiwa Roynet Hotel",
-    "rooms": null,
-    "rakuten_hotel_no": 172161,
-    "jalan_hotel_id": "yad361060",
-    "enabled": true,
-    "tags": ["競合","ミナミ"]
-  },
-  {
-    "id": "ark_hotel_osaka_shinsaibashi",
-    "name": "アークホテル大阪心斎橋―ルートインホテルズ―",
-    "rooms": null,
-    "rakuten_hotel_no": 153,
-    "jalan_hotel_id": "yad329484",
-    "enabled": true,
-    "tags": ["競合","ミナミ"]
-  },
-  {
-    "id": "richmond_namba_daikokucho",
-    "name": "リッチモンドホテルなんば大国町",
-    "rooms": null,
-    "rakuten_hotel_no": 144974,
-    "jalan_hotel_id": "yad322856",
-    "enabled": true,
-    "tags": ["競合","ミナミ"]
-  },
-  {
-    "id": "hennna_hotel_osaka_namba",
-    "name": "変なホテル大阪 なんば",
-    "rooms": null,
-    "rakuten_hotel_no": 168794,
-    "jalan_hotel_id": "yad332142",
-    "enabled": true,
-    "tags": ["競合","ミナミ"]
-  },
-  {
-    "id": "dormy_inn_premium_namba_annex",
-    "name": "天然温泉朝霧の湯 ドーミーインPREMIUMなんばANNEX",
-    "rooms": null,
-    "rakuten_hotel_no": 170359,
-    "jalan_hotel_id": "yad399079",
-    "enabled": true,
-    "tags": ["競合","ミナミ"]
-  }
-[
-  {
-    "id": "hotel_nikko_osaka",
-    "name": "ホテル日航大阪",
-    "rooms": null,
-    "rakuten_hotel_no": 167,
-    "jalan_hotel_id": "yad312812",
-    "enabled": true,
-    "tags": ["競合","ミナミ"]
-  },
-  {
-    "id": "cross_hotel_osaka",
-    "name": "クロスホテル大阪",
-    "rooms": null,
-    "rakuten_hotel_no": 7801,
-    "jalan_hotel_id": "yad319945",
-    "enabled": true,
-    "tags": ["競合","ミナミ"]
-  },
-  {
-    "id": "hotel_the_flag_shinsaibashi",
-    "name": "HOTEL THE FLAG 心斎橋",
-    "rooms": null,
-    "rakuten_hotel_no": 165198,
-    "jalan_hotel_id": "yad373521",
-    "enabled": true,
-    "tags": ["競合","ミナミ"]
-  },
-  {
-    "id": "via_inn_shinsaibashi",
-    "name": "ヴィアイン心斎橋（JR西日本グループ）",
-    "rooms": null,
-    "rakuten_hotel_no": 128269,
-    "jalan_hotel_id": "yad378268",
-    "enabled": true,
-    "tags": ["競合","ミナミ"]
-  },
-  {
-    "id": "sotetsu_fresa_inn_osaka_shinsaibashi",
-    "name": "相鉄フレッサイン 大阪心斎橋",
-    "rooms": null,
-    "rakuten_hotel_no": 167892,
-    "jalan_hotel_id": "yad358304",
-    "enabled": true,
-    "tags": ["競合","ミナミ"]
-  },
-  {
-    "id": "hearton_hotel_shinsaibashi",
-    "name": "ハートンホテル心斎橋",
-    "rooms": null,
-    "rakuten_hotel_no": 145,
-    "jalan_hotel_id": "yad320736",
-    "enabled": true,
-    "tags": ["競合","ミナミ"]
-  },
-  {
-    "id": "tokyustay_mercure_osaka_namba",
-    "name": "東急ステイ メルキュール 大阪なんば",
-    "rooms": null,
-    "rakuten_hotel_no": 184561,
-    "jalan_hotel_id": "yad351841",
-    "enabled": true,
-    "tags": ["競合","ミナミ"]
-  },
-  {
-    "id": "quintessa_hotel_osaka_shinsaibashi",
-    "name": "クインテッサホテル大阪心斎橋 Comic＆Books",
-    "rooms": null,
-    "rakuten_hotel_no": 164578,
-    "jalan_hotel_id": "yad396238",
-    "enabled": true,
-    "tags": ["競合","ミナミ"]
-  },
-  {
-    "id": "bestwestern_hotel_fino_osaka_shinsaibashi",
-    "name": "ベストウェスタン ホテルフィーノ大阪心斎橋",
-    "rooms": null,
-    "rakuten_hotel_no": 107851,
-    "jalan_hotel_id": "yad306347",
-    "enabled": true,
-    "tags": ["競合","ミナミ"]
-  },
-  {
-    "id": "koko_hotel_osaka_shinsaibashi",
-    "name": "KOKO HOTEL 大阪心斎橋",
-    "rooms": null,
-    "rakuten_hotel_no": 184124,
-    "jalan_hotel_id": "yad322290",
-    "enabled": true,
-    "tags": ["競合","ミナミ"]
-  }
-]
-
-    
-]
+  ]
+}
