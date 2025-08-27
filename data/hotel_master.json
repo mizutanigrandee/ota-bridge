@@ -1,0 +1,39 @@
+{
+  "meta": {
+    "version": 1,
+    "note": "手動マスタ。ホテルIDはUI側と連携しやすいスネークケースで統一。",
+    "last_updated": "2025-08-27"
+  },
+  "hotels": [
+    {
+      "id": "hotel_grandee",
+      "name": "ホテル ザ グランデ 心斎橋",
+      "rooms": 45,
+      "rakuten_hotel_no": 29246,
+      "jalan_hotel_id": "yad340057",  
+      "ikyu_hotel_id": "", 
+      "enabled": true,
+      "tags": ["自館", "ミナミ"]
+    },
+    {
+      "id": "comp_a",
+      "name": "アパホテル＆リゾート〈大阪なんば駅前タワー〉",
+      "rooms": 2055,
+      "rakuten_hotel_no": 191842,
+      "jalan_hotel_id": "yad338602",
+      "ikyu_hotel_id": "",
+      "enabled": true,
+      "tags": ["競合", "ミナミ"]
+    },
+    {
+      "id": "comp_b",
+      "name": "ホテルモントレ グラスミア大阪",
+      "rooms": 348,
+      "rakuten_hotel_no": 76887,
+      "jalan_hotel_id": "yad393984",
+      "ikyu_hotel_id": "",
+      "enabled": true,
+      "tags": ["競合", "ミナミ"]
+    }
+  ]
+}
