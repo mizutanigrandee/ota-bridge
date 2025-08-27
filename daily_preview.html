@@ -22,7 +22,26 @@
     .btn.primary { background:var(--accent); color:#fff; border-color:var(--accent); }
     .range { font-weight:600; }
 
-    .chart-card { margin-top:12px; background:#fff; border:1px solid var(--line); border-radius:10px; padding:8px; }
+   .chart-card {
+  margin-top:12px;
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:10px;
+  padding:8px;
+  height:380px;            /* ← ここが肝 */
+}
+
+/* キャンバスを容器にフィット */
+#chart {
+  width:100% !important;
+  height:100% !important;
+  display:block;
+}
+
+/* モバイルは少し低め */
+@media (max-width: 768px) {
+  .chart-card { height:260px; }
+}
     .table-wrap { margin-top:12px; background:#fff; border:1px solid var(--line); border-radius:10px; overflow:auto; }
     table { width:100%; border-collapse:collapse; font-size:13px; }
     th, td { padding:8px 10px; border-bottom:1px solid var(--line); white-space:nowrap; text-align:right; }
@@ -62,7 +81,7 @@
       </div>
 
       <div class="chart-card">
-        <canvas id="chart" height="110"></canvas>
+        <canvas id="chart"></canvas>
         <div class="note">※ 欠損（空室なし/取得失敗）は線が切れます。凡例クリックで系列のON/OFF切替。</div>
       </div>
 
@@ -183,6 +202,7 @@
       type: "line",
       data: { labels: winDays, datasets },
       options: {
+        animation: false,
         responsive: true,
         maintainAspectRatio: false,
         interaction: { mode: "nearest", intersect: false },
