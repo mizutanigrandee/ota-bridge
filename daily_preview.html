@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>最安値プレビュー（7日ウィンドウ｜転置ライン）</title>
+  <title>最安値プレビュー（7日ウィンドウ）</title>
   <style>
     :root { --bg:#f7f7fb; --card:#fff; --line:#e9e9f0; --txt:#222; --muted:#6b7280; --accent:#2563eb; }
     body { margin:0; font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Hiragino Kaku Gothic ProN","Noto Sans JP","Yu Gothic","メイリオ",sans-serif; color:var(--txt); background:var(--bg); }
@@ -41,7 +41,7 @@
 </head>
 <body>
   <header>
-    <h1>最安値プレビュー（7日ウィンドウ｜転置ライン）</h1>
+    <h1>最安値プレビュー（7日ウィンドウ）</h1>
     <div class="sub">データソース：<code>data/competitor_min_prices.json</code> / <code>data/hotel_master.json</code></div>
   </header>
 
@@ -64,10 +64,11 @@
 
       <div class="chart-card">
         <div class="chart-wrap"><canvas id="chart"></canvas></div>
-        <div class="note">横：ホテル名（選択順）、凡例：日付（7本）。凡例クリックで曜日をON/OFF。欠損は線が途切れます。</div>
+        <div class="note">上：折れ線グラフ（横＝日付、線＝ホテル）。凡例クリックで系列ON/OFF。欠損は線が切れます。</div>
       </div>
 
       <div class="table-wrap">
+        <!-- ▼ここを「縦=ホテル名／横=日付」に入れ替えています -->
         <table id="grid"><thead></thead><tbody></tbody></table>
       </div>
       <div class="note">最安値は税込・円（JSON値）。7日ウィンドウはボタンで±7日移動できます。</div>
@@ -124,71 +125,68 @@
     return `${ymd.slice(5)}（${w}）`;
   }
   function formatYen(n){ return typeof n === "number" ? "¥" + n.toLocaleString() : "-"; }
-  function computeRowMin(vals){ let m=Infinity; for(const v of vals) if(typeof v==="number") m=Math.min(m,v); return m===Infinity?null:m; }
+  function columnMins(ids, winDays){
+    // 各日（列）における最小値
+    return winDays.map(d => {
+      let m = Infinity;
+      for (const hid of ids){
+        const v = (priceData.days[d] || {})[hid];
+        if (typeof v === "number") m = Math.min(m, v);
+      }
+      return m === Infinity ? null : m;
+    });
+  }
 
   function render(){
-    const ids = selectedIds();                        // 横軸に並べるホテルID
+    const ids = selectedIds();
     const winDays = dayKeys.slice(startIdx, startIdx + windowSize);
 
     rangeLbl.textContent = winDays.length ? `${winDays[0]} 〜 ${winDays.at(-1)}` : "—";
 
-    // 横軸ラベル（ホテル名）
-    const xLabels = ids.map(hid => hotelMap[hid]?.name || hid);
-
-    // データセット＝日付ごと（7本）
-    const datasets = winDays.map((d, idx) => {
-      const data = ids.map(hid => {
-        const val = (priceData.days[d] || {})[hid];
-        return (typeof val === "number") ? val : null;
+    // ===== 折れ線グラフ（従来どおり：横＝日付、線＝ホテル） =====
+    const datasets = ids.map((hid) => {
+      const data = winDays.map(d => {
+        const v = (priceData.days[d] || {})[hid];
+        return (typeof v === "number") ? v : null;
       });
-      return {
-        label: ymdLabel(d),
-        data,
-        spanGaps: true,
-        borderWidth: 2,
-        pointRadius: 2,
-        tension: 0.2
-      };
+      return { label: hotelMap[hid]?.name || hid, data, borderWidth:2, pointRadius:2, spanGaps:true, tension:0.2 };
     });
 
-    // 再描画
     const ctx = document.getElementById("chart").getContext("2d");
     if (chart) chart.destroy();
     chart = new Chart(ctx, {
       type: "line",
-      data: { labels: xLabels, datasets },
+      data: { labels: winDays.map(ymdLabel), datasets },
       options: {
-        animation: false,
-        responsive: true,
-        maintainAspectRatio: false,
-        interaction: { mode: "nearest", intersect: false },
-        plugins: {
-          legend: { position: "bottom" },
-          tooltip: {
-            callbacks: {
-              title: (items) => items[0] ? items[0].label : "",
-              label: (ctx) => `${ctx.dataset.label}: ${formatYen(ctx.parsed.y)}`
-            }
-          }
-        },
-        scales: {
-          y: { title: { display:true, text:"最安値（円）" },
-               ticks: { callback: v => "¥" + Number(v).toLocaleString() } },
-          x: { ticks: { autoSkip:false, maxRotation:0, minRotation:0 } }
+        animation:false, responsive:true, maintainAspectRatio:false,
+        interaction:{ mode:"nearest", intersect:false },
+        plugins:{ legend:{ position:"bottom" },
+          tooltip:{ callbacks:{ label:(c)=>`${c.dataset.label}: ${formatYen(c.parsed.y)}` } } },
+        scales:{
+          y:{ title:{ display:true, text:"最安値（円）" }, ticks:{ callback:v=>"¥"+Number(v).toLocaleString() }},
+          x:{ ticks:{ autoSkip:false } }
         }
       }
     });
 
-    // 下の表（行=日付 / 列=ホテル）
-    thead.innerHTML = "<tr>" + ["日付", ...ids.map(hid => hotelMap[hid]?.name || hid)]
-      .map((t,i)=>`<th${i===0?' style="min-width:140px"':''}>${t}</th>`).join("") + "</tr>";
+    // ===== ここから「縦=ホテル名／横=日付」の表 =====
+    // ヘッダー：ホテル名 | 7日（ラベルはMM-DD（曜））
+    thead.innerHTML =
+      "<tr>" + ["ホテル名", ...winDays.map(ymdLabel)]
+        .map((t,i)=>`<th${i===0?' style="min-width:180px"':''}>${t}</th>`).join("") + "</tr>";
+
+    // 各列（日付）の最小値を事前計算して太字化
+    const mins = columnMins(ids, winDays);
 
     const rows = [];
-    for (const d of winDays){
-      const vals = ids.map(hid => (priceData.days[d] || {})[hid]);
-      const rowMin = computeRowMin(vals);
-      const tds = vals.map(v => `<td${(typeof v==="number"&&v===rowMin)?' class="min"':''}>${formatYen(v)}</td>`).join("");
-      rows.push(`<tr><td>${d}（${"日月火水木金土"[new Date(d+"T00:00:00").getDay()]}）</td>${tds}</tr>`);
+    for (const hid of ids){
+      const name = hotelMap[hid]?.name || hid;
+      const tds = winDays.map((d, colIdx) => {
+        const v = (priceData.days[d] || {})[hid];
+        const isMin = (typeof v === "number" && mins[colIdx] !== null && v === mins[colIdx]);
+        return `<td${isMin?' class="min"':''}>${formatYen(v)}</td>`;
+      }).join("");
+      rows.push(`<tr><td>${name}</td>${tds}</tr>`);
     }
     tbody.innerHTML = rows.join("");
 
