@@ -20,10 +20,18 @@ DATA_DIR = ROOT / "data"
 MASTER_PATH = DATA_DIR / "hotel_master.json"
 OUT_PATH = DATA_DIR / "ota_facility_meta.json"
 
-UA = "ota-bridge/1.0 (+https://github.com/) JalanReviewFetcher"
-TIMEOUT = 20
-DELAY_SEC = 3.0
-
+# ブラウザっぽいヘッダ（弾かれにくい）
+UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+      "AppleWebKit/537.36 (KHTML, like Gecko) "
+      "Chrome/124.0.0.0 Safari/537.36")
+HEADERS = {
+    "User-Agent": UA,
+    "Accept": "text/html,application/xhtml+xml;q=0.9,*/*;q=0.8",
+    "Accept-Language": "ja-JP,ja;q=0.9,en-US;q=0.7,en;q=0.6",
+    "Referer": "https://www.jalan.net/"
+}
+TIMEOUT = 25
+DELAY_SEC = 3.0  # polite
 
 def load_master():
     with MASTER_PATH.open("r", encoding="utf-8") as f:
@@ -31,21 +39,19 @@ def load_master():
     hotels = m.get("hotels", [])
     return [h for h in hotels if h.get("enabled") and h.get("jalan_hotel_id")]
 
-
 def _try_get(url: str) -> Optional[str]:
-    headers = {"User-Agent": UA, "Accept": "text/html,application/xhtml+xml"}
     try:
-        r = requests.get(url, headers=headers, timeout=TIMEOUT)
-        if r.status_code == 200 and r.text:
+        r = requests.get(url, headers=HEADERS, timeout=TIMEOUT, allow_redirects=True)
+        if r.status_code == 200 and r.text and "robots" not in r.url:
             return r.text
+        return None
     except Exception:
-        pass
-    return None
-
+        return None
 
 def parse_from_json_ld(soup: BeautifulSoup) -> Tuple[Optional[float], Optional[int]]:
     """
-    schema.org の aggregateRating を優先的に探す
+    schema.org の aggregateRating を優先的に探す。
+    @graph 配下にも対応。
     """
     for tag in soup.find_all("script", {"type": "application/ld+json"}):
         try:
@@ -53,10 +59,19 @@ def parse_from_json_ld(soup: BeautifulSoup) -> Tuple[Optional[float], Optional[i
         except Exception:
             continue
 
-        # 配列/辞書どちらにも対応
-        candidates = data if isinstance(data, list) else [data]
+        # 候補を列挙（dict, list, @graph のどれでも）
+        candidates = []
+        if isinstance(data, list):
+            candidates.extend(data)
+        elif isinstance(data, dict):
+            candidates.append(data)
+            if isinstance(data.get("@graph"), list):
+                candidates.extend(data["@graph"])
+
         for d in candidates:
-            ar = d.get("aggregateRating") if isinstance(d, dict) else None
+            if not isinstance(d, dict):
+                continue
+            ar = d.get("aggregateRating")
             if isinstance(ar, dict):
                 rv = ar.get("ratingValue")
                 rc = ar.get("reviewCount") or ar.get("ratingCount")
@@ -68,22 +83,22 @@ def parse_from_json_ld(soup: BeautifulSoup) -> Tuple[Optional[float], Optional[i
                     cnt = int(str(rc).replace(",", "")) if rc is not None else None
                 except Exception:
                     cnt = None
-                if avg or cnt:
+                if avg is not None or cnt is not None:
                     return avg, cnt
     return None, None
-
 
 def parse_from_text(soup: BeautifulSoup) -> Tuple[Optional[float], Optional[int]]:
     """
     テキストから概算で抽出（フォールバック）
-    例: 「総合 4.3」「口コミ 1,234件」など
+    - 「総合4.3」「総合評価 4.3」など
+    - 「クチコミ 1,234件」「口コミ 1,234件」両表記に対応
     """
     text = soup.get_text(" ", strip=True)
 
     # 総合評価 (0.0~5.0)
     avg = None
     for pat in [
-        r"総合(?:評価)?\s*([0-5](?:\.\d)?)",
+        r"(?:総合(?:評価)?|クチコミ総合)\s*([0-5](?:\.\d)?)",
         r"([0-5](?:\.\d)?)\s*点",
         r"評価\s*([0-5](?:\.\d)?)",
     ]:
@@ -97,16 +112,15 @@ def parse_from_text(soup: BeautifulSoup) -> Tuple[Optional[float], Optional[int]
             except Exception:
                 pass
 
-    # 口コミ件数（最大に近い値を採用）
+    # 口コミ件数（カタカナ/漢字どちらも）
     cnt = None
-    # 「口コミ」周辺 50 文字にある「◯件」を拾う
-    for m in re.finditer(r"口コミ.{0,50}?([0-9,]+)\s*件", text):
-        try:
-            c = int(m.group(1).replace(",", ""))
-            cnt = max(cnt or 0, c)
-        except Exception:
-            pass
-    # それでも取れなければ全体から件数らしきものを拾う
+    for word in ["クチコミ", "口コミ"]:
+        for m in re.finditer(rf"{word}.{{0,50}}?([0-9,]+)\s*件", text):
+            try:
+                c = int(m.group(1).replace(",", ""))
+                cnt = max(cnt or 0, c)
+            except Exception:
+                pass
     if cnt is None:
         for m in re.finditer(r"([0-9,]+)\s*件", text):
             try:
@@ -114,25 +128,30 @@ def parse_from_text(soup: BeautifulSoup) -> Tuple[Optional[float], Optional[int]
                 cnt = max(cnt or 0, c)
             except Exception:
                 pass
-
     return avg, cnt
-
 
 def fetch_jalan_review(jalan_hotel_id: str) -> Tuple[Optional[float], Optional[int]]:
     """
     じゃらんの施設ページから 口コミ平均/件数 を取得
-    URL 優先: https://www.jalan.net/<yadXXXXXX>/
-    フォールバック: https://www.jalan.net/uw/uwp3200/uww3201.do?yadNo=<digits>
+    優先: https://www.jalan.net/<yadXXXXXX>/
+    次点: https://www.jalan.net/<yadXXXXXX>/kuchikomi/
+    最後: https://www.jalan.net/uw/uwp3200/uww3201.do?yadNo=<digits>
     """
-    # 1) 通常の施設直URL
-    html = _try_get(f"https://www.jalan.net/{jalan_hotel_id}/")
+    # 1) 施設トップ
+    urls = [f"https://www.jalan.net/{jalan_hotel_id}/",
+            f"https://www.jalan.net/{jalan_hotel_id}/kuchikomi/"]
 
-    # 2) フォールバック（数字部分のみで yadNo クエリに）
-    if not html:
-        m = re.search(r"(\d+)", jalan_hotel_id)
-        if m:
-            yad_no = m.group(1)
-            html = _try_get(f"https://www.jalan.net/uw/uwp3200/uww3201.do?yadNo={yad_no}")
+    # 2) フォールバック（yadNo= 数値）
+    m = re.search(r"(\d+)", jalan_hotel_id)
+    if m:
+        yad_no = m.group(1)
+        urls.append(f"https://www.jalan.net/uw/uwp3200/uww3201.do?yadNo={yad_no}")
+
+    html = None
+    for u in urls:
+        html = _try_get(u)
+        if html:
+            break
 
     if not html:
         return None, None
@@ -147,11 +166,10 @@ def fetch_jalan_review(jalan_hotel_id: str) -> Tuple[Optional[float], Optional[i
     # テキスト抽出フォールバック
     return parse_from_text(soup)
 
-
 def main():
     DATA_DIR.mkdir(parents=True, exist_ok=True)
 
-    # 既存の楽天出力（あれば）を読み込む
+    # 既存の出力（楽天を含む）を読み込む
     base = {"date": dt.date.today().isoformat(), "last_updated": None, "hotels": {}}
     if OUT_PATH.exists():
         try:
@@ -182,7 +200,6 @@ def main():
         if cnt is None:
             cnt = prev.get("review_count")
 
-        # 既存エントリにマージ（楽天があっても壊さない）
         entry = base.setdefault("hotels", {}).setdefault(hid, {})
         jalan_block = entry.setdefault("jalan", {})
         jalan_block["review_avg"] = avg
