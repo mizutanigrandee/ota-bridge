@@ -3,10 +3,10 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>最安値プレビュー（7日ウィンドウ｜ヒートマップ）</title>
+  <title>最安値プレビュー（7日ウィンドウ｜転置ライン）</title>
   <style>
     :root { --bg:#f7f7fb; --card:#fff; --line:#e9e9f0; --txt:#222; --muted:#6b7280; --accent:#2563eb; }
-    body { margin:0; font-family:system-ui, -apple-system, "Segoe UI", Roboto, "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Yu Gothic", "メイリオ", sans-serif; color:var(--txt); background:var(--bg); }
+    body { margin:0; font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Hiragino Kaku Gothic ProN","Noto Sans JP","Yu Gothic","メイリオ",sans-serif; color:var(--txt); background:var(--bg); }
     header { padding:16px; border-bottom:1px solid var(--line); background:#fff; }
     h1 { font-size:18px; margin:0 0 4px; }
     .sub { color:var(--muted); font-size:12px; }
@@ -26,10 +26,6 @@
 
     @media (max-width: 768px) { .chart-wrap { height:360px; } }
 
-    .legend { display:flex; align-items:center; gap:10px; font-size:12px; color:var(--muted); margin-top:6px; }
-    .legend-bar { height:10px; width:180px; border-radius:6px;
-      background: linear-gradient(90deg, hsl(220,85%,55%), hsl(0,85%,55%)); border:1px solid var(--line); }
-
     .table-wrap { margin-top:12px; background:#fff; border:1px solid var(--line); border-radius:10px; overflow:auto; }
     table { width:100%; border-collapse:collapse; font-size:13px; }
     th, td { padding:8px 10px; border-bottom:1px solid var(--line); white-space:nowrap; text-align:right; }
@@ -42,11 +38,10 @@
     @media (max-width: 768px) { select[multiple] { min-width:180px; min-height:100px; } }
   </style>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-matrix@2.0.1/dist/chartjs-chart-matrix.min.js"></script>
 </head>
 <body>
   <header>
-    <h1>最安値プレビュー（7日ウィンドウ｜ヒートマップ）</h1>
+    <h1>最安値プレビュー（7日ウィンドウ｜転置ライン）</h1>
     <div class="sub">データソース：<code>data/competitor_min_prices.json</code> / <code>data/hotel_master.json</code></div>
   </header>
 
@@ -69,11 +64,7 @@
 
       <div class="chart-card">
         <div class="chart-wrap"><canvas id="chart"></canvas></div>
-        <div class="legend">
-          <span>安</span><div class="legend-bar"></div><span>高</span>
-          <span id="legendMin"></span><span>→</span><span id="legendMax"></span>
-        </div>
-        <div class="note">縦：ホテル名、横：日付（7日）。色が濃いほど高値。クリック＆ドラッグでスクロール。欠損は薄色で表示。</div>
+        <div class="note">横：ホテル名（選択順）、凡例：日付（7本）。凡例クリックで曜日をON/OFF。欠損は線が途切れます。</div>
       </div>
 
       <div class="table-wrap">
@@ -102,6 +93,7 @@
   const windowSize = 7;
   let chart;
 
+  // UI
   const hotelSel = document.getElementById("hotelSel");
   const rangeLbl = document.getElementById("rangeLbl");
   const prevBtn = document.getElementById("prev7");
@@ -111,129 +103,83 @@
   const applyBtn= document.getElementById("apply");
   const thead = document.querySelector("#grid thead");
   const tbody = document.querySelector("#grid tbody");
-  const legendMin = document.getElementById("legendMin");
-  const legendMax = document.getElementById("legendMax");
 
+  // ホテル選択UI（デフォルト全選択）
   hotelSel.innerHTML = hotels.map(h => `<option value="${h.id}" selected>${h.name}</option>`).join("");
   selAll.onclick   = () => { [...hotelSel.options].forEach(o => o.selected = true); };
   clearAll.onclick = () => { [...hotelSel.options].forEach(o => o.selected = false); };
-  prevBtn.onclick = () => { moveWindow(-windowSize); };
-  nextBtn.onclick = () => { moveWindow(+windowSize); };
-  applyBtn.onclick= () => { render(); };
+  prevBtn.onclick = () => moveWindow(-windowSize);
+  nextBtn.onclick = () => moveWindow(+windowSize);
+  applyBtn.onclick= () => render();
 
   function moveWindow(delta){
-    const newIdx = startIdx + delta;
-    if (newIdx < 0) return;
-    if (newIdx > dayKeys.length - windowSize) return;
-    startIdx = newIdx;
-    render();
+    const ni = startIdx + delta;
+    if (ni < 0) return;
+    if (ni > dayKeys.length - windowSize) return;
+    startIdx = ni; render();
   }
-  function getSelectedHotelIds(){ return [...hotelSel.selectedOptions].map(o => o.value); }
+  function selectedIds(){ return [...hotelSel.selectedOptions].map(o => o.value); }
   function ymdLabel(ymd){
     const d = new Date(ymd + "T00:00:00"); const w = "日月火水木金土"[d.getDay()];
     return `${ymd.slice(5)}（${w}）`;
   }
   function formatYen(n){ return typeof n === "number" ? "¥" + n.toLocaleString() : "-"; }
-  function computeRowMin(prices){
-    let min = Infinity; for (const v of prices) if (typeof v === "number") min = Math.min(min, v);
-    return (min === Infinity) ? null : min;
-  }
-
-  // 値のテキストをセル中央に描く簡易プラグイン（セルが十分大きい時のみ）
-  const drawValuePlugin = {
-    id: 'drawValue',
-    afterDatasetsDraw(chart, args, pluginOptions){
-      const {ctx, scales} = chart;
-      const meta = chart.getDatasetMeta(0);
-      ctx.save();
-      ctx.fillStyle = '#111';
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-      ctx.font = '10px system-ui';
-      const heightThresh = 14, widthThresh = 40;
-      meta.data.forEach((rect, i) => {
-        const raw = chart.data.datasets[0].data[i];
-        if (!raw || raw.v == null) return;
-        const w = rect.width, h = rect.height;
-        if (w < widthThresh || h < heightThresh) return;
-        ctx.fillText(raw.v.toLocaleString(), rect.x, rect.y);
-      });
-      ctx.restore();
-    }
-  };
+  function computeRowMin(vals){ let m=Infinity; for(const v of vals) if(typeof v==="number") m=Math.min(m,v); return m===Infinity?null:m; }
 
   function render(){
-    const ids = getSelectedHotelIds();
+    const ids = selectedIds();                        // 横軸に並べるホテルID
     const winDays = dayKeys.slice(startIdx, startIdx + windowSize);
-    const xLabels = winDays.map(ymdLabel);
-    const yLabels = ids.map(hid => hotelMap[hid]?.name || hid);
 
-    rangeLbl.textContent = (winDays.length)
-      ? `${winDays[0]} 〜 ${winDays[winDays.length-1]}`
-      : "—";
+    rangeLbl.textContent = winDays.length ? `${winDays[0]} 〜 ${winDays.at(-1)}` : "—";
 
-    // ヒートマップ用データ（x=日付, y=ホテル名, v=価格）
-    const cells = [];
-    for (const hid of ids){
-      for (const d of winDays){
-        const v = (priceData.days[d] || {})[hid];
-        cells.push({ x: ymdLabel(d), y: hotelMap[hid]?.name || hid, v: (typeof v === "number") ? v : null });
-      }
-    }
+    // 横軸ラベル（ホテル名）
+    const xLabels = ids.map(hid => hotelMap[hid]?.name || hid);
 
-    // カラースケール（選択範囲内のmin/max）
-    const valid = cells.filter(c => c.v != null).map(c => c.v);
-    const vMin = valid.length ? Math.min(...valid) : 0;
-    const vMax = valid.length ? Math.max(...valid) : 1;
-    legendMin.textContent = valid.length ? "最安 " + formatYen(vMin) : "-";
-    legendMax.textContent = valid.length ? "最高 " + formatYen(vMax) : "-";
+    // データセット＝日付ごと（7本）
+    const datasets = winDays.map((d, idx) => {
+      const data = ids.map(hid => {
+        const val = (priceData.days[d] || {})[hid];
+        return (typeof val === "number") ? val : null;
+      });
+      return {
+        label: ymdLabel(d),
+        data,
+        spanGaps: true,
+        borderWidth: 2,
+        pointRadius: 2,
+        tension: 0.2
+      };
+    });
 
-    const dataset = {
-      label: "最安値（円）",
-      data: cells,
-      backgroundColor: ctx => {
-        const v = ctx.raw.v;
-        if (v == null) return 'rgba(0,0,0,0.06)'; // 欠損
-        const t = (v - vMin) / Math.max(1, (vMax - vMin)); // 0..1
-        const hue = 220 - 220 * t; // 低→高 : 青→赤
-        return `hsl(${hue},85%,55%)`;
-      },
-      borderColor: 'rgba(0,0,0,0.05)',
-      borderWidth: 1,
-      width: ({chart}) => Math.max(8, (chart.chartArea.width / xLabels.length) - 6),
-      height: ({chart}) => Math.max(14, (chart.chartArea.height / yLabels.length) - 6)
-    };
-
-    // グラフ再描画
+    // 再描画
     const ctx = document.getElementById("chart").getContext("2d");
     if (chart) chart.destroy();
     chart = new Chart(ctx, {
-      type: 'matrix',
-      data: { datasets: [dataset] },
+      type: "line",
+      data: { labels: xLabels, datasets },
       options: {
         animation: false,
         responsive: true,
         maintainAspectRatio: false,
-        plugins: { legend: { display:false }, tooltip: {
-          callbacks: {
-            title: (items) => items[0].raw ? items[0].raw.x : '',
-            label: (item) => {
-              const r = item.raw;
-              return `${r.y}: ${r.v == null ? '-' : '¥' + r.v.toLocaleString()}`;
+        interaction: { mode: "nearest", intersect: false },
+        plugins: {
+          legend: { position: "bottom" },
+          tooltip: {
+            callbacks: {
+              title: (items) => items[0] ? items[0].label : "",
+              label: (ctx) => `${ctx.dataset.label}: ${formatYen(ctx.parsed.y)}`
             }
           }
-        }},
+        },
         scales: {
-          x: { type: 'category', labels: xLabels, offset: true, position:'top',
-               ticks: { callback: (v,i) => xLabels[i] } },
-          y: { type: 'category', labels: yLabels, offset: true,
-               ticks: { autoSkip:false } }
+          y: { title: { display:true, text:"最安値（円）" },
+               ticks: { callback: v => "¥" + Number(v).toLocaleString() } },
+          x: { ticks: { autoSkip:false, maxRotation:0, minRotation:0 } }
         }
-      },
-      plugins: [drawValuePlugin]
+      }
     });
 
-    // 下の数値表（行=日付、列=ホテル）は従来どおり
+    // 下の表（行=日付 / 列=ホテル）
     thead.innerHTML = "<tr>" + ["日付", ...ids.map(hid => hotelMap[hid]?.name || hid)]
       .map((t,i)=>`<th${i===0?' style="min-width:140px"':''}>${t}</th>`).join("") + "</tr>";
 
@@ -241,10 +187,7 @@
     for (const d of winDays){
       const vals = ids.map(hid => (priceData.days[d] || {})[hid]);
       const rowMin = computeRowMin(vals);
-      const tds = vals.map(v => {
-        const isMin = (typeof v === "number" && v === rowMin);
-        return `<td${isMin?' class="min"':''}>${formatYen(v)}</td>`;
-      }).join("");
+      const tds = vals.map(v => `<td${(typeof v==="number"&&v===rowMin)?' class="min"':''}>${formatYen(v)}</td>`).join("");
       rows.push(`<tr><td>${d}（${"日月火水木金土"[new Date(d+"T00:00:00").getDay()]}）</td>${tds}</tr>`);
     }
     tbody.innerHTML = rows.join("");
