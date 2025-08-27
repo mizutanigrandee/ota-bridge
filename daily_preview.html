@@ -75,6 +75,63 @@
     </div>
   </div>
 
+<!-- ====== 色ヘルパー v2（20施設以上でも色被りしにくい／安定割当） ====== -->
+<script>
+  // 固定色を使いたいホテルIDがあればここに追記（任意）
+  const COLOR_LOCK = {
+    "hotel_grandee": "#2563eb", // 青
+    "comp_a": "#f97316",        // オレンジ
+    "comp_b": "#10b981"         // 緑
+  };
+
+  function hexToRgba(hex, a){
+    const m = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    if (!m) return hex;
+    const r = parseInt(m[1], 16), g = parseInt(m[2], 16), b = parseInt(m[3], 16);
+    return `rgba(${r}, ${g}, ${b}, ${a})`;
+  }
+  // Golden-angle パレット（48色）
+  function buildPalette(n = 48){
+    const GA = 137.508; const arr = [];
+    for (let i = 0; i < n; i++) {
+      const h = (i * GA) % 360, s = 72, l = 52;
+      arr.push({
+        solid: `hsl(${h}deg ${s}% ${l}%)`,
+        fill : `hsla(${h}, ${s}%, ${l}%, 0.15)`
+      });
+    }
+    return arr;
+  }
+  const PALETTE = buildPalette(48);
+
+  // 安定ハッシュ
+  function hash32(str){
+    let h = 2166136261 >>> 0;
+    for (let i = 0; i < str.length; i++) { h ^= str.charCodeAt(i); h = Math.imul(h, 16777619); }
+    return h >>> 0;
+  }
+
+  // スロット割当（衝突回避つき）
+  let usedSlots = new Set();
+  const COLOR_CACHE = {};
+  function resetColorAllocator(){ usedSlots = new Set(); }
+
+  function colorPairById(hotelId){
+    if (COLOR_LOCK[hotelId]) {
+      const solid = COLOR_LOCK[hotelId];
+      return { solid, fill: hexToRgba(solid, 0.15) };
+    }
+    if (COLOR_CACHE[hotelId]) return COLOR_CACHE[hotelId];
+
+    let slot = hash32(hotelId) % PALETTE.length;
+    const step = 7; // 素数系ステップ
+    let tries = 0;
+    while (usedSlots.has(slot) && tries < PALETTE.length) { slot = (slot + step) % PALETTE.length; tries++; }
+    usedSlots.add(slot);
+    return (COLOR_CACHE[hotelId] = PALETTE[slot]);
+  }
+</script>
+
 <script>
 (async function(){
   const MASTER_URL = "./data/hotel_master.json";
@@ -89,7 +146,7 @@
   const dayKeys = Object.keys(priceData.days || {}).sort();
 
   const today = new Date(); const todayStr = today.toISOString().slice(0,10);
-  let startIdx = Math.max(0, dayKeys.findIndex(d => d >= todayStr)); if (startIdx === -1) startIdx = 0;
+  let startIdx = Math.max(0, dayKeys.findIndex(d => d >= todayStr));
 
   const windowSize = 7;
   let chart;
@@ -143,13 +200,25 @@
 
     rangeLbl.textContent = winDays.length ? `${winDays[0]} 〜 ${winDays.at(-1)}` : "—";
 
-    // ===== 折れ線グラフ（従来どおり：横＝日付、線＝ホテル） =====
+    // ===== 折れ線グラフ =====
+    resetColorAllocator(); // ★色割当を毎回リセットして衝突回避
     const datasets = ids.map((hid) => {
       const data = winDays.map(d => {
         const v = (priceData.days[d] || {})[hid];
         return (typeof v === "number") ? v : null;
       });
-      return { label: hotelMap[hid]?.name || hid, data, borderWidth:2, pointRadius:2, spanGaps:true, tension:0.2 };
+      const col = colorPairById(hid); // ★色取得
+      return {
+        label: hotelMap[hid]?.name || hid,
+        data,
+        borderWidth:2,
+        pointRadius:2,
+        spanGaps:true,
+        tension:0.2,
+        borderColor: col.solid,       // ★線色
+        backgroundColor: col.fill,    // ★凡例ボックス等
+        fill:false
+      };
     });
 
     const ctx = document.getElementById("chart").getContext("2d");
@@ -160,8 +229,10 @@
       options: {
         animation:false, responsive:true, maintainAspectRatio:false,
         interaction:{ mode:"nearest", intersect:false },
-        plugins:{ legend:{ position:"bottom" },
-          tooltip:{ callbacks:{ label:(c)=>`${c.dataset.label}: ${formatYen(c.parsed.y)}` } } },
+        plugins:{
+          legend:{ position:"bottom" },
+          tooltip:{ callbacks:{ label:(c)=>`${c.dataset.label}: ${formatYen(c.parsed.y)}` } }
+        },
         scales:{
           y:{ title:{ display:true, text:"最安値（円）" }, ticks:{ callback:v=>"¥"+Number(v).toLocaleString() }},
           x:{ ticks:{ autoSkip:false } }
@@ -169,13 +240,11 @@
       }
     });
 
-    // ===== ここから「縦=ホテル名／横=日付」の表 =====
-    // ヘッダー：ホテル名 | 7日（ラベルはMM-DD（曜））
+    // ===== テーブル（縦=ホテル名／横=日付） =====
     thead.innerHTML =
       "<tr>" + ["ホテル名", ...winDays.map(ymdLabel)]
         .map((t,i)=>`<th${i===0?' style="min-width:180px"':''}>${t}</th>`).join("") + "</tr>";
 
-    // 各列（日付）の最小値を事前計算して太字化
     const mins = columnMins(ids, winDays);
 
     const rows = [];
