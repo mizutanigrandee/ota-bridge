@@ -37,3 +37,68 @@
     }
   ]
 }
+[
+  {
+    "id": "hotel_hillarys_shinsaibashi",
+    "name": "ホテルヒラリーズ心斎橋",
+    "rooms": null,
+    "rakuten_hotel_no": 166514,
+    "jalan_hotel_id": "yad363847",
+    "enabled": true,
+    "tags": ["競合","ミナミ"]
+  },
+  {
+    "id": "hotel_sobial_namba_daikokucho",
+    "name": "ホテルソビアルなんば大国町",
+    "rooms": null,
+    "rakuten_hotel_no": 172871,
+    "jalan_hotel_id": "yad358180",
+    "enabled": true,
+    "tags": ["競合","ミナミ"]
+  },
+  {
+    "id": "delstyle_osaka_shinsaibashi",
+    "name": "DEL style 大阪心斎橋 by Daiwa Roynet Hotel",
+    "rooms": null,
+    "rakuten_hotel_no": 172161,
+    "jalan_hotel_id": "yad361060",
+    "enabled": true,
+    "tags": ["競合","ミナミ"]
+  },
+  {
+    "id": "ark_hotel_osaka_shinsaibashi",
+    "name": "アークホテル大阪心斎橋―ルートインホテルズ―",
+    "rooms": null,
+    "rakuten_hotel_no": 153,
+    "jalan_hotel_id": "yad329484",
+    "enabled": true,
+    "tags": ["競合","ミナミ"]
+  },
+  {
+    "id": "richmond_namba_daikokucho",
+    "name": "リッチモンドホテルなんば大国町",
+    "rooms": null,
+    "rakuten_hotel_no": 144974,
+    "jalan_hotel_id": "yad322856",
+    "enabled": true,
+    "tags": ["競合","ミナミ"]
+  },
+  {
+    "id": "hennna_hotel_osaka_namba",
+    "name": "変なホテル大阪 なんば",
+    "rooms": null,
+    "rakuten_hotel_no": 168794,
+    "jalan_hotel_id": "yad332142",
+    "enabled": true,
+    "tags": ["競合","ミナミ"]
+  },
+  {
+    "id": "dormy_inn_premium_namba_annex",
+    "name": "天然温泉朝霧の湯 ドーミーインPREMIUMなんばANNEX",
+    "rooms": null,
+    "rakuten_hotel_no": 170359,
+    "jalan_hotel_id": "yad399079",
+    "enabled": true,
+    "tags": ["競合","ミナミ"]
+  }
+]
