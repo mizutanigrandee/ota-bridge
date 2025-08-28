@@ -137,7 +137,7 @@
   const MASTER_URL = "./data/hotel_master.json";
   const PRICE_URL  = "./data/competitor_min_prices.json";
   const [master, priceData] = await Promise.all([
-    fetch(MASTER_URL).then(r=>r.json()),
+    fetch(MASTER_URL + "?v=" + Date.now()).then(r=>r.json()),
     fetch(PRICE_URL + "?v=" + Date.now()).then(r=>r.json())
   ]);
 
