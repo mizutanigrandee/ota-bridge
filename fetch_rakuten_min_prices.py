@@ -80,59 +80,52 @@ def build_empty_days(enabled_ids: List[str], dates: List[str]) -> Dict[str, Dict
 RAKUTEN_ENDPOINT = "https://app.rakuten.co.jp/services/api/Travel/VacantHotelSearch/20170426"
 
 def fetch_min_price_for_date(hotels: List[Dict[str, Any]], ymd: str) -> Dict[str, int]:
-    """日付ごとにページングしながら対象ホテルの最安値を拾う（最大20ページ）"""
+    """
+    指定日の最安値を hotelNo（施設番号）でピンポイント取得。
+    - 各ホテルごとに 1 リクエスト（最大でも施設数ぶん）
+    - 見つからなければそのホテルは None のまま（上位で null）
+    """
     results: Dict[str, int] = {}
-    hotel_map = {h["rakuten_hotel_no"]: h["id"] for h in hotels}
-    remaining = set(hotel_map.keys())  # 見つけていない hotelNo
+    checkout = (dt.date.fromisoformat(ymd) + dt.timedelta(days=1)).isoformat()
 
-    HITS = 100
-    MAX_PAGES = 20
-    page = 1
+    for h in hotels:
+        hid = h["id"]
+        hotel_no = h["rakuten_hotel_no"]
 
-    while page <= MAX_PAGES and remaining:
         params = {
             "applicationId": APP_ID,
             "format": "json",
             "checkinDate": ymd,
-            "checkoutDate": (dt.date.fromisoformat(ymd) + dt.timedelta(days=1)).isoformat(),
-            "detailClassCode": "D",
-            "hits": HITS,
-            "page": page,
+            "checkoutDate": checkout,
+            "hotelNo": hotel_no,   # ← ここがポイント：施設を直接指定
             "carrier": 0,
             "responseType": "large",
+            "hits": 10
         }
         try:
             resp = requests.get(RAKUTEN_ENDPOINT, params=params, timeout=20)
             resp.raise_for_status()
             data = resp.json()
         except Exception:
-            break  # 通信失敗は中断（その日の値は残りnullでOK）
+            time.sleep(0.2)
+            continue
 
-        items = data.get("hotels", []) or []
-        if not items:
-            break  # これ以上ページ無し
-
-        # このページで対象ホテルがいれば最安値を拾う
-        for item in items:
-            try:
+        # レスポンスから minCharge を拾う（なければスキップ＝null維持）
+        try:
+            items = data.get("hotels", []) or []
+            for item in items:
                 info = item.get("hotel", [{}])[-1]
                 basic = info.get("hotelBasicInfo", {})
-                hotel_no = basic.get("hotelNo")
-                if hotel_no in remaining:
-                    price = None
-                    if "minCharge" in basic and isinstance(basic["minCharge"], (int, float)):
-                        price = int(basic["minCharge"])
-                    if price is not None and price >= 0:
-                        hid = hotel_map[hotel_no]
-                        results[hid] = int(price)
-                        remaining.discard(hotel_no)
-            except Exception:
-                continue
+                # 念のため hotelNo 照合
+                if basic.get("hotelNo") != hotel_no:
+                    continue
+                price = basic.get("minCharge")
+                if isinstance(price, (int, float)) and price >= 0:
+                    results[hid] = int(price)
+                    break
+        except Exception:
+            pass
 
-        # 末尾ページ判定：件数が満了未満なら終了
-        if len(items) < HITS:
-            break
-        page += 1
         time.sleep(0.25)  # マナーウェイト
 
     return results
