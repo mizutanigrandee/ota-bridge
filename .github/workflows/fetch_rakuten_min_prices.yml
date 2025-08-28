@@ -31,7 +31,13 @@ jobs:
       - name: Install dependencies
         run: |
           python -V
-          pip install -r requirements.txt
+          if [ -f requirements.txt ]; then
+           pip install -r requirements.txt
+          else
+           echo "requirements.txt not found. Installing minimal runtime deps..."
+           pip install "requests>=2.31.0" "python-dateutil>=2.9.0" "pandas>=2.2.2" "openpyxl>=3.1.2"
+          fi
+
 
       - name: Run fetch_rakuten_min_prices.py
         env:
