@@ -1,44 +1,68 @@
-name: Fetch Jalan Reviews (weekly)
+name: Fetch Jalan Reviews
+
+on:
+  schedule:
+    - cron: "15 0 * * 1"  # 週1・月曜 09:15 JST（= 00:15 UTC）
+  workflow_dispatch:
 
 permissions:
   contents: write
 
-on:
-  schedule:
-    # 毎週 月曜 08:50 JST（= 日曜 23:50 UTC）
-    - cron: '50 23 * * 0'
-  workflow_dispatch:
-
 concurrency:
-  group: fetch-jalan-reviews
-  cancel-in-progress: true
+  group: jalan-data-writer-main
+  cancel-in-progress: false
 
 jobs:
   run:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout (full history)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
 
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.10'
+          python-version: "3.11"
 
       - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip
-          pip install requests beautifulsoup4 playwright
+          python -V
+          pip install -r requirements.txt
+          pip install playwright
           python -m playwright install --with-deps chromium
-
 
       - name: Run fetch_jalan_reviews.py
         run: |
           python fetch_jalan_reviews.py
 
-      - name: Commit & Push JSON
+      - name: Commit & Push JSON (auto-rebase with retry)
         run: |
+          set -e
           git config user.name  "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/ota_facility_meta.json
-          git commit -m "merge jalan reviews into ota_facility_meta.json [skip ci]" || echo "No changes"
-          git push
+          git config user.email "actions@github.com"
+
+          # 変更があればステージング（レビューJSONと最終更新を想定）
+          git add data/ota_facility_meta.json data/last_updated.json || true
+
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+            exit 0
+          fi
+
+          git commit -m "update ota_facility_meta.json (jalan reviews) [skip ci]"
+
+          pushed=0
+          for i in 1 2 3 4 5; do
+            git pull --rebase origin "${GITHUB_REF_NAME:-main}" || (git rebase --abort && sleep 3)
+            if git push origin HEAD:"${GITHUB_REF_NAME:-main}"; then
+              pushed=1
+              break
+            fi
+            echo "Push failed. retry in $((i*5))s..."
+            sleep $((i*5))
+          done
+          test "$pushed" -eq 1
