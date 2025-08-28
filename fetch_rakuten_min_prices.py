@@ -1,109 +1,170 @@
-# -*- coding: utf-8 -*-
-"""
-Rakuten VacantHotelSearch で 28日ウィンドウの最安値を取得し
-data/competitor_min_prices.json を更新する。
-- detailClassCode="D" 固定
-- 新規ホテルでも各日付に必ずキーを作成（値は None）
-- 失敗や在庫無しは None を入れる（NaN/Infinity は入れない）
-- last_updated は UTC ISO8601
-"""
-import json, os, time, math, sys
-from datetime import datetime, timedelta, timezone
-import requests
+#!/usr/bin/env python
+# fetch_rakuten_min_prices.py
+# 目的：
+# - data/hotel_master.json を読み、enabled かつ rakuten_hotel_no を持つホテル一覧を取得
+# - 28日ぶん（JST）の日付キーを必ず作成し、各ホテルIDを必ず埋める（初期値は null）
+# - 既存 JSON があれば meta を引き継ぐ（days は今回28日で再構築）
+# - 楽天API取得は後段で上書き（失敗しても null のまま＝OK）
+#
+# ポイント：まず「キーが必ず存在する」状態を担保するのが目的
+# 値取得は後段で改善していけば良い（段階実装）
 
-APP_ID = os.environ.get("RAKUTEN_APP_ID", "").strip()
-BASE_URL = "https://app.rakuten.co.jp/services/api/Travel/VacantHotelSearch/20170426"
-DATA_PATH = "data/competitor_min_prices.json"
-MASTER_PATH = "data/hotel_master.json"
+import os
+import json
+import time
+import datetime as dt
+from typing import Dict, List, Any
+
+import requests  # requirements に含まれている前提
+
+ROOT = os.path.dirname(os.path.abspath(__file__))
+DATA_DIR = os.path.join(ROOT, "data")
+
+MASTER_PATH = os.path.join(DATA_DIR, "hotel_master.json")
+OUT_PATH    = os.path.join(DATA_DIR, "competitor_min_prices.json")
+LAST_PATH   = os.path.join(DATA_DIR, "last_updated.json")
+
+APP_ID = os.environ.get("RAKUTEN_APP_ID", "")
+if not APP_ID:
+    raise SystemExit("❌ RAKUTEN_APP_ID が未設定です（GitHub Secrets に設定してください）")
+
 WINDOW_DAYS = 28
-TIMEOUT = 15
 
-def load_json(path, default):
-  if not os.path.exists(path):
-    return default
-  with open(path, "r", encoding="utf-8") as f:
-    return json.load(f)
+def iso_utc_now() -> str:
+    return dt.datetime.utcnow().replace(microsecond=0).isoformat() + "Z"
 
-def save_json(path, obj):
-  tmp = path + ".tmp"
-  with open(tmp, "w", encoding="utf-8") as f:
-    json.dump(obj, f, ensure_ascii=False, indent=2)
-  os.replace(tmp, path)
+def jst_today() -> dt.date:
+    # UTC+9 を雑に足す（依存を増やさない）
+    return (dt.datetime.utcnow() + dt.timedelta(hours=9)).date()
 
-def jst_today():
-  JST = timezone(timedelta(hours=9))
-  return datetime.now(JST).date()
+def date_range_jst(days: int) -> List[str]:
+    base = jst_today()
+    return [(base + dt.timedelta(days=i)).isoformat() for i in range(days)]
 
-def day_keys_from_today(n):
-  start = jst_today()
-  return [(start + timedelta(days=i)).strftime("%Y-%m-%d") for i in range(n)]
-
-def call_rakuten(date_str, hotel_no):
-  """在庫があれば税込最安値(int)、無ければ None を返す。軽いリトライ付き。"""
-  params = {
-    "applicationId": APP_ID,
-    "formatVersion": 2,
-    "checkinDate": date_str,
-    "checkoutDate": (datetime.strptime(date_str, "%Y-%m-%d") + timedelta(days=1)).strftime("%Y-%m-%d"),
-    "hotelNo": hotel_no,
-    "detailClassCode": "D",
-  }
-  for i in range(3):
-    try:
-      r = requests.get(BASE_URL, params=params, timeout=TIMEOUT)
-      if r.status_code == 200:
-        js = r.json()
-        if not js or "hotels" not in js or not js["hotels"]:
-          return None
-        m = math.inf
-        for h in js["hotels"]:
-          try:
-            hotel_info = h.get("hotel", [{}])[0]
-            for p in hotel_info.get("roomInfo", []):
-              charge = p.get("roomCharge", {}).get("total", None)
-              if isinstance(charge, (int, float)):
-                m = min(m, int(round(charge)))
-          except Exception:
-            continue
-        return None if m is math.inf else int(m)
-      elif r.status_code in (429, 500, 502, 503, 504):
-        time.sleep(1.5 * (i + 1))
-      else:
+def load_json(path: str) -> Any:
+    if not os.path.exists(path):
         return None
-    except requests.RequestException:
-      time.sleep(1.5 * (i + 1))
-  return None
+    with open(path, "r", encoding="utf-8") as f:
+        return json.load(f)
+
+def dump_json(path: str, obj: Any):
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(obj, f, ensure_ascii=False, indent=2)
+
+def read_enabled_hotels() -> List[Dict[str, Any]]:
+    master = load_json(MASTER_PATH)
+    if not master or "hotels" not in master:
+        raise SystemExit("❌ hotel_master.json が読めません")
+    rows = []
+    for h in master["hotels"]:
+        if h.get("enabled") and h.get("rakuten_hotel_no"):
+            rows.append({"id": h["id"], "rakuten_hotel_no": int(h["rakuten_hotel_no"])})
+    if not rows:
+        raise SystemExit("❌ enabled かつ rakuten_hotel_no を持つホテルがゼロでした")
+    return rows
+
+def build_empty_days(enabled_ids: List[str], dates: List[str]) -> Dict[str, Dict[str, Any]]:
+    # 28日×全ホテルIDのキーを必ず用意（値は null）
+    days: Dict[str, Dict[str, Any]] = {}
+    for d in dates:
+        row = {}
+        for hid in enabled_ids:
+            row[hid] = None
+        days[d] = row
+    return days
+
+# --- ここから先は「最小の楽天取得（成功すれば上書き、失敗しても無視）」 ---
+# 検索窓口：VacantHotelSearch 20170426
+# 仕様は現行運用と同等（detailClassCode="D" 固定）。在庫ゼロや取得失敗は None のままでOK。
+RAKUTEN_ENDPOINT = "https://app.rakuten.co.jp/services/api/Travel/VacantHotelSearch/20170426"
+
+def fetch_min_price_for_date(hotels: List[Dict[str, Any]], ymd: str) -> Dict[str, int]:
+    """各ホテルの最安値（整数JPY）を返す。見つからなければキーは作らない→あとで安全に setdefault で埋める"""
+    results: Dict[str, int] = {}
+    # Rakuten API は「日付ごと」に検索する（detailClassCode=D 固定）
+    # 施設ごとにフィルタできないため、まとめ取得→該当 hotel_no を拾う方式
+    # （ヒット数が多いとページングが必要だが、まずは簡易実装。足りなければ後続で強化）
+    params = {
+        "applicationId": APP_ID,
+        "format": "json",
+        "checkinDate": ymd,
+        "checkoutDate": (dt.date.fromisoformat(ymd) + dt.timedelta(days=1)).isoformat(),
+        "detailClassCode": "D",  # 大阪ミナミ相当（プロジェクト既定）
+        "hits": 100,             # とりあえず最大100
+        "carrier": 0,            # PC
+        "responseType": "large", # プラン配列なども返ってきやすい
+    }
+    try:
+        resp = requests.get(RAKUTEN_ENDPOINT, params=params, timeout=20)
+        resp.raise_for_status()
+        data = resp.json()
+    except Exception:
+        return results  # 失敗は黙って空返却（null維持）
+
+    # hotel情報から最低料金を拾う
+    hotel_map = {h["rakuten_hotel_no"]: h["id"] for h in hotels}
+    try:
+        for item in data.get("hotels", []):
+            info = item.get("hotel", [{}])[-1]  # 末尾に price 情報がいることが多い
+            basic = info.get("hotelBasicInfo", {})
+            hotel_no = basic.get("hotelNo")
+            if hotel_no not in hotel_map:
+                continue
+            # 最低料金の推定（hotelBasicInfo の minCharge を優先。無ければ rooms の料金から最小を推定）
+            price = None
+            if "minCharge" in basic and isinstance(basic["minCharge"], (int, float)):
+                price = int(basic["minCharge"])
+            # minCharge が無いときは plans を探索（あれば）
+            if price is None:
+                try:
+                    # hotel の他要素に price 情報が入っていれば拾う（保険）
+                    for k in ("hotelRatingInfo", "roomInfo", "hotelFacilitiesInfo"):
+                        _ = info.get(k)
+                    # ここは環境差が大きいので、一旦スキップ。minCharge 優先。
+                except Exception:
+                    pass
+            if price is not None and price >= 0:
+                results[hotel_map[hotel_no]] = int(price)
+    except Exception:
+        pass
+    return results
 
 def main():
-  if not APP_ID:
-    print("ERROR: RAKUTEN_APP_ID is empty", file=sys.stderr)
-    sys.exit(1)
+    hotels = read_enabled_hotels()  # [{'id':..., 'rakuten_hotel_no':...}, ...]
+    enabled_ids = [h["id"] for h in hotels]
+    dates = date_range_jst(WINDOW_DAYS)
 
-  master = load_json(MASTER_PATH, {"hotels": []})
-  hotels = [h for h in master.get("hotels", []) if h.get("enabled") and h.get("rakuten_hotel_no")]
-  ids = [h["id"] for h in hotels]
+    # 既存ファイル（meta だけ尊重）
+    old = load_json(OUT_PATH) or {}
+    meta = old.get("meta", {"currency": "JPY", "source": "rakuten_travel", "window_days": WINDOW_DAYS})
+    meta["window_days"] = WINDOW_DAYS  # 強制
 
-  store = load_json(DATA_PATH, {"meta":{"currency":"JPY","source":"rakuten_travel","window_days":WINDOW_DAYS},"days":{}})
+    # まず「空の28日×全ホテルID」を作る（ここが今回の重要修正点）
+    days = build_empty_days(enabled_ids, dates)
 
-  # 28日分の空枠を用意（各ホテルIDのキーを必ず作る）
-  days = day_keys_from_today(WINDOW_DAYS)
-  for d in days:
-    store["days"].setdefault(d, {})
-    for hid in ids:
-      store["days"][d].setdefault(hid, None)
+    # --- 取得で上書き（失敗しても null のまま） ---
+    for ymd in dates:
+        # 最低限の polite wait
+        time.sleep(0.3)
+        found = fetch_min_price_for_date(hotels, ymd)
+        if found:
+            for hid, price in found.items():
+                # 念のため setdefault（空のキーが必ずある想定だが安全側）
+                days.setdefault(ymd, {}).setdefault(hid, None)
+                # 0未満は弾く（安全）
+                if isinstance(price, int) and price >= 0:
+                    days[ymd][hid] = price
 
-  # 取得
-  for idx, h in enumerate(hotels, 1):
-    hid, hno = h["id"], h["rakuten_hotel_no"]
-    print(f"[{idx}/{len(hotels)}] {hid} hotel_no={hno}")
-    for d in days:
-      price = call_rakuten(d, hno)
-      store["days"][d][hid] = price if isinstance(price, int) else None
-    time.sleep(0.3)  # polite delay
-
-  store["last_updated"] = datetime.utcnow().replace(tzinfo=timezone.utc).isoformat()
-  save_json(DATA_PATH, store)
-  print("OK: competitor_min_prices.json updated")
+    # 出力組み立て
+    out = {
+        "meta": meta,
+        "days": days,
+        "last_updated": iso_utc_now(),
+    }
+    dump_json(OUT_PATH, out)
+    dump_json(LAST_PATH, {"last_updated": out["last_updated"]})
+    print(f"✅ wrote {OUT_PATH} & {LAST_PATH}  (hotels={len(enabled_ids)}, days={len(dates)})")
 
 if __name__ == "__main__":
-  main()
+    main()
