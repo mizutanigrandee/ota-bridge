@@ -1,118 +1,66 @@
-#!/usr/bin/env python3
-"""
-fetch_rakuten_reviews.py
-- hotel_master.json を読み込み、楽天のホテルNoごとに SimpleHotelSearch を叩いて
-  reviewAverage / reviewCount を取得
-- data/ota_facility_meta.json に出力（MVP：楽天のみ）
-- 環境変数 RAKUTEN_APP_ID が必須
-"""
+# --- Safe merge writer for ota_facility_meta.json ----------------------------
+import os, json, datetime as dt
 
-import os, json, time, datetime as dt
-from pathlib import Path
-import requests
+DATA_DIR = os.path.join(os.path.dirname(__file__), "data")
+META_PATH = os.path.join(DATA_DIR, "ota_facility_meta.json")
 
-APP_ID = os.environ.get("RAKUTEN_APP_ID")
-if not APP_ID:
-    raise SystemExit("❌ RAKUTEN_APP_ID が未設定です（GitHub Secrets に登録してください）")
-
-ROOT = Path(__file__).resolve().parent
-DATA_DIR = ROOT / "data"
-MASTER_PATH = DATA_DIR / "hotel_master.json"
-OUT_PATH = DATA_DIR / "ota_facility_meta.json"
-
-API_URL = "https://app.rakuten.co.jp/services/api/Travel/SimpleHotelSearch/20170426"
-UA = "ota-bridge/1.0 (+https://github.com/)"
-
-def load_master():
-    with MASTER_PATH.open("r", encoding="utf-8") as f:
-        m = json.load(f)
-    hotels = m.get("hotels", [])
-    # enabled かつ rakuten_hotel_no があるものだけ
-    return [h for h in hotels if h.get("enabled") and h.get("rakuten_hotel_no")]
-
-def fetch_rakuten_review(hotel_no: int):
-    """楽天 SimpleHotelSearch から reviewAverage / reviewCount を取得"""
-    params = {
-        "applicationId": APP_ID,
-        "hotelNo": hotel_no,
-        "format": "json"
-    }
-    headers = {"User-Agent": UA, "Accept": "application/json"}
-    r = requests.get(API_URL, params=params, headers=headers, timeout=20)
-    r.raise_for_status()
-    js = r.json()
-
-    # 期待構造: {"hotels": [{"hotel": [{"hotelBasicInfo": {...}}]}]}
-    hotels = js.get("hotels") or []
-    if not hotels:
-        return None, None  # 見つからない場合は None を返す
-
-    hb = hotels[0].get("hotel", [{}])[0].get("hotelBasicInfo", {})
-    avg = hb.get("reviewAverage")
-    cnt = hb.get("reviewCount")
-    # 数値化（無い場合は None）
+def _load_meta():
     try:
-        avg = float(avg) if avg is not None else None
+        with open(META_PATH, "r", encoding="utf-8") as f:
+            return json.load(f)
     except Exception:
-        avg = None
+        return {"hotels": {}, "last_updated": None}
+
+def _safe_int(x):
+    # None/NaN/空文字は None に
     try:
-        cnt = int(cnt) if cnt is not None else None
+        n = int(x)
+        return n if n >= 0 else None
     except Exception:
-        cnt = None
-    return avg, cnt
+        return None
 
-def main():
-    DATA_DIR.mkdir(parents=True, exist_ok=True)
-    hotels = load_master()
+def _safe_float(x):
+    try:
+        n = float(x)
+        return round(n, 2)
+    except Exception:
+        return None
 
-    # 既存ファイルがあれば読み込み（失敗時フォールバックに使う）
-    prev = {}
-    if OUT_PATH.exists():
-        try:
-            with OUT_PATH.open("r", encoding="utf-8") as f:
-                prev = json.load(f)
-        except Exception:
-            prev = {}
+def save_rakuten_reviews(rk_results_by_id):
+    """
+    rk_results_by_id: { hotel_id: {"review_avg": 4.27, "review_count": 1776} } だけを更新
+    - 既存の jalan ブロックはそのまま保持
+    - 取得失敗のIDは 上書きしない（前回値を温存）
+    """
+    meta = _load_meta()
+    meta.setdefault("hotels", {})
 
-    out = {
-        "date": dt.date.today().isoformat(),
-        "last_updated": dt.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ"),
-        "hotels": {}
-    }
-
-    for h in hotels:
-        hid = h["id"]
-        hotel_no = h["rakuten_hotel_no"]
-
-        avg, cnt = None, None
-        try:
-            avg, cnt = fetch_rakuten_review(int(hotel_no))
-            # マナー：連続アクセスを少し間引く
-            time.sleep(0.6)
-        except Exception as e:
-            # 失敗時は前回値を保持（NaN/0 を流さない）
-            pass
-
-        # 前回値フォールバック
+    updated = 0
+    for hid, rk in rk_results_by_id.items():
+        if rk is None:
+            # 取得失敗などはスキップ（上書きしない）
+            continue
+        avg  = _safe_float(rk.get("review_avg"))
+        cnt  = _safe_int(rk.get("review_count"))
         if avg is None or cnt is None:
-            prev_h = (prev.get("hotels") or {}).get(hid, {}).get("rakuten", {})
-            if avg is None:
-                avg = prev_h.get("review_avg")
-            if cnt is None:
-                cnt = prev_h.get("review_count")
+            # どちらか欠けたら安全のためスキップ
+            continue
 
-        out["hotels"][hid] = {
-            "rakuten": {
-                "review_avg": avg,
-                "review_count": cnt
-            }
-        }
+        entry = meta["hotels"].get(hid, {})
+        # ★ jalan は触らない
+        jalan_block = entry.get("jalan")
+        # ★ rakuten だけ更新
+        entry["rakuten"] = {"review_avg": avg, "review_count": cnt}
+        if jalan_block is not None:
+            entry["jalan"] = jalan_block
+        meta["hotels"][hid] = entry
+        updated += 1
 
-    # 上書き保存
-    with OUT_PATH.open("w", encoding="utf-8") as f:
-        json.dump(out, f, ensure_ascii=False, indent=2)
+    meta["last_updated"] = dt.datetime.utcnow().replace(microsecond=0).isoformat() + "Z"
 
-    print(f"✅ wrote {OUT_PATH.relative_to(ROOT)}")
+    os.makedirs(DATA_DIR, exist_ok=True)
+    with open(META_PATH, "w", encoding="utf-8") as f:
+        json.dump(meta, f, ensure_ascii=False, indent=2)
 
-if __name__ == "__main__":
-    main()
+    print(f"[rakuten reviews] merged: {updated} hotels; wrote {META_PATH}")
+# -----------------------------------------------------------------------------
