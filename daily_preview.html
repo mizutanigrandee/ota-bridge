@@ -267,5 +267,74 @@
   render();
 })();
 </script>
+  
+
+<div id="review-modal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,.35); align-items:center; justify-content:center; z-index:9999;">
+  <div role="dialog" aria-modal="true" aria-labelledby="rm-title"
+       style="background:#fff; padding:16px 20px; border-radius:12px; width:min(520px,92vw); box-shadow:0 10px 30px rgba(0,0,0,.2);">
+    <div style="display:flex; align-items:center; justify-content:space-between; gap:12px;">
+      <h3 id="rm-title" style="margin:0; font-size:18px;">施設情報</h3>
+      <button id="rm-close" type="button"
+              style="border:0; background:#f3f4f6; padding:6px 10px; border-radius:8px; cursor:pointer;">
+        閉じる
+      </button>
+    </div>
+    <div id="rm-body" style="margin-top:12px; line-height:1.7; font-size:14px;">
+      読み込み中…
+    </div>
+  </div>
+</div>
+
+<script>
+// 口コミモーダル（最小実装）
+(() => {
+  const el = {
+    root:  document.getElementById('review-modal'),
+    title: document.getElementById('rm-title'),
+    body:  document.getElementById('rm-body'),
+    close: document.getElementById('rm-close'),
+  };
+  let metaCache = null;
+  el.close?.addEventListener('click', () => el.root.style.display = 'none');
+
+  async function openReviewModal(hotelId, hotelName) {
+    el.title.textContent = hotelName || '施設情報';
+    el.body.textContent  = '読み込み中…';
+    el.root.style.display = 'flex';
+    try {
+      if (!metaCache) {
+        metaCache = await (await fetch('./data/ota_facility_meta.json?v='+Date.now())).json();
+      }
+      const m  = (metaCache.hotels && metaCache.hotels[hotelId]) || {};
+      const rk = m.rakuten || {};
+      const jl = m.jalan   || {};
+      const fmt = (avg, cnt) =>
+        (typeof avg === 'number' && typeof cnt === 'number') ? `${avg.toFixed(2)} / ${cnt}件` : '—';
+      el.body.innerHTML = `
+        <div><b>楽天</b>：${fmt(rk.review_avg, rk.review_count)}</div>
+        <div><b>じゃらん</b>：${fmt(jl.review_avg, jl.review_count)}</div>
+        <div style="margin-top:8px; font-size:12px; color:#6b7280;">最終更新: ${(metaCache.last_updated||'—')}</div>
+      `;
+    } catch {
+      el.body.textContent = '読み込みに失敗しました。';
+    }
+  }
+
+  // ホテル名セルにクリックを付けるヘルパ
+  // ※ 表描画ロジック側から呼び出します（次のStepで1行だけ差し替え）
+  window.__attachReviewHandler = (nameCell, hotelId, hotelName) => {
+    nameCell.innerHTML =
+      `<button data-hid="${hotelId}" data-hname="${hotelName}"
+         style="all:unset; color:#2563eb; cursor:pointer; border-bottom:1px dashed #93c5fd;">
+         ${hotelName}
+       </button>`;
+    nameCell.querySelector('button')?.addEventListener('click', () => {
+      openReviewModal(hotelId, hotelName);
+    });
+  };
+})();
+</script>
+
+  
 </body>
 </html>
