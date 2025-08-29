@@ -131,6 +131,7 @@ def fetch_min_price_for_date(hotels: List[Dict[str, Any]], ymd: str) -> Dict[str
     return results
 
 
+
     # hotel情報から最低料金を拾う
     hotel_map = {h["rakuten_hotel_no"]: h["id"] for h in hotels}
     try:
