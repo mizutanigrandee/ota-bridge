@@ -23,7 +23,6 @@
     .chart-card { margin-top:12px; background:#fff; border:1px solid var(--line); border-radius:10px; padding:8px; }
     .chart-wrap { position:relative; height:420px; width:100%; }
     #chart { display:block; width:100%; }
-
     @media (max-width: 768px) { .chart-wrap { height:360px; } }
 
     .table-wrap { margin-top:12px; background:#fff; border:1px solid var(--line); border-radius:10px; overflow:auto; }
@@ -68,67 +67,44 @@
       </div>
 
       <div class="table-wrap">
-        <!-- ▼ここを「縦=ホテル名／横=日付」に入れ替えています -->
         <table id="grid"><thead></thead><tbody></tbody></table>
       </div>
       <div class="note">最安値は税込・円（JSON値）。7日ウィンドウはボタンで±7日移動できます。</div>
     </div>
   </div>
 
-<!-- ====== 色ヘルパー v2（20施設以上でも色被りしにくい／安定割当） ====== -->
+<!-- ====== 色ヘルパー v2 ====== -->
 <script>
-  // 固定色を使いたいホテルIDがあればここに追記（任意）
   const COLOR_LOCK = {
-    "hotel_grandee": "#2563eb", // 青
-    "comp_a": "#f97316",        // オレンジ
-    "comp_b": "#10b981"         // 緑
+    "hotel_grandee": "#2563eb",
+    "comp_a": "#f97316",
+    "comp_b": "#10b981"
   };
-
   function hexToRgba(hex, a){
     const m = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
     if (!m) return hex;
     const r = parseInt(m[1], 16), g = parseInt(m[2], 16), b = parseInt(m[3], 16);
     return `rgba(${r}, ${g}, ${b}, ${a})`;
   }
-  // Golden-angle パレット（48色）
   function buildPalette(n = 48){
     const GA = 137.508; const arr = [];
     for (let i = 0; i < n; i++) {
       const h = (i * GA) % 360, s = 72, l = 52;
-      arr.push({
-        solid: `hsl(${h}deg ${s}% ${l}%)`,
-        fill : `hsla(${h}, ${s}%, ${l}%, 0.15)`
-      });
+      arr.push({ solid:`hsl(${h}deg ${s}% ${l}%)`, fill:`hsla(${h}, ${s}%, ${l}%, 0.15)` });
     }
     return arr;
   }
   const PALETTE = buildPalette(48);
-
-  // 安定ハッシュ
-  function hash32(str){
-    let h = 2166136261 >>> 0;
-    for (let i = 0; i < str.length; i++) { h ^= str.charCodeAt(i); h = Math.imul(h, 16777619); }
-    return h >>> 0;
-  }
-
-  // スロット割当（衝突回避つき）
+  function hash32(str){ let h = 2166136261>>>0; for(let i=0;i<str.length;i++){ h^=str.charCodeAt(i); h=Math.imul(h,16777619);} return h>>>0; }
   let usedSlots = new Set();
   const COLOR_CACHE = {};
   function resetColorAllocator(){ usedSlots = new Set(); }
-
   function colorPairById(hotelId){
-    if (COLOR_LOCK[hotelId]) {
-      const solid = COLOR_LOCK[hotelId];
-      return { solid, fill: hexToRgba(solid, 0.15) };
-    }
+    if (COLOR_LOCK[hotelId]) { const solid = COLOR_LOCK[hotelId]; return {solid, fill:hexToRgba(solid,0.15)}; }
     if (COLOR_CACHE[hotelId]) return COLOR_CACHE[hotelId];
-
-    let slot = hash32(hotelId) % PALETTE.length;
-    const step = 7; // 素数系ステップ
-    let tries = 0;
+    let slot = hash32(hotelId) % PALETTE.length; const step = 7; let tries = 0;
     while (usedSlots.has(slot) && tries < PALETTE.length) { slot = (slot + step) % PALETTE.length; tries++; }
-    usedSlots.add(slot);
-    return (COLOR_CACHE[hotelId] = PALETTE[slot]);
+    usedSlots.add(slot); return (COLOR_CACHE[hotelId] = PALETTE[slot]);
   }
 </script>
 
@@ -183,7 +159,6 @@
   }
   function formatYen(n){ return typeof n === "number" ? "¥" + n.toLocaleString() : "-"; }
   function columnMins(ids, winDays){
-    // 各日（列）における最小値
     return winDays.map(d => {
       let m = Infinity;
       for (const hid of ids){
@@ -201,13 +176,13 @@
     rangeLbl.textContent = winDays.length ? `${winDays[0]} 〜 ${winDays.at(-1)}` : "—";
 
     // ===== 折れ線グラフ =====
-    resetColorAllocator(); // ★色割当を毎回リセットして衝突回避
+    resetColorAllocator();
     const datasets = ids.map((hid) => {
       const data = winDays.map(d => {
         const v = (priceData.days[d] || {})[hid];
         return (typeof v === "number") ? v : null;
       });
-      const col = colorPairById(hid); // ★色取得
+      const col = colorPairById(hid);
       return {
         label: hotelMap[hid]?.name || hid,
         data,
@@ -216,8 +191,8 @@
         pointHoverRadius: 5,
         spanGaps: false,
         tension:0.2,
-        borderColor: col.solid,       // ★線色
-        backgroundColor: col.fill,    // ★凡例ボックス等
+        borderColor: col.solid,
+        backgroundColor: col.fill,
         fill:false
       };
     });
@@ -256,6 +231,7 @@
         const isMin = (typeof v === "number" && mins[colIdx] !== null && v === mins[colIdx]);
         return `<td${isMin?' class="min"':''}>${formatYen(v)}</td>`;
       }).join("");
+      // ★ ホテル名セルをボタン化
       rows.push(`<tr>
   <td>
     <button class="revbtn" data-hid="${hid}" data-hname="${name}"
@@ -264,16 +240,15 @@
     </button>
   </td>${tds}
 </tr>`);
-
     }
     tbody.innerHTML = rows.join("");
-        // 名前ボタンにクリックを付与
+
+    // ★ クリック紐付け
     tbody.querySelectorAll('button.revbtn').forEach(btn => {
       btn.addEventListener('click', () => {
         window.__openReview(btn.dataset.hid, btn.dataset.hname);
       });
     });
-
 
     prevBtn.disabled = (startIdx <= 0);
     nextBtn.disabled = (startIdx + windowSize >= dayKeys.length);
@@ -282,21 +257,17 @@
   render();
 })();
 </script>
-  
 
+<!-- ====== 口コミモーダル ====== -->
 <div id="review-modal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,.35); align-items:center; justify-content:center; z-index:9999;">
   <div role="dialog" aria-modal="true" aria-labelledby="rm-title"
        style="background:#fff; padding:16px 20px; border-radius:12px; width:min(520px,92vw); box-shadow:0 10px 30px rgba(0,0,0,.2);">
     <div style="display:flex; align-items:center; justify-content:space-between; gap:12px;">
       <h3 id="rm-title" style="margin:0; font-size:18px;">施設情報</h3>
       <button id="rm-close" type="button"
-              style="border:0; background:#f3f4f6; padding:6px 10px; border-radius:8px; cursor:pointer;">
-        閉じる
-      </button>
+              style="border:0; background:#f3f4f6; padding:6px 10px; border-radius:8px; cursor:pointer;">閉じる</button>
     </div>
-    <div id="rm-body" style="margin-top:12px; line-height:1.7; font-size:14px;">
-      読み込み中…
-    </div>
+    <div id="rm-body" style="margin-top:12px; line-height:1.7; font-size:14px;">読み込み中…</div>
   </div>
 </div>
 
@@ -335,23 +306,10 @@
     }
   }
 
-  // ホテル名セルにクリックを付けるヘルパ
-  // ※ 表描画ロジック側から呼び出します（次のStepで1行だけ差し替え）
-  window.__attachReviewHandler = (nameCell, hotelId, hotelName) => {
-    nameCell.innerHTML =
-      `<button data-hid="${hotelId}" data-hname="${hotelName}"
-         style="all:unset; color:#2563eb; cursor:pointer; border-bottom:1px dashed #93c5fd;">
-         ${hotelName}
-       </button>`;
-    nameCell.querySelector('button')?.addEventListener('click', () => {
-      openReviewModal(hotelId, hotelName);
-        window.__openReview = openReviewModal;
-
-    });
-  };
+  // ★ 外から呼べるように公開
+  window.__openReview = openReviewModal;
 })();
 </script>
 
-  
 </body>
 </html>
