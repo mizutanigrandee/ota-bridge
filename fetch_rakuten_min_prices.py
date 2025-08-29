@@ -97,7 +97,7 @@ def fetch_min_price_for_date(hotels: List[Dict[str, Any]], ymd: str) -> Dict[str
             "format": "json",
             "checkinDate": ymd,
             "checkoutDate": checkout,
-            "hotelNo": hotel_no,   # ← ここがポイント：施設を直接指定
+            "hotelNo": hotel_no,   # ← 施設を直接指定
             "carrier": 0,
             "responseType": "large",
             "hits": 10
@@ -110,25 +110,59 @@ def fetch_min_price_for_date(hotels: List[Dict[str, Any]], ymd: str) -> Dict[str
             time.sleep(0.2)
             continue
 
-        # レスポンスから minCharge を拾う（なければスキップ＝null維持）
+        # レスポンスから価格候補を拾う
         try:
             items = data.get("hotels", []) or []
             for item in items:
-                info = item.get("hotel", [{}])[-1]
-                basic = info.get("hotelBasicInfo", {})
-                # 念のため hotelNo 照合
-                if basic.get("hotelNo") != hotel_no:
+                parts = item.get("hotel", []) or []
+
+                got_hotel_no = None
+                cand_basic = None     # hotelBasicInfo.hotelMinCharge
+                cand_reserve = None   # hotelReserveInfo.lowestCharge
+                cand_daily = None     # roomInfo[].dailyCharge.rakutenCharge/total の最小
+
+                for part in parts:
+                    basic = part.get("hotelBasicInfo")
+                    if basic:
+                        got_hotel_no = basic.get("hotelNo", got_hotel_no)
+                        v = basic.get("hotelMinCharge")
+                        if isinstance(v, (int, float)) and v >= 0:
+                            cand_basic = int(v)
+
+                    reserve = part.get("hotelReserveInfo")
+                    if reserve:
+                        v = reserve.get("lowestCharge")
+                        if isinstance(v, (int, float)) and v >= 0:
+                            cand_reserve = int(v)
+
+                    room_list = part.get("roomInfo")
+                    if isinstance(room_list, list):
+                        for r in room_list:
+                            dc = r.get("dailyCharge", {})
+                            v = dc.get("rakutenCharge")
+                            if v is None:
+                                v = dc.get("total")
+                            if isinstance(v, (int, float)) and v >= 0:
+                                v = int(v)
+                                cand_daily = v if cand_daily is None else min(cand_daily, v)
+
+                # 念のため hotelNo 一致を確認
+                if got_hotel_no != hotel_no:
                     continue
-                price = basic.get("minCharge")
-                if isinstance(price, (int, float)) and price >= 0:
-                    results[hid] = int(price)
+
+                # 候補のうち最小を採用
+                candidates = [x for x in (cand_basic, cand_reserve, cand_daily) if isinstance(x, int)]
+                if candidates:
+                    results[hid] = min(candidates)
                     break
+
         except Exception:
             pass
 
         time.sleep(0.25)  # マナーウェイト
 
     return results
+
 
 
 
