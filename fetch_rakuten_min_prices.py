@@ -101,6 +101,7 @@ def fetch_min_price_for_date(hotels: List[Dict[str, Any]], ymd: str) -> Dict[str
             "carrier": 0,
             "responseType": "large",
             "hits": 10
+            "adultNum": 1, 
         }
         try:
             resp = requests.get(RAKUTEN_ENDPOINT, params=params, timeout=20)
@@ -111,29 +112,19 @@ def fetch_min_price_for_date(hotels: List[Dict[str, Any]], ymd: str) -> Dict[str
             continue
 
         # レスポンスから価格候補を拾う
+        # レスポンスから「その日付の dailyCharge 最小値」だけを拾う
         try:
             items = data.get("hotels", []) or []
             for item in items:
                 parts = item.get("hotel", []) or []
 
                 got_hotel_no = None
-                cand_basic = None     # hotelBasicInfo.hotelMinCharge
-                cand_reserve = None   # hotelReserveInfo.lowestCharge
-                cand_daily = None     # roomInfo[].dailyCharge.rakutenCharge/total の最小
+                cand_daily = None   # その日の最小料金
 
                 for part in parts:
                     basic = part.get("hotelBasicInfo")
                     if basic:
                         got_hotel_no = basic.get("hotelNo", got_hotel_no)
-                        v = basic.get("hotelMinCharge")
-                        if isinstance(v, (int, float)) and v >= 0:
-                            cand_basic = int(v)
-
-                    reserve = part.get("hotelReserveInfo")
-                    if reserve:
-                        v = reserve.get("lowestCharge")
-                        if isinstance(v, (int, float)) and v >= 0:
-                            cand_reserve = int(v)
 
                     room_list = part.get("roomInfo")
                     if isinstance(room_list, list):
@@ -146,18 +137,14 @@ def fetch_min_price_for_date(hotels: List[Dict[str, Any]], ymd: str) -> Dict[str
                                 v = int(v)
                                 cand_daily = v if cand_daily is None else min(cand_daily, v)
 
-                # 念のため hotelNo 一致を確認
-                if got_hotel_no != hotel_no:
-                    continue
-
-                # 候補のうち最小を採用
-                candidates = [x for x in (cand_basic, cand_reserve, cand_daily) if isinstance(x, int)]
-                if candidates:
-                    results[hid] = min(candidates)
+                # hotelNo が一致していて cand_daily が見つかったら登録
+                if got_hotel_no == hotel_no and isinstance(cand_daily, int):
+                    results[hid] = cand_daily
                     break
 
         except Exception:
             pass
+
 
         time.sleep(0.25)  # マナーウェイト
 
