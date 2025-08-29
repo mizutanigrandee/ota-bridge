@@ -256,9 +256,24 @@
         const isMin = (typeof v === "number" && mins[colIdx] !== null && v === mins[colIdx]);
         return `<td${isMin?' class="min"':''}>${formatYen(v)}</td>`;
       }).join("");
-      rows.push(`<tr><td>${name}</td>${tds}</tr>`);
+      rows.push(`<tr>
+  <td>
+    <button class="revbtn" data-hid="${hid}" data-hname="${name}"
+      style="all:unset; color:#2563eb; cursor:pointer; border-bottom:1px dashed #93c5fd;">
+      ${name}
+    </button>
+  </td>${tds}
+</tr>`);
+
     }
     tbody.innerHTML = rows.join("");
+        // 名前ボタンにクリックを付与
+    tbody.querySelectorAll('button.revbtn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        window.__openReview(btn.dataset.hid, btn.dataset.hname);
+      });
+    });
+
 
     prevBtn.disabled = (startIdx <= 0);
     nextBtn.disabled = (startIdx + windowSize >= dayKeys.length);
@@ -330,6 +345,8 @@
        </button>`;
     nameCell.querySelector('button')?.addEventListener('click', () => {
       openReviewModal(hotelId, hotelName);
+        window.__openReview = openReviewModal;
+
     });
   };
 })();
