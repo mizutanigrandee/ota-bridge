@@ -100,8 +100,8 @@ def fetch_min_price_for_date(hotels: List[Dict[str, Any]], ymd: str) -> Dict[str
             "hotelNo": hotel_no,   # ← 施設を直接指定
             "carrier": 0,
             "responseType": "large",
-            "hits": 10
-            "adultNum": 1, 
+            "hits": 10,
+            "adultNum": 1
         }
         try:
             resp = requests.get(RAKUTEN_ENDPOINT, params=params, timeout=20)
