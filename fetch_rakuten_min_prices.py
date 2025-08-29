@@ -188,8 +188,10 @@ def main():
 
     # 既存ファイル（meta だけ尊重）
     old = load_json(OUT_PATH) or {}
-    meta = old.get("meta", {"currency": "JPY", "source": "rakuten_travel", "window_days": WINDOW_DAYS})
-    meta["window_days"] = WINDOW_DAYS  # 強制
+    meta.update({
+    "person": 1,                       # 1名利用で取得
+    "pricing_basis": "dailyCharge"     # その日のプランの最小値を採用
+    })
 
     # まず「空の28日×全ホテルID」を作る（ここが今回の重要修正点）
     days = build_empty_days(enabled_ids, dates)
