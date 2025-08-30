@@ -196,23 +196,41 @@
         .filter(h => h.enabled)
         .map(h => {
           const priceDays = prices?.days || {};
-          const vals = Object.values(priceDays).map(dayMap => dayMap?.[h.id]).filter(v => typeof v === "number");
+          const vals = Object.values(priceDays)
+            .map(dayMap => dayMap?.[h.id])
+            .filter(v => typeof v === "number");
           const min = vals.length ? Math.min(...vals) : null;
           const max = vals.length ? Math.max(...vals) : null;
           const med = vals.length ? median(vals) : null;
 
+          // ★ 口コミ（楽天・じゃらん・一休）を取得
           const r = pick(meta, `hotels.${h.id}.rakuten`) || {};
-          const j = pick(meta, `hotels.${h.id}.jalan`) || {};
+          const j = pick(meta, `hotels.${h.id}.jalan`)   || {};
+          const k = pick(meta, `hotels.${h.id}.ikyu`)    || {}; // ← 追加
 
           return {
             id: h.id,
             name: h.name,
             rooms: (typeof h.rooms === "number" ? h.rooms : null),
-            rakuten: { avg: (typeof r.review_avg === "number" ? r.review_avg : null), count: (typeof r.review_count==="number"?r.review_count:null) },
-            jalan:   { avg: (typeof j.review_avg === "number" ? j.review_avg : null), count: (typeof j.review_count==="number"?j.review_count:null) },
+
+            // UI側は既存どおり avg/count に正規化
+            rakuten: { 
+              avg:   (typeof r.review_avg   === "number" ? r.review_avg   : null),
+              count: (typeof r.review_count === "number" ? r.review_count : null)
+            },
+            jalan:   { 
+              avg:   (typeof j.review_avg   === "number" ? j.review_avg   : null),
+              count: (typeof j.review_count === "number" ? j.review_count : null)
+            },
+            ikyu:    {  // ← 追加
+              avg:   (typeof k.review_avg   === "number" ? k.review_avg   : null),
+              count: (typeof k.review_count === "number" ? k.review_count : null)
+            },
+
             price: { min, max, median: med },
           };
         });
+
 
       document.getElementById("search").addEventListener("input", render);
       document.getElementById("sort").addEventListener("change", render);
@@ -307,6 +325,7 @@
         <div class="row"><div>客室数</div><div>${(typeof r.rooms==="number")? r.rooms : "—"}</div></div>
         <div class="row"><div>楽天</div><div>平均 ${fmtAvg(r.rakuten.avg)} ／ 件数 ${fmtCnt(r.rakuten.count)}</div></div>
         <div class="row"><div>じゃらん</div><div>平均 ${fmtAvg(r.jalan.avg)} ／ 件数 ${fmtCnt(r.jalan.count)}</div></div>
+        <div class="row"><div>一休</div><div>平均 ${fmtAvg(r.ikyu?.avg)} ／ 件数 ${fmtCnt(r.ikyu?.count)}</div></div>  <!-- ★ この1行を追加 -->
         <div class="row"><div>価格（28日）</div><div>${priceText}</div></div>
         <div class="row"><div>データ最終更新</div><div>${lu}</div></div>
       `;
