@@ -4,7 +4,7 @@
   const active = script?.dataset?.active || "";
 
   const CFG = {
-    logo: "assets/logo.svg",  // ロゴファイル名は後で差し替え可
+    logo: "assets/バナー画像3.png",  // ロゴファイル名は後で差し替え可
     title: "めちゃいいツール",
     menu: [
       { id: "calendar",  label: "料金カレンダー", path: "index.html" },
