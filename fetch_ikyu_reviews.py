@@ -13,15 +13,15 @@ DATA = os.path.join(ROOT, "data")
 MASTER_PATH = os.path.join(DATA, "hotel_master.json")
 META_PATH   = os.path.join(DATA, "ota_facility_meta.json")
 
-# ---- 待機・挙動設定（先方負荷を下げる） ----
-WAIT_MS   = 2500   # 初期描画待機
+# ---- 待機・挙動設定（先方負荷を下げる & 遅延描画対策） ----
+WAIT_MS   = 3500   # 初期描画待機 (↑)
 DELAY_MS  = 1200   # ホテル間ウェイト
 HEADLESS  = True
 MAX_RETRY = 3
 BASE_WAIT_MS = 800 # リトライバックオフ基準
 
 # ---- ユーティリティ ----
-FW_MAP = str.maketrans("０１２３４５６７８９，．", "0123456789,.")
+FW_MAP = str.maketrans("０１２３４５６７８９，．（）", "0123456789,.()")
 
 def to_halfwidth(s: str) -> str:
     return s.translate(FW_MAP)
@@ -63,7 +63,6 @@ def extract_from_ldjson(html: str) -> Optional[Tuple[Optional[float], Optional[i
         try:
             block = json.loads(block_txt)
         except Exception:
-            # 破損している場合もあるので諦めて次へ
             continue
 
         blocks = block if isinstance(block, list) else [block]
@@ -88,51 +87,51 @@ def extract_from_ldjson(html: str) -> Optional[Tuple[Optional[float], Optional[i
 
             if rating is not None or count is not None:
                 return (rating, count)
-
     return None
 
 def extract_from_text(html: str) -> Optional[Tuple[Optional[float], Optional[int]]]:
-    """テキストから堅牢に抽出。評価は 0〜5 の小数のみ、件数は「件」つき。アンカー近傍を優先。"""
-    # 粗いテキスト化
+    """
+    テキストから堅牢に抽出。
+    - 評価は 0〜5 の小数のみ（年号・IDを除外）
+    - 件数は「◯◯件」のみ
+    - 「総合得点」「口コミ」「クチコミ」「レビュー」「評価」近傍を優先
+    """
     text = re.sub(r"<[^>]+>", " ", html)
     text = to_halfwidth(text)
     text = re.sub(r"\s+", " ", text)
 
-    anchors = ["口コミ", "クチコミ", "レビュー", "評価", "総合"]
-    # 近傍抽出
+    anchors = ["総合得点", "口コミ", "クチコミ", "レビュー", "評価"]
     near_chunks = []
     for kw in anchors:
         for m in re.finditer(re.escape(kw), text):
             i = m.start()
-            near_chunks.append(text[max(0, i-200): i+240])
-    # 近傍が無ければ全文で
+            near_chunks.append(text[max(0, i-220): i+260])
     if not near_chunks:
         near_chunks = [text]
 
+    # 代表パターン：総合得点 4.04 （25件）
+    pat_rating1 = re.compile(r"(?:総合得点|評価)\s*[:：]?\s*([0-5](?:\.\d{1,2})?)")
+    pat_rating2 = re.compile(r"([0-5](?:\.\d{1,2})?)\s*(?:点|/5|／5|5点)")
+    pat_count   = re.compile(r"\(\s*(\d{1,3}(?:,\d{3})*)\s*件\s*\)|(\d{1,3}(?:,\d{3})*)\s*件")
+
     def find_rating(chunk: str) -> Optional[float]:
-        # 「4.15点」「4.2/5」など
-        patterns = [
-            r"([0-5](?:\.\d{1,2})?)\s*(?:点|/5|／5|5点|５点)",
-            r"(?:総合|口コミ|クチコミ|レビュー|評価)\s*[:：]?\s*([0-5](?:\.\d{1,2})?)"
-        ]
-        for pat in patterns:
-            m = re.search(pat, chunk)
+        for pat in (pat_rating1, pat_rating2):
+            m = pat.search(chunk)
             if m:
                 v = jnum_to_float(m.group(1))
                 if v is not None and 0 <= v <= 5:
                     return v
-        # 数字単独が多い場合は誤検出を避ける
         return None
 
     def find_count(chunk: str) -> Optional[int]:
-        m = re.search(r"(\d{1,3}(?:,\d{3})*)\s*件", chunk)
+        m = pat_count.search(chunk)
         if m:
-            return jnum_to_int(m.group(1))
+            g = m.group(1) or m.group(2)
+            return jnum_to_int(g)
         return None
 
     rating = None
     count  = None
-    # 近傍を優先して探索
     for ch in near_chunks:
         if rating is None:
             rating = find_rating(ch)
@@ -147,7 +146,6 @@ def extract_from_text(html: str) -> Optional[Tuple[Optional[float], Optional[int
     if count is None:
         count = find_count(text)
 
-    # なお誤検出防止：評価が >5 なら捨てる
     if rating is not None and not (0 <= rating <= 5):
         rating = None
 
@@ -169,7 +167,8 @@ def safe_merge(meta: Dict[str, Any], updates: Dict[str, Dict[str, Any]]) -> Dict
 def try_get_content(page, url: str) -> Optional[str]:
     for i in range(MAX_RETRY):
         try:
-            page.goto(url, wait_until="load", timeout=45000)
+            # 遅延描画があるため "networkidle" を使用
+            page.goto(url, wait_until="networkidle", timeout=45000)
             page.wait_for_timeout(WAIT_MS)
             return page.content()
         except Exception as e:
