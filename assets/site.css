@@ -35,3 +35,7 @@ img{max-width:100%;height:auto;display:block}
 }
 
 .site-header .brand strong{ display:none; }
+
+/* ヘッダー高さと見た目を daily_preview に完全合わせ */
+.site-header .wrap{ padding:10px 16px !important; }
+.site-header .brand img{ height:32px !important; } /* 30〜32でお好み調整OK */
