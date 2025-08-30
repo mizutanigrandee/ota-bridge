@@ -33,19 +33,20 @@
       background:var(--card);
       border:1px solid var(--line);
       border-radius:14px;
-      overflow:hidden; /* ←はみ出し防止 */
+      overflow:hidden;           /* 角丸からはみ出さない */
+      position:relative;
     }
-
     table{
       width:100%;
       border-collapse:separate;
       border-spacing:0;
-      background:transparent; /* ラッパーに任せる */
+      background:transparent;    /* 枠や角丸はラッパーに任せる */
       border:none;
     }
+    thead{ background:#fff; }    /* セル間の隙間にも白背景を敷く */
     thead th{
       position:sticky;
-      top:72px; /* ← ヘッダー高さ分 */
+      top:56px;                  /* ← ヘッダー実高に合わせて小さめに（必要なら54〜60で微調整） */
       background:#fff;
       border-bottom:1px solid var(--line);
       text-align:left;
@@ -61,13 +62,10 @@
     .badge{
       display:inline-block; padding:2px 8px; border-radius:999px; border:1px solid var(--line); background:#fff; color:var(--muted); font-size:12px; margin-left:6px;
     }
-    .price{
-      font-variant-numeric: tabular-nums; white-space:nowrap;
-    }
-    .hotel-name{
-      color:var(--txt); font-weight:700; cursor:pointer; text-decoration:none;
-    }
+    .price{ font-variant-numeric: tabular-nums; white-space:nowrap; }
+    .hotel-name{ color:var(--txt); font-weight:700; cursor:pointer; text-decoration:none; }
     .footnote{margin-top:10px; color:#555}
+
     /* モーダル */
     .modal-backdrop{
       position:fixed; inset:0; background:rgba(0,0,0,.38); display:none; align-items:center; justify-content:center; padding:16px;
@@ -84,6 +82,7 @@
     .close-btn{
       margin-left:auto; border:1px solid var(--line); background:#fff; border-radius:10px; padding:6px 10px; cursor:pointer;
     }
+
     /* スマホ */
     @media (max-width: 840px){
       thead{display:none}
@@ -152,9 +151,7 @@
         <h3 id="m-title">—</h3>
         <button class="close-btn" id="m-close">閉じる</button>
       </header>
-      <div class="content" id="m-content">
-        <!-- JSで埋め込み -->
-      </div>
+      <div class="content" id="m-content"></div>
     </div>
   </div>
 
