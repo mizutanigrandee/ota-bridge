@@ -118,6 +118,8 @@
           <option value="rakuten.avg.asc">楽天 平均 ▲</option>
           <option value="jalan.avg.desc">じゃらん 平均 ▼</option>
           <option value="jalan.avg.asc">じゃらん 平均 ▲</option>
+          <option value="ikyu.avg.desc">一休 平均 ▼</option>
+          <option value="ikyu.avg.asc">一休 平均 ▲</option>
           <option value="price.median.desc">価格 中央値 ▼</option>
           <option value="price.median.asc">価格 中央値 ▲</option>
         </select>
@@ -132,6 +134,7 @@
             <th style="width:8%">客室数</th>
             <th style="width:18%">楽天（平均/件数）</th>
             <th style="width:18%">じゃらん（平均/件数）</th>
+            <th style="width:12%">一休 平均</th>
             <th style="width:28%">価格レンジ（直近28日）</th>
           </tr>
         </thead>
@@ -254,6 +257,8 @@
         list.sort((a,b) => ((a.rakuten.avg ?? -Infinity) - (b.rakuten.avg ?? -Infinity)) * dir);
       }else if(sortKey.startsWith("jalan")){
         list.sort((a,b) => ((a.jalan.avg ?? -Infinity) - (b.jalan.avg ?? -Infinity)) * dir);
+      }else if(sortKey.startsWith("ikyu")){
+        list.sort((a,b) => ((a.ikyu.avg ?? -Infinity) - (b.ikyu.avg ?? -Infinity)) * dir);  
       }else if(sortKey.startsWith("price.median")){
         list.sort((a,b) => ((a.price.median ?? Infinity) - (b.price.median ?? Infinity)) * dir);
       }
@@ -292,6 +297,11 @@
         tdJ.setAttribute("data-th","じゃらん");
         tdJ.innerHTML = `${fmtAvg(r.jalan.avg)} <span class="muted">/</span> ${fmtCnt(r.jalan.count)}`;
         tr.appendChild(tdJ);
+
+        const tdI = document.createElement("td");
+        tdI.setAttribute("data-th","一休 平均");
+        tdI.textContent = fmtAvg(r.ikyu.avg); // 件数は非表示
+        tr.appendChild(tdI);
 
         const tdPrice = document.createElement("td");
         tdPrice.setAttribute("data-th","価格レンジ（直近28日）");
