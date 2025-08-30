@@ -1,0 +1,35 @@
+/* assets/site.css — 共通デザインの土台（まだヘッダーは出しません） */
+:root{
+  --bg:#fafafa; --card:#fff; --txt:#222; --muted:#666; --line:#e9e9ee;
+  --brand:#0EA5E9; --brand-grad-start:#2D9CDB; --brand-grad-end:#E743B2;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;color:var(--txt);background:var(--bg);
+  font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,"Apple Color Emoji","Segoe UI Emoji";
+  -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+}
+a{color:inherit}
+img{max-width:100%;height:auto;display:block}
+
+/* （次ステップで使うクラス。今は出ません） */
+.site-header{position:sticky; top:0; z-index:50;
+  background:linear-gradient(90deg,var(--brand-grad-start),var(--brand-grad-end));
+  color:#fff; border-bottom:1px solid rgba(255,255,255,.25)}
+.site-header .wrap{max-width:1200px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;gap:16px}
+.site-header .brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:#fff;font-weight:800;letter-spacing:.02em}
+.site-header .brand img{height:28px}
+.site-nav{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap}
+.site-nav a{color:#fff;text-decoration:none;padding:8px 12px;border-radius:10px;font-weight:600;opacity:.9;transition:.15s}
+.site-nav a:hover{background:rgba(255,255,255,.12);opacity:1}
+.site-nav a.is-active{background:rgba(255,255,255,.22);box-shadow:inset 0 0 0 1px rgba(255,255,255,.25)}
+
+.site-main{max-width:1200px;margin:0 auto;padding:16px}
+.site-footer{color:var(--muted);font-size:12px;padding:16px;text-align:center}
+
+@media (max-width: 840px){
+  .site-nav{gap:4px}
+  .site-nav a{padding:8px 10px}
+  .site-header .brand img{height:24px}
+}
