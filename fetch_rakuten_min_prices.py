@@ -3,11 +3,8 @@
 # 目的：
 # - data/hotel_master.json を読み、enabled かつ rakuten_hotel_no を持つホテル一覧を取得
 # - 28日ぶん（JST）の日付キーを必ず作成し、各ホテルIDを必ず埋める（初期値は null）
-# - 既存 JSON があれば meta を引き継ぐ（days は今回28日で再構築）
+# - 既存 JSON があれば meta を引き継ぎ（不足キーは補完）、days は今回28日で再構築
 # - 楽天API取得は後段で上書き（失敗しても null のまま＝OK）
-#
-# ポイント：まず「キーが必ず存在する」状態を担保するのが目的
-# 値取得は後段で改善していけば良い（段階実装）
 
 import os
 import json
@@ -34,7 +31,7 @@ def iso_utc_now() -> str:
     return dt.datetime.utcnow().replace(microsecond=0).isoformat() + "Z"
 
 def jst_today() -> dt.date:
-    # UTC+9 を雑に足す（依存を増やさない）
+    # UTC+9 を足す（依存を増やさない）
     return (dt.datetime.utcnow() + dt.timedelta(hours=9)).date()
 
 def date_range_jst(days: int) -> List[str]:
@@ -74,15 +71,14 @@ def build_empty_days(enabled_ids: List[str], dates: List[str]) -> Dict[str, Dict
         days[d] = row
     return days
 
-# --- ここから先は「最小の楽天取得（成功すれば上書き、失敗しても無視）」 ---
-# 検索窓口：VacantHotelSearch 20170426
-# 仕様は現行運用と同等（detailClassCode="D" 固定）。在庫ゼロや取得失敗は None のままでOK。
+# --- 最小の楽天取得（成功すれば上書き、失敗しても無視） ---
+# 窓口：VacantHotelSearch 20170426（detailClassCode=D / 施設番号直接指定）
 RAKUTEN_ENDPOINT = "https://app.rakuten.co.jp/services/api/Travel/VacantHotelSearch/20170426"
 
 def fetch_min_price_for_date(hotels: List[Dict[str, Any]], ymd: str) -> Dict[str, int]:
     """
     指定日の最安値を hotelNo（施設番号）でピンポイント取得。
-    - 各ホテルごとに 1 リクエスト（最大でも施設数ぶん）
+    - 各ホテルごとに 1 リクエスト
     - 見つからなければそのホテルは None のまま（上位で null）
     """
     results: Dict[str, int] = {}
@@ -97,7 +93,7 @@ def fetch_min_price_for_date(hotels: List[Dict[str, Any]], ymd: str) -> Dict[str
             "format": "json",
             "checkinDate": ymd,
             "checkoutDate": checkout,
-            "hotelNo": hotel_no,   # ← 施設を直接指定
+            "hotelNo": hotel_no,   # 施設を直接指定
             "carrier": 0,
             "responseType": "large",
             "hits": 10,
@@ -111,7 +107,6 @@ def fetch_min_price_for_date(hotels: List[Dict[str, Any]], ymd: str) -> Dict[str
             time.sleep(0.2)
             continue
 
-        # レスポンスから価格候補を拾う
         # レスポンスから「その日付の dailyCharge 最小値」だけを拾う
         try:
             items = data.get("hotels", []) or []
@@ -145,67 +140,47 @@ def fetch_min_price_for_date(hotels: List[Dict[str, Any]], ymd: str) -> Dict[str
         except Exception:
             pass
 
-
         time.sleep(0.25)  # マナーウェイト
 
     return results
 
-
-
-
-    # hotel情報から最低料金を拾う
-    hotel_map = {h["rakuten_hotel_no"]: h["id"] for h in hotels}
-    try:
-        for item in data.get("hotels", []):
-            info = item.get("hotel", [{}])[-1]  # 末尾に price 情報がいることが多い
-            basic = info.get("hotelBasicInfo", {})
-            hotel_no = basic.get("hotelNo")
-            if hotel_no not in hotel_map:
-                continue
-            # 最低料金の推定（hotelBasicInfo の minCharge を優先。無ければ rooms の料金から最小を推定）
-            price = None
-            if "minCharge" in basic and isinstance(basic["minCharge"], (int, float)):
-                price = int(basic["minCharge"])
-            # minCharge が無いときは plans を探索（あれば）
-            if price is None:
-                try:
-                    # hotel の他要素に price 情報が入っていれば拾う（保険）
-                    for k in ("hotelRatingInfo", "roomInfo", "hotelFacilitiesInfo"):
-                        _ = info.get(k)
-                    # ここは環境差が大きいので、一旦スキップ。minCharge 優先。
-                except Exception:
-                    pass
-            if price is not None and price >= 0:
-                results[hotel_map[hotel_no]] = int(price)
-    except Exception:
-        pass
-    return results
 
 def main():
     hotels = read_enabled_hotels()  # [{'id':..., 'rakuten_hotel_no':...}, ...]
     enabled_ids = [h["id"] for h in hotels]
     dates = date_range_jst(WINDOW_DAYS)
 
-    # 既存ファイル（meta だけ尊重）
+    # 既存ファイル（meta があれば引き継ぎ、なければデフォルト）
     old = load_json(OUT_PATH) or {}
+    meta = {
+        "currency": "JPY",
+        "source": "rakuten_travel",
+        "window_days": WINDOW_DAYS,
+    }
+    if isinstance(old, dict) and isinstance(old.get("meta"), dict):
+        # 既存メタを尊重しつつ必須キーを補完
+        tmp = dict(old["meta"])
+        tmp.setdefault("currency", "JPY")
+        tmp.setdefault("source", "rakuten_travel")
+        tmp.setdefault("window_days", WINDOW_DAYS)
+        meta = tmp
+
+    # 本仕様で保証したいメタ情報を上書き/補完
     meta.update({
-    "person": 1,                       # 1名利用で取得
-    "pricing_basis": "dailyCharge"     # その日のプランの最小値を採用
+        "person": 1,                  # 1名利用で取得
+        "pricing_basis": "dailyCharge"  # その日のプランの最小値を採用
     })
 
-    # まず「空の28日×全ホテルID」を作る（ここが今回の重要修正点）
+    # まず「空の28日×全ホテルID」を作る（差分仕様担保）
     days = build_empty_days(enabled_ids, dates)
 
     # --- 取得で上書き（失敗しても null のまま） ---
     for ymd in dates:
-        # 最低限の polite wait
-        time.sleep(0.3)
+        time.sleep(0.3)  # polite wait（楽天APIにやさしく）
         found = fetch_min_price_for_date(hotels, ymd)
         if found:
             for hid, price in found.items():
-                # 念のため setdefault（空のキーが必ずある想定だが安全側）
                 days.setdefault(ymd, {}).setdefault(hid, None)
-                # 0未満は弾く（安全）
                 if isinstance(price, int) and price >= 0:
                     days[ymd][hid] = price
 
