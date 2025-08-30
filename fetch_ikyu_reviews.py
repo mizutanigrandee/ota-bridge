@@ -14,14 +14,14 @@ MASTER_PATH = os.path.join(DATA, "hotel_master.json")
 META_PATH   = os.path.join(DATA, "ota_facility_meta.json")
 
 # ---- 待機・挙動設定（先方負荷を下げる & 遅延描画対策） ----
-WAIT_MS   = 3500   # 初期描画待機 (↑)
+WAIT_MS   = 4000   # 初期描画待機
 DELAY_MS  = 1200   # ホテル間ウェイト
 HEADLESS  = True
 MAX_RETRY = 3
 BASE_WAIT_MS = 800 # リトライバックオフ基準
 
 # ---- ユーティリティ ----
-FW_MAP = str.maketrans("０１２３４５６７８９，．（）", "0123456789,.()")
+FW_MAP = str.maketrans("０１２３４５６７８９，．（）／", "0123456789,./()")
 
 def to_halfwidth(s: str) -> str:
     return s.translate(FW_MAP)
@@ -109,7 +109,6 @@ def extract_from_text(html: str) -> Optional[Tuple[Optional[float], Optional[int
     if not near_chunks:
         near_chunks = [text]
 
-    # 代表パターン：総合得点 4.04 （25件）
     pat_rating1 = re.compile(r"(?:総合得点|評価)\s*[:：]?\s*([0-5](?:\.\d{1,2})?)")
     pat_rating2 = re.compile(r"([0-5](?:\.\d{1,2})?)\s*(?:点|/5|／5|5点)")
     pat_count   = re.compile(r"\(\s*(\d{1,3}(?:,\d{3})*)\s*件\s*\)|(\d{1,3}(?:,\d{3})*)\s*件")
@@ -146,29 +145,33 @@ def extract_from_text(html: str) -> Optional[Tuple[Optional[float], Optional[int
     if count is None:
         count = find_count(text)
 
+    # 念のため再バリデーション
     if rating is not None and not (0 <= rating <= 5):
         rating = None
 
     return (rating, count) if (rating is not None or count is not None) else None
 
-def safe_merge(meta: Dict[str, Any], updates: Dict[str, Dict[str, Any]]) -> Dict[str, Any]:
-    out = meta.copy() if isinstance(meta, dict) else {}
-    hotels = out.setdefault("hotels", {})
-    for hid, v in updates.items():
-        hotels.setdefault(hid, {})
-        hotels[hid]["ikyu"] = {
-            "review_avg":   v.get("review_avg"),
-            "review_count": v.get("review_count"),
-        }
-    out["last_updated"] = iso_utc_now()
-    return out
+def sanitize_meta(meta: Dict[str, Any]) -> Dict[str, Any]:
+    """既存JSON内の不正値（>5 など）をNULL化して見た目の不整合を解消"""
+    if not isinstance(meta, dict): 
+        return {}
+    hotels = meta.get("hotels", {})
+    for hid, blocks in hotels.items():
+        if not isinstance(blocks, dict): 
+            continue
+        ik = blocks.get("ikyu")
+        if isinstance(ik, dict):
+            ra = ik.get("review_avg")
+            if isinstance(ra, (int, float)) and not (0 <= ra <= 5):
+                ik["review_avg"] = None
+    return meta
 
 # ---- 取得（小リトライ付き） ----
 def try_get_content(page, url: str) -> Optional[str]:
     for i in range(MAX_RETRY):
         try:
             # 遅延描画があるため "networkidle" を使用
-            page.goto(url, wait_until="networkidle", timeout=45000)
+            page.goto(url, wait_until="networkidle", timeout=60000)
             page.wait_for_timeout(WAIT_MS)
             return page.content()
         except Exception as e:
@@ -180,14 +183,17 @@ def try_get_content(page, url: str) -> Optional[str]:
 def pick_target_url(h: Dict[str, Any]) -> Optional[Tuple[str, str]]:
     """
     優先: ikyu_url / フォールバック: yahoo_travel_url
+    Yahooは reviews タブを直接開く（?top=reviews を付与）
     戻り値: (url, source_label) 例: ("https://www.ikyu.com/...", "ikyu")
     """
     ikyu = (h.get("ikyu_url") or "").strip()
     if ikyu:
         return ikyu, "ikyu"
-    yahoo = (h.get("yahoo_travel_url") or "").strip()
-    if yahoo:
-        return yahoo, "yahoo"
+    y = (h.get("yahoo_travel_url") or "").strip()
+    if y:
+        if "top=reviews" not in y:
+            y = y + ("&top=reviews" if "?" in y else "?top=reviews")
+        return y, "yahoo"
     return None
 
 def main():
@@ -249,9 +255,16 @@ def main():
 
     if not results:
         print("ℹ️ 取得結果が空（スキップ）")
+        # 既存の不正値だけでも掃除しておく
+        meta0 = load_json(META_PATH) or {}
+        cleaned = sanitize_meta(meta0)
+        if cleaned != (meta0 or {}):
+            dump_json(META_PATH, cleaned)
+            print("🧹 sanitized existing ota_facility_meta.json (>5 の評価を NULL 化)")
         return
 
-    meta = load_json(META_PATH) or {}
+    # 既存を読みつつ不正値を先に掃除 → 新しい値を安全マージ
+    meta = sanitize_meta(load_json(META_PATH) or {})
     merged = safe_merge(meta, results)
     dump_json(META_PATH, merged)
     print(f"📝 wrote {META_PATH}  (updated_hotels={len(results)})")
