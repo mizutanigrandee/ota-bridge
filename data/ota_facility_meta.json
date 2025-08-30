@@ -1,6 +1,6 @@
 {
   "date": "2025-08-29",
-  "last_updated": "2025-08-30T07:31:21Z",
+  "last_updated": "2025-08-30T08:55:59Z",
   "hotels": {
     "hotel_grandee": {
       "rakuten": {
@@ -70,10 +70,6 @@
       "jalan": {
         "review_avg": 4.2,
         "review_count": 2034
-      },
-      "ikyu": {
-        "review_avg": 2021.0,
-        "review_count": null
       }
     },
     "richmond_namba_daikokucho": {
@@ -124,10 +120,6 @@
       "jalan": {
         "review_avg": 4.7,
         "review_count": 239
-      },
-      "ikyu": {
-        "review_avg": 2021.0,
-        "review_count": null
       }
     },
     "shizutetsu_prezio_osaka_shinsaibashi": {
@@ -208,10 +200,6 @@
       "jalan": {
         "review_avg": 4.4,
         "review_count": 67
-      },
-      "ikyu": {
-        "review_avg": 2021.0,
-        "review_count": null
       }
     }
   }

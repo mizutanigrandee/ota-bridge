@@ -2,7 +2,7 @@
   "meta": {
     "version": 1,
     "note": "手動マスタ。ホテルIDはUI側と連携しやすいスネークケースで統一。",
-    "last_updated": "2025-08-30"
+    "last_updated": "2025-08-30T08:55:59Z"
   },
   "hotels": [
     {
@@ -11,9 +11,11 @@
       "rooms": 45,
       "rakuten_hotel_no": 29246,
       "jalan_hotel_id": "yad340057",
-      "ikyu_url": "https://www.ikyu.com/00081710/",
       "enabled": true,
-      "tags": ["自館", "ミナミ"]
+      "tags": [
+        "自館",
+        "ミナミ"
+      ]
     },
     {
       "id": "comp_a",
@@ -21,9 +23,11 @@
       "rooms": 2055,
       "rakuten_hotel_no": 191842,
       "jalan_hotel_id": "yad338602",
-      "ikyu_url": "https://www.ikyu.com/00082615/",
       "enabled": true,
-      "tags": ["競合", "ミナミ"]
+      "tags": [
+        "競合",
+        "ミナミ"
+      ]
     },
     {
       "id": "comp_b",
@@ -31,9 +35,11 @@
       "rooms": 348,
       "rakuten_hotel_no": 76887,
       "jalan_hotel_id": "yad393984",
-      "ikyu_url": "https://www.ikyu.com/00001509/",
       "enabled": true,
-      "tags": ["競合", "ミナミ"]
+      "tags": [
+        "競合",
+        "ミナミ"
+      ]
     },
     {
       "id": "hotel_hillarys_shinsaibashi",
@@ -41,9 +47,11 @@
       "rooms": 225,
       "rakuten_hotel_no": 166514,
       "jalan_hotel_id": "yad363847",
-      "ikyu_url": "https://www.ikyu.com/00081660/",
       "enabled": true,
-      "tags": ["競合", "ミナミ"]
+      "tags": [
+        "競合",
+        "ミナミ"
+      ]
     },
     {
       "id": "hotel_sobial_namba_daikokucho",
@@ -51,9 +59,11 @@
       "rooms": 171,
       "rakuten_hotel_no": 172871,
       "jalan_hotel_id": "yad358180",
-      "ikyu_url": "https://www.ikyu.com/00081790/",
       "enabled": true,
-      "tags": ["競合", "ミナミ"]
+      "tags": [
+        "競合",
+        "ミナミ"
+      ]
     },
     {
       "id": "delstyle_osaka_shinsaibashi",
@@ -61,21 +71,23 @@
       "rooms": 190,
       "rakuten_hotel_no": 172161,
       "jalan_hotel_id": "yad361060",
-      "ikyu_url": "https://www.ikyu.com/00081718/",
       "enabled": true,
-      "tags": ["競合", "ミナミ"]
+      "tags": [
+        "競合",
+        "ミナミ"
+      ]
     },
-
     {
       "id": "ark_hotel_osaka_shinsaibashi",
       "name": "アークホテル大阪心斎橋―ルートインホテルズ―",
       "rooms": 384,
       "rakuten_hotel_no": 153,
       "jalan_hotel_id": "yad329484",
-      "ikyu_url": "",
-      "yahoo_travel_url": "https://travel.yahoo.co.jp/00901509/", 
       "enabled": true,
-      "tags": ["競合", "ミナミ"]
+      "tags": [
+        "競合",
+        "ミナミ"
+      ]
     },
     {
       "id": "richmond_namba_daikokucho",
@@ -83,9 +95,11 @@
       "rooms": 201,
       "rakuten_hotel_no": 144974,
       "jalan_hotel_id": "yad322856",
-      "ikyu_url": "https://www.ikyu.com/00080928/",
       "enabled": true,
-      "tags": ["競合", "ミナミ"]
+      "tags": [
+        "競合",
+        "ミナミ"
+      ]
     },
     {
       "id": "hennna_hotel_osaka_namba",
@@ -93,9 +107,11 @@
       "rooms": 99,
       "rakuten_hotel_no": 168794,
       "jalan_hotel_id": "yad332142",
-      "ikyu_url": "https://www.ikyu.com/00082248/",
       "enabled": true,
-      "tags": ["競合", "ミナミ"]
+      "tags": [
+        "競合",
+        "ミナミ"
+      ]
     },
     {
       "id": "dormy_inn_premium_namba_annex",
@@ -103,9 +119,11 @@
       "rooms": 150,
       "rakuten_hotel_no": 143240,
       "jalan_hotel_id": "yad375670",
-      "ikyu_url": "https://www.ikyu.com/00081572/",
       "enabled": true,
-      "tags": ["競合", "ミナミ"]
+      "tags": [
+        "競合",
+        "ミナミ"
+      ]
     },
     {
       "id": "sotetsu_grand_fresa_osaka_namba",
@@ -113,9 +131,11 @@
       "rooms": 698,
       "rakuten_hotel_no": 151202,
       "jalan_hotel_id": "yad352344",
-      "ikyu_url": "https://www.ikyu.com/00081131/",
       "enabled": true,
-      "tags": ["競合","ミナミ"]
+      "tags": [
+        "競合",
+        "ミナミ"
+      ]
     },
     {
       "id": "hotel_code_shinsaibashi",
@@ -123,10 +143,11 @@
       "rooms": 82,
       "rakuten_hotel_no": 160925,
       "jalan_hotel_id": "yad378446",
-      "ikyu_url": "",
-      "yahoo_travel_url": "https://travel.yahoo.co.jp/00917625/",
       "enabled": true,
-      "tags": ["競合","ミナミ"]
+      "tags": [
+        "競合",
+        "ミナミ"
+      ]
     },
     {
       "id": "shizutetsu_prezio_osaka_shinsaibashi",
@@ -134,9 +155,11 @@
       "rooms": 150,
       "rakuten_hotel_no": 187299,
       "jalan_hotel_id": "yad345542",
-      "ikyu_url": "https://www.ikyu.com/00082512/",
       "enabled": true,
-      "tags": ["競合","ミナミ"]
+      "tags": [
+        "競合",
+        "ミナミ"
+      ]
     },
     {
       "id": "via_inn_shinsaibashi",
@@ -144,9 +167,11 @@
       "rooms": 197,
       "rakuten_hotel_no": 128269,
       "jalan_hotel_id": "yad378268",
-      "ikyu_url": "https://www.ikyu.com/00082010/",
       "enabled": true,
-      "tags": ["競合", "ミナミ"]
+      "tags": [
+        "競合",
+        "ミナミ"
+      ]
     },
     {
       "id": "sotetsu_fresa_inn_osaka_shinsaibashi",
@@ -154,9 +179,11 @@
       "rooms": 175,
       "rakuten_hotel_no": 167892,
       "jalan_hotel_id": "yad358304",
-      "ikyu_url": "https://www.ikyu.com/00081651/",
       "enabled": true,
-      "tags": ["競合", "ミナミ"]
+      "tags": [
+        "競合",
+        "ミナミ"
+      ]
     },
     {
       "id": "hearton_hotel_shinsaibashi",
@@ -164,9 +191,11 @@
       "rooms": 302,
       "rakuten_hotel_no": 145,
       "jalan_hotel_id": "yad320736",
-      "ikyu_url": "https://www.ikyu.com/00080560/",
       "enabled": true,
-      "tags": ["競合", "ミナミ"]
+      "tags": [
+        "競合",
+        "ミナミ"
+      ]
     },
     {
       "id": "tokyustay_mercure_osaka_namba",
@@ -174,9 +203,11 @@
       "rooms": 288,
       "rakuten_hotel_no": 184561,
       "jalan_hotel_id": "yad351841",
-      "ikyu_url": "https://www.ikyu.com/00003011/",
       "enabled": true,
-      "tags": ["競合", "ミナミ"]
+      "tags": [
+        "競合",
+        "ミナミ"
+      ]
     },
     {
       "id": "quintessa_hotel_osaka_shinsaibashi",
@@ -184,9 +215,11 @@
       "rooms": 132,
       "rakuten_hotel_no": 164578,
       "jalan_hotel_id": "yad396238",
-      "ikyu_url": "https://www.ikyu.com/00081409/",
       "enabled": true,
-      "tags": ["競合", "ミナミ"]
+      "tags": [
+        "競合",
+        "ミナミ"
+      ]
     },
     {
       "id": "bestwestern_hotel_fino_osaka_shinsaibashi",
@@ -194,9 +227,11 @@
       "rooms": 161,
       "rakuten_hotel_no": 107851,
       "jalan_hotel_id": "yad306347",
-      "ikyu_url": "https://www.ikyu.com/00080546/",
       "enabled": true,
-      "tags": ["競合", "ミナミ"]
+      "tags": [
+        "競合",
+        "ミナミ"
+      ]
     },
     {
       "id": "koko_hotel_osaka_shinsaibashi",
@@ -204,10 +239,11 @@
       "rooms": 211,
       "rakuten_hotel_no": 184124,
       "jalan_hotel_id": "yad322290",
-      "ikyu_url": "",
-      "yahoo_travel_url": "https://travel.yahoo.co.jp/00913741/",
       "enabled": true,
-      "tags": ["競合", "ミナミ"]
+      "tags": [
+        "競合",
+        "ミナミ"
+      ]
     }
   ]
 }
