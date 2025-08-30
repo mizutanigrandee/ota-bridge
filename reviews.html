@@ -32,14 +32,14 @@
     }
     thead th{
       position:sticky;
-      top:70px; /* ← 60px → 70px に調整 */
+      top:70px; /* 見出しが切れないよう調整（環境により72でもOK） */
       background:#fff;
       border-bottom:1px solid var(--line);
       text-align:left;
       padding:10px;
       font-weight:700;
+      z-index:5;
     }
-
     tbody td{
       border-bottom:1px solid var(--line); padding:10px; vertical-align:middle;
     }
@@ -48,14 +48,8 @@
     .badge{
       display:inline-block; padding:2px 8px; border-radius:999px; border:1px solid var(--line); background:#fff; color:var(--muted); font-size:12px; margin-left:6px;
     }
-    .price{
-      font-variant-numeric: tabular-nums; white-space:nowrap;
-    }
-    .hotel-name{
-      color:var(--txt); font-weight:700; cursor:pointer; text-decoration:none;
-    }
-    .tags{display:flex; gap:6px; flex-wrap:wrap; margin-top:4px}
-    .tag{font-size:11px; color:#555; border:1px solid var(--line); padding:2px 6px; border-radius:999px; background:#fff}
+    .price{ font-variant-numeric: tabular-nums; white-space:nowrap; }
+    .hotel-name{ color:var(--txt); font-weight:700; cursor:pointer; text-decoration:none; }
     .footnote{margin-top:10px; color:#555}
     /* モーダル */
     .modal-backdrop{
@@ -165,7 +159,6 @@
 
     // ===== 状態 =====
     let master={}, meta={}, prices={}, rows=[];
-    let allTags = new Set();
 
     // ===== 初期化 =====
     init().catch(err=>{
@@ -191,9 +184,6 @@
       rows = (master.hotels || [])
         .filter(h => h.enabled)
         .map(h => {
-          // タグ収集
-          (h.tags||[]).forEach(t => allTags.add(t));
-
           // 28日価格配列作成（null除外）
           const priceDays = prices?.days || {};
           const vals = Object.values(priceDays).map(dayMap => dayMap?.[h.id]).filter(v => typeof v === "number");
@@ -209,13 +199,11 @@
             id: h.id,
             name: h.name,
             rooms: (typeof h.rooms === "number" ? h.rooms : null),
-            tags: h.tags || [],
             rakuten: { avg: (typeof r.review_avg === "number" ? r.review_avg : null), count: (typeof r.review_count==="number"?r.review_count:null) },
             jalan:   { avg: (typeof j.review_avg === "number" ? j.review_avg : null), count: (typeof j.review_count==="number"?j.review_count:null) },
             price: { min, max, median: med },
           };
         });
-
 
       // イベント
       document.getElementById("search").addEventListener("input", render);
@@ -227,7 +215,6 @@
     // ===== 描画 =====
     function render(){
       const q = (document.getElementById("search").value || "").trim().toLowerCase();
-      const tag = document.getElementById("tag").value || "";
       const sortKey = document.getElementById("sort").value;
 
       let list = rows.slice();
@@ -235,7 +222,6 @@
       if(q){
         list = list.filter(r => r.name.toLowerCase().includes(q) || r.id.toLowerCase().includes(q));
       }
-
 
       // 並び替え
       const dir = sortKey.endsWith(".desc") ? -1 : 1;
@@ -268,7 +254,6 @@
         a.textContent = r.name;
         a.addEventListener("click", ()=> openModal(r));
         tdName.appendChild(a);
-
         tr.appendChild(tdName);
 
         // 2) 客室数
@@ -315,14 +300,12 @@
     function openModal(r){
       mTitle.textContent = r.name;
       const lu = (prices?.last_updated || meta?.last_updated || "—");
-      const tags = (r.tags||[]).map(t=>`<span class="tag">${t}</span>`).join(" ");
 
       const priceText = (r.price.min==null && r.price.max==null)
         ? "—"
         : `${yen(r.price.min)} ～ ${yen(r.price.max)}（中央値: ${r.price.median!=null?yen(r.price.median):"—"}）`;
 
       mContent.innerHTML = `
-        <div class="row"><div>タグ</div><div>${tags || "—"}</div></div>
         <div class="row"><div>客室数</div><div>${(typeof r.rooms==="number")? r.rooms : "—"}</div></div>
         <div class="row"><div>楽天</div><div>平均 ${fmtAvg(r.rakuten.avg)} ／ 件数 ${fmtCnt(r.rakuten.count)}</div></div>
         <div class="row"><div>じゃらん</div><div>平均 ${fmtAvg(r.jalan.avg)} ／ 件数 ${fmtCnt(r.jalan.count)}</div></div>
