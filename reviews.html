@@ -1,0 +1,358 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>クチコミ比較（MVP）</title>
+  <style>
+    :root{
+      --bg:#fafafa; --card:#fff; --txt:#222; --muted:#666; --line:#e9e9ee;
+      --accent:#2D9CDB;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0; font-family: system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,"Apple Color Emoji","Segoe UI Emoji";
+      color:var(--txt); background:var(--bg);
+    }
+    header{
+      position:sticky; top:0; z-index:10;
+      background:linear-gradient(90deg,#2D9CDB 0%, #E743B2 100%);
+      color:#fff; padding:12px 16px;
+    }
+    .wrap{max-width:1200px;margin:0 auto;padding:16px}
+    .toolbar{
+      display:flex; gap:12px; flex-wrap:wrap; align-items:center; margin:12px 0 16px;
+    }
+    .toolbar .group{display:flex; gap:8px; align-items:center; background:var(--card); border:1px solid var(--line); padding:8px 10px; border-radius:10px;}
+    input[type="search"], select{
+      padding:6px 8px; border:1px solid var(--line); border-radius:8px; background:#fff; color:var(--txt);
+    }
+    table{
+      width:100%; border-collapse:separate; border-spacing:0; background:var(--card); border:1px solid var(--line); border-radius:14px; overflow:hidden;
+    }
+    thead th{
+      position:sticky; top:60px; background:#fff; border-bottom:1px solid var(--line); text-align:left; padding:10px; font-weight:700;
+    }
+    tbody td{
+      border-bottom:1px solid var(--line); padding:10px; vertical-align:middle;
+    }
+    tbody tr:last-child td{border-bottom:none}
+    .muted{color:var(--muted); font-size:12px}
+    .badge{
+      display:inline-block; padding:2px 8px; border-radius:999px; border:1px solid var(--line); background:#fff; color:var(--muted); font-size:12px; margin-left:6px;
+    }
+    .price{
+      font-variant-numeric: tabular-nums; white-space:nowrap;
+    }
+    .hotel-name{
+      color:var(--txt); font-weight:700; cursor:pointer; text-decoration:none;
+    }
+    .tags{display:flex; gap:6px; flex-wrap:wrap; margin-top:4px}
+    .tag{font-size:11px; color:#555; border:1px solid var(--line); padding:2px 6px; border-radius:999px; background:#fff}
+    .footnote{margin-top:10px; color:#555}
+    /* モーダル */
+    .modal-backdrop{
+      position:fixed; inset:0; background:rgba(0,0,0,.38); display:none; align-items:center; justify-content:center; padding:16px;
+    }
+    .modal{
+      width:min(720px,100%); background:#fff; border-radius:16px; border:1px solid var(--line);
+      box-shadow:0 10px 30px rgba(0,0,0,.2); overflow:hidden;
+    }
+    .modal header{background:#fff; color:var(--txt); padding:14px 16px; border-bottom:1px solid var(--line);}
+    .modal .content{padding:16px}
+    .modal h3{margin:0; font-size:18px}
+    .modal .row{display:grid; grid-template-columns:160px 1fr; gap:10px; padding:8px 0; border-bottom:1px dashed var(--line);}
+    .modal .row:last-child{border-bottom:none}
+    .close-btn{
+      margin-left:auto; border:1px solid var(--line); background:#fff; border-radius:10px; padding:6px 10px; cursor:pointer;
+    }
+    /* スマホ */
+    @media (max-width: 840px){
+      thead{display:none}
+      table, tbody, tr, td{display:block; width:100%}
+      tbody tr{border-bottom:8px solid transparent}
+      tbody td{border-bottom:none; padding:8px 12px}
+      tbody td[data-th]:before{content:attr(data-th) "："; display:inline-block; min-width:7em; color:var(--muted)}
+      .toolbar{position:static}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap" style="display:flex; gap:10px; align-items:center; justify-content:space-between;">
+      <div style="font-weight:800; letter-spacing:.5px">クチコミ比較（MVP）</div>
+      <div class="muted" id="lastUpdated">—</div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="toolbar">
+      <div class="group">
+        <label for="search">ホテル名</label>
+        <input id="search" type="search" placeholder="例）グランデ / なんば など" />
+      </div>
+      <div class="group">
+        <label for="tag">タグ</label>
+        <select id="tag">
+          <option value="">すべて</option>
+        </select>
+      </div>
+      <div class="group">
+        <label for="sort">並び替え</label>
+        <select id="sort">
+          <option value="name.asc">ホテル名 ▲</option>
+          <option value="name.desc">ホテル名 ▼</option>
+          <option value="rakuten.avg.desc">楽天 平均 ▼</option>
+          <option value="rakuten.avg.asc">楽天 平均 ▲</option>
+          <option value="jalan.avg.desc">じゃらん 平均 ▼</option>
+          <option value="jalan.avg.asc">じゃらん 平均 ▲</option>
+          <option value="price.median.desc">価格 中央値 ▼</option>
+          <option value="price.median.asc">価格 中央値 ▲</option>
+        </select>
+      </div>
+    </div>
+
+    <table id="tbl">
+      <thead>
+        <tr>
+          <th style="width:28%">ホテル</th>
+          <th style="width:8%">客室数</th>
+          <th style="width:18%">楽天（平均/件数）</th>
+          <th style="width:18%">じゃらん（平均/件数）</th>
+          <th style="width:28%">価格レンジ（直近28日）</th>
+        </tr>
+      </thead>
+      <tbody id="tbody"></tbody>
+    </table>
+
+    <div class="footnote muted">
+      ※ 価格レンジは直近28日分の最安値（nullは除外）から <strong>最小～最大（中央値）</strong> を表示します。<br/>
+      ※ 口コミは現在「楽天・じゃらん」のみ。今後他OTAを追加予定です。
+    </div>
+  </main>
+
+  <!-- モーダル -->
+  <div class="modal-backdrop" id="backdrop" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="modal" role="document">
+      <header style="display:flex; gap:10px; align-items:center;">
+        <h3 id="m-title">—</h3>
+        <button class="close-btn" id="m-close">閉じる</button>
+      </header>
+      <div class="content" id="m-content">
+        <!-- JSで埋め込み -->
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ===== 設定 =====
+    const PATH_MASTER = "./data/hotel_master.json";
+    const PATH_META   = "./data/ota_facility_meta.json";
+    const PATH_PRICE  = "./data/competitor_min_prices.json";
+
+    // ===== ユーティリティ =====
+    const yen = n => (typeof n === "number" ? "¥" + n.toLocaleString("ja-JP") : "—");
+    const fmtAvg = v => (typeof v === "number" ? v.toFixed(2) : "—");
+    const fmtCnt = v => (typeof v === "number" ? v.toLocaleString("ja-JP") : "—");
+    function median(arr){
+      if(!arr || !arr.length) return null;
+      const a = arr.slice().sort((x,y)=>x-y);
+      const m = Math.floor(a.length/2);
+      return a.length%2 ? a[m] : Math.round((a[m-1]+a[m])/2);
+    }
+    const pick = (o, path) => path.split(".").reduce((x,k)=> (x && k in x ? x[k] : undefined), o || {});
+
+    // ===== 状態 =====
+    let master={}, meta={}, prices={}, rows=[];
+    let allTags = new Set();
+
+    // ===== 初期化 =====
+    init().catch(err=>{
+      console.error(err);
+      document.getElementById("tbody").innerHTML =
+        `<tr><td data-th="error" colspan="5">読み込みエラー：${String(err)}</td></tr>`;
+    });
+
+    async function init(){
+      const qs = `?v=${Date.now()}`;
+      const [m, ot, pr] = await Promise.all([
+        fetch(PATH_MASTER+qs).then(r=>r.json()),
+        fetch(PATH_META+qs).then(r=>r.json()),
+        fetch(PATH_PRICE+qs).then(r=>r.json()),
+      ]);
+      master = m; meta = ot; prices = pr;
+
+      // ヘッダーの最終更新
+      const lu = prices?.last_updated || meta?.last_updated || "";
+      document.getElementById("lastUpdated").textContent = lu ? `最終更新: ${lu}` : "最終更新: —";
+
+      // 行データ作成
+      rows = (master.hotels || [])
+        .filter(h => h.enabled)
+        .map(h => {
+          // タグ収集
+          (h.tags||[]).forEach(t => allTags.add(t));
+
+          // 28日価格配列作成（null除外）
+          const priceDays = prices?.days || {};
+          const vals = Object.values(priceDays).map(dayMap => dayMap?.[h.id]).filter(v => typeof v === "number");
+          const min = vals.length ? Math.min(...vals) : null;
+          const max = vals.length ? Math.max(...vals) : null;
+          const med = vals.length ? median(vals) : null;
+
+          // 口コミ（楽天/じゃらん）
+          const r = pick(meta, `hotels.${h.id}.rakuten`) || {};
+          const j = pick(meta, `hotels.${h.id}.jalan`) || {};
+
+          return {
+            id: h.id,
+            name: h.name,
+            rooms: (typeof h.rooms === "number" ? h.rooms : null),
+            tags: h.tags || [],
+            rakuten: { avg: (typeof r.review_avg === "number" ? r.review_avg : null), count: (typeof r.review_count==="number"?r.review_count:null) },
+            jalan:   { avg: (typeof j.review_avg === "number" ? j.review_avg : null), count: (typeof j.review_count==="number"?j.review_count:null) },
+            price: { min, max, median: med },
+          };
+        });
+
+      // タグセレクトに反映
+      const tagSel = document.getElementById("tag");
+      [...allTags].sort().forEach(t=>{
+        const opt = document.createElement("option");
+        opt.value = t; opt.textContent = t;
+        tagSel.appendChild(opt);
+      });
+
+      // イベント
+      document.getElementById("search").addEventListener("input", render);
+      document.getElementById("tag").addEventListener("change", render);
+      document.getElementById("sort").addEventListener("change", render);
+
+      render();
+    }
+
+    // ===== 描画 =====
+    function render(){
+      const q = (document.getElementById("search").value || "").trim().toLowerCase();
+      const tag = document.getElementById("tag").value || "";
+      const sortKey = document.getElementById("sort").value;
+
+      let list = rows.slice();
+
+      if(q){
+        list = list.filter(r => r.name.toLowerCase().includes(q) || r.id.toLowerCase().includes(q));
+      }
+      if(tag){
+        list = list.filter(r => r.tags && r.tags.includes(tag));
+      }
+
+      // 並び替え
+      const dir = sortKey.endsWith(".desc") ? -1 : 1;
+      if(sortKey.startsWith("name")){
+        list.sort((a,b) => a.name.localeCompare(b.name,"ja") * dir);
+      }else if(sortKey.startsWith("rakuten")){
+        list.sort((a,b) => ((a.rakuten.avg ?? -Infinity) - (b.rakuten.avg ?? -Infinity)) * dir);
+      }else if(sortKey.startsWith("jalan")){
+        list.sort((a,b) => ((a.jalan.avg ?? -Infinity) - (b.jalan.avg ?? -Infinity)) * dir);
+      }else if(sortKey.startsWith("price.median")){
+        list.sort((a,b) => ((a.price.median ?? Infinity) - (b.price.median ?? Infinity)) * dir);
+      }
+
+      const tbody = document.getElementById("tbody");
+      tbody.innerHTML = "";
+      if(!list.length){
+        tbody.innerHTML = `<tr><td colspan="5">該当なし</td></tr>`;
+        return;
+      }
+
+      for(const r of list){
+        const tr = document.createElement("tr");
+
+        // 1) ホテル
+        const tdName = document.createElement("td");
+        tdName.setAttribute("data-th","ホテル");
+        const a = document.createElement("a");
+        a.href="javascript:void(0)";
+        a.className="hotel-name";
+        a.textContent = r.name;
+        a.addEventListener("click", ()=> openModal(r));
+        tdName.appendChild(a);
+        if(r.tags?.length){
+          const tagWrap = document.createElement("div");
+          tagWrap.className="tags";
+          r.tags.forEach(t=>{
+            const s = document.createElement("span"); s.className="tag"; s.textContent=t;
+            tagWrap.appendChild(s);
+          });
+          tdName.appendChild(tagWrap);
+        }
+        tr.appendChild(tdName);
+
+        // 2) 客室数
+        const tdRooms = document.createElement("td");
+        tdRooms.setAttribute("data-th","客室数");
+        tdRooms.textContent = (typeof r.rooms === "number") ? r.rooms : "—";
+        tr.appendChild(tdRooms);
+
+        // 3) 楽天
+        const tdR = document.createElement("td");
+        tdR.setAttribute("data-th","楽天");
+        tdR.innerHTML = `${fmtAvg(r.rakuten.avg)} <span class="muted">/</span> ${fmtCnt(r.rakuten.count)}`;
+        tr.appendChild(tdR);
+
+        // 4) じゃらん
+        const tdJ = document.createElement("td");
+        tdJ.setAttribute("data-th","じゃらん");
+        tdJ.innerHTML = `${fmtAvg(r.jalan.avg)} <span class="muted">/</span> ${fmtCnt(r.jalan.count)}`;
+        tr.appendChild(tdJ);
+
+        // 5) 価格レンジ
+        const tdPrice = document.createElement("td");
+        tdPrice.setAttribute("data-th","価格レンジ（直近28日）");
+        if(r.price.min==null && r.price.max==null){
+          tdPrice.textContent = "—";
+        }else{
+          tdPrice.innerHTML = `<span class="price">${yen(r.price.min)} ～ ${yen(r.price.max)}</span>` +
+            (r.price.median!=null ? ` <span class="badge">中央値 ${yen(r.price.median)}</span>` : "");
+        }
+        tr.appendChild(tdPrice);
+
+        tbody.appendChild(tr);
+      }
+    }
+
+    // ===== モーダル =====
+    const backdrop = document.getElementById("backdrop");
+    const mTitle = document.getElementById("m-title");
+    const mContent = document.getElementById("m-content");
+    document.getElementById("m-close").addEventListener("click", closeModal);
+    backdrop.addEventListener("click", (e)=>{ if(e.target===backdrop) closeModal(); });
+    document.addEventListener("keydown", e=>{ if(e.key==="Escape") closeModal(); });
+
+    function openModal(r){
+      mTitle.textContent = r.name;
+      const lu = (prices?.last_updated || meta?.last_updated || "—");
+      const tags = (r.tags||[]).map(t=>`<span class="tag">${t}</span>`).join(" ");
+
+      const priceText = (r.price.min==null && r.price.max==null)
+        ? "—"
+        : `${yen(r.price.min)} ～ ${yen(r.price.max)}（中央値: ${r.price.median!=null?yen(r.price.median):"—"}）`;
+
+      mContent.innerHTML = `
+        <div class="row"><div>タグ</div><div>${tags || "—"}</div></div>
+        <div class="row"><div>客室数</div><div>${(typeof r.rooms==="number")? r.rooms : "—"}</div></div>
+        <div class="row"><div>楽天</div><div>平均 ${fmtAvg(r.rakuten.avg)} ／ 件数 ${fmtCnt(r.rakuten.count)}</div></div>
+        <div class="row"><div>じゃらん</div><div>平均 ${fmtAvg(r.jalan.avg)} ／ 件数 ${fmtCnt(r.jalan.count)}</div></div>
+        <div class="row"><div>価格（28日）</div><div>${priceText}</div></div>
+        <div class="row"><div>データ最終更新</div><div>${lu}</div></div>
+      `;
+      backdrop.style.display = "flex";
+      backdrop.setAttribute("aria-hidden","false");
+    }
+    function closeModal(){
+      backdrop.style.display = "none";
+      backdrop.setAttribute("aria-hidden","true");
+    }
+  </script>
+</body>
+</html>
