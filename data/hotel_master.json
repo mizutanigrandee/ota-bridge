@@ -73,6 +73,7 @@
       "rakuten_hotel_no": 153,
       "jalan_hotel_id": "yad329484",
       "ikyu_url": "",
+      "yahoo_travel_url": "https://travel.yahoo.co.jp/00901509/", 
       "enabled": true,
       "tags": ["競合", "ミナミ"]
     },
@@ -123,6 +124,7 @@
       "rakuten_hotel_no": 160925,
       "jalan_hotel_id": "yad378446",
       "ikyu_url": "",
+      "yahoo_travel_url": "https://travel.yahoo.co.jp/00917625/",
       "enabled": true,
       "tags": ["競合","ミナミ"]
     },
@@ -203,6 +205,7 @@
       "rakuten_hotel_no": 184124,
       "jalan_hotel_id": "yad322290",
       "ikyu_url": "",
+      "yahoo_travel_url": "https://travel.yahoo.co.jp/00913741/",
       "enabled": true,
       "tags": ["競合", "ミナミ"]
     }
