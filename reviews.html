@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>クチコミ比較（MVP）</title>
+  <title>クチコミ比較（楽天・じゃらん）</title>
   <style>
     :root{
       --bg:#fafafa; --card:#fff; --txt:#222; --muted:#666; --line:#e9e9ee;
@@ -141,7 +141,7 @@
 
     <div class="footnote muted">
       ※ 価格レンジは直近28日分の最安値（nullは除外）から <strong>最小～最大（中央値）</strong> を表示します。<br/>
-      ※ 口コミは現在「楽天・じゃらん」のみ。今後他OTAを追加予定です。
+      ※ 口コミは現在「楽天・じゃらん」のみ。
     </div>
   </main>
 
@@ -203,7 +203,7 @@
           const max = vals.length ? Math.max(...vals) : null;
           const med = vals.length ? median(vals) : null;
 
-          // ★ 口コミ（楽天・じゃらん・一休）を取得
+          // ★ 口コミ（楽天・じゃらん）を取得
           const r = pick(meta, `hotels.${h.id}.rakuten`) || {};
           const j = pick(meta, `hotels.${h.id}.jalan`)   || {};
 
