@@ -132,8 +132,8 @@
           <tr>
             <th style="width:28%">ホテル</th>
             <th style="width:8%">客室数</th>
-            <th style="width:18%">楽天（平均/件数）</th>
-            <th style="width:18%">じゃらん（平均/件数）</th>
+            <th style="width:18%">楽天 平均</th>
+            <th style="width:18%">じゃらん 平均</th>
             <th style="width:12%">一休 平均</th>
             <th style="width:28%">価格レンジ（直近28日）</th>
           </tr>
@@ -289,13 +289,13 @@
         tr.appendChild(tdRooms);
 
         const tdR = document.createElement("td");
-        tdR.setAttribute("data-th","楽天");
-        tdR.innerHTML = `${fmtAvg(r.rakuten.avg)} <span class="muted">/</span> ${fmtCnt(r.rakuten.count)}`;
+        tdR.setAttribute("data-th","楽天 平均");   // ← スマホ表示ラベルも“平均”に
+        tdR.textContent = fmtAvg(r.rakuten.avg);   // ← 平均のみ
         tr.appendChild(tdR);
 
         const tdJ = document.createElement("td");
-        tdJ.setAttribute("data-th","じゃらん");
-        tdJ.innerHTML = `${fmtAvg(r.jalan.avg)} <span class="muted">/</span> ${fmtCnt(r.jalan.count)}`;
+        tdJ.setAttribute("data-th","じゃらん 平均"); // ← スマホ表示ラベルも“平均”に
+        tdJ.textContent = fmtAvg(r.jalan.avg);       // ← 平均のみ
         tr.appendChild(tdJ);
 
         const tdI = document.createElement("td");
