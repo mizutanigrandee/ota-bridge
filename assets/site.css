@@ -33,3 +33,5 @@ img{max-width:100%;height:auto;display:block}
   .site-nav a{padding:8px 10px}
   .site-header .brand img{height:24px}
 }
+
+.site-header .brand strong{ display:none; }
