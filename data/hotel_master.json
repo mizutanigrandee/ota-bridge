@@ -2,7 +2,7 @@
   "meta": {
     "version": 1,
     "note": "手動マスタ。ホテルIDはUI側と連携しやすいスネークケースで統一。",
-    "last_updated": "2025-08-27"
+    "last_updated": "2025-08-30"
   },
   "hotels": [
     {
@@ -11,7 +11,7 @@
       "rooms": 45,
       "rakuten_hotel_no": 29246,
       "jalan_hotel_id": "yad340057",
-      "ikyu_hotel_id": "",
+      "ikyu_url": "https://www.ikyu.com/00081710/",
       "enabled": true,
       "tags": ["自館", "ミナミ"]
     },
@@ -21,7 +21,7 @@
       "rooms": 2055,
       "rakuten_hotel_no": 191842,
       "jalan_hotel_id": "yad338602",
-      "ikyu_hotel_id": "",
+      "ikyu_url": "https://www.ikyu.com/00082615/",
       "enabled": true,
       "tags": ["競合", "ミナミ"]
     },
@@ -31,7 +31,7 @@
       "rooms": 348,
       "rakuten_hotel_no": 76887,
       "jalan_hotel_id": "yad393984",
-      "ikyu_hotel_id": "",
+      "ikyu_url": "https://www.ikyu.com/00001509/",
       "enabled": true,
       "tags": ["競合", "ミナミ"]
     },
@@ -41,7 +41,7 @@
       "rooms": 225,
       "rakuten_hotel_no": 166514,
       "jalan_hotel_id": "yad363847",
-      "ikyu_hotel_id": "",
+      "ikyu_url": "https://www.ikyu.com/00081660/",
       "enabled": true,
       "tags": ["競合", "ミナミ"]
     },
@@ -51,7 +51,7 @@
       "rooms": 171,
       "rakuten_hotel_no": 172871,
       "jalan_hotel_id": "yad358180",
-      "ikyu_hotel_id": "",
+      "ikyu_url": "https://www.ikyu.com/00081790/",
       "enabled": true,
       "tags": ["競合", "ミナミ"]
     },
@@ -61,17 +61,19 @@
       "rooms": 190,
       "rakuten_hotel_no": 172161,
       "jalan_hotel_id": "yad361060",
-      "ikyu_hotel_id": "",
+      "ikyu_url": "https://www.ikyu.com/00081718/",
       "enabled": true,
       "tags": ["競合", "ミナミ"]
     },
+
+    // --- 以下のホテルは一休URL未特定のため空欄。 ---
     {
       "id": "ark_hotel_osaka_shinsaibashi",
       "name": "アークホテル大阪心斎橋―ルートインホテルズ―",
       "rooms": 384,
       "rakuten_hotel_no": 153,
       "jalan_hotel_id": "yad329484",
-      "ikyu_hotel_id": "",
+      "ikyu_url": "",
       "enabled": true,
       "tags": ["競合", "ミナミ"]
     },
@@ -81,7 +83,7 @@
       "rooms": 201,
       "rakuten_hotel_no": 144974,
       "jalan_hotel_id": "yad322856",
-      "ikyu_hotel_id": "",
+      "ikyu_url": "",
       "enabled": true,
       "tags": ["競合", "ミナミ"]
     },
@@ -91,7 +93,7 @@
       "rooms": 99,
       "rakuten_hotel_no": 168794,
       "jalan_hotel_id": "yad332142",
-      "ikyu_hotel_id": "",
+      "ikyu_url": "",
       "enabled": true,
       "tags": ["競合", "ミナミ"]
     },
@@ -101,7 +103,7 @@
       "rooms": 150,
       "rakuten_hotel_no": 143240,
       "jalan_hotel_id": "yad375670",
-      "ikyu_hotel_id": "",
+      "ikyu_url": "",
       "enabled": true,
       "tags": ["競合", "ミナミ"]
     },
@@ -111,7 +113,7 @@
       "rooms": 698,
       "rakuten_hotel_no": 151202,
       "jalan_hotel_id": "yad352344",
-      "ikyu_hotel_id": "",
+      "ikyu_url": "",
       "enabled": true,
       "tags": ["競合","ミナミ"]
     },
@@ -121,7 +123,7 @@
       "rooms": 82,
       "rakuten_hotel_no": 160925,
       "jalan_hotel_id": "yad378446",
-      "ikyu_hotel_id": "",
+      "ikyu_url": "",
       "enabled": true,
       "tags": ["競合","ミナミ"]
     },
@@ -131,7 +133,7 @@
       "rooms": 150,
       "rakuten_hotel_no": 187299,
       "jalan_hotel_id": "yad345542",
-      "ikyu_hotel_id": "",
+      "ikyu_url": "",
       "enabled": true,
       "tags": ["競合","ミナミ"]
     },
@@ -141,7 +143,7 @@
       "rooms": 197,
       "rakuten_hotel_no": 128269,
       "jalan_hotel_id": "yad378268",
-      "ikyu_hotel_id": "",
+      "ikyu_url": "",
       "enabled": true,
       "tags": ["競合", "ミナミ"]
     },
@@ -151,7 +153,7 @@
       "rooms": 175,
       "rakuten_hotel_no": 167892,
       "jalan_hotel_id": "yad358304",
-      "ikyu_hotel_id": "",
+      "ikyu_url": "",
       "enabled": true,
       "tags": ["競合", "ミナミ"]
     },
@@ -161,7 +163,7 @@
       "rooms": 302,
       "rakuten_hotel_no": 145,
       "jalan_hotel_id": "yad320736",
-      "ikyu_hotel_id": "",
+      "ikyu_url": "",
       "enabled": true,
       "tags": ["競合", "ミナミ"]
     },
@@ -171,7 +173,7 @@
       "rooms": 288,
       "rakuten_hotel_no": 184561,
       "jalan_hotel_id": "yad351841",
-      "ikyu_hotel_id": "",
+      "ikyu_url": "",
       "enabled": true,
       "tags": ["競合", "ミナミ"]
     },
@@ -181,7 +183,7 @@
       "rooms": 132,
       "rakuten_hotel_no": 164578,
       "jalan_hotel_id": "yad396238",
-      "ikyu_hotel_id": "",
+      "ikyu_url": "",
       "enabled": true,
       "tags": ["競合", "ミナミ"]
     },
@@ -191,7 +193,7 @@
       "rooms": 161,
       "rakuten_hotel_no": 107851,
       "jalan_hotel_id": "yad306347",
-      "ikyu_hotel_id": "",
+      "ikyu_url": "",
       "enabled": true,
       "tags": ["競合", "ミナミ"]
     },
@@ -201,7 +203,7 @@
       "rooms": 211,
       "rakuten_hotel_no": 184124,
       "jalan_hotel_id": "yad322290",
-      "ikyu_hotel_id": "",
+      "ikyu_url": "",
       "enabled": true,
       "tags": ["競合", "ミナミ"]
     }
