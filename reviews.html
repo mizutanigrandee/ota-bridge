@@ -27,12 +27,25 @@
     input[type="search"], select{
       padding:6px 8px; border:1px solid var(--line); border-radius:8px; background:#fff; color:var(--txt);
     }
+
+    /* === テーブルラッパー === */
+    .table-wrap{
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:14px;
+      overflow:hidden; /* ←はみ出し防止 */
+    }
+
     table{
-      width:100%; border-collapse:separate; border-spacing:0; background:var(--card); border:1px solid var(--line); border-radius:14px; overflow:hidden;
+      width:100%;
+      border-collapse:separate;
+      border-spacing:0;
+      background:transparent; /* ラッパーに任せる */
+      border:none;
     }
     thead th{
       position:sticky;
-      top:70px; /* 見出しが切れないよう調整（環境により72でもOK） */
+      top:72px; /* ← ヘッダー高さ分 */
       background:#fff;
       border-bottom:1px solid var(--line);
       text-align:left;
@@ -48,8 +61,12 @@
     .badge{
       display:inline-block; padding:2px 8px; border-radius:999px; border:1px solid var(--line); background:#fff; color:var(--muted); font-size:12px; margin-left:6px;
     }
-    .price{ font-variant-numeric: tabular-nums; white-space:nowrap; }
-    .hotel-name{ color:var(--txt); font-weight:700; cursor:pointer; text-decoration:none; }
+    .price{
+      font-variant-numeric: tabular-nums; white-space:nowrap;
+    }
+    .hotel-name{
+      color:var(--txt); font-weight:700; cursor:pointer; text-decoration:none;
+    }
     .footnote{margin-top:10px; color:#555}
     /* モーダル */
     .modal-backdrop{
@@ -107,18 +124,20 @@
       </div>
     </div>
 
-    <table id="tbl">
-      <thead>
-        <tr>
-          <th style="width:28%">ホテル</th>
-          <th style="width:8%">客室数</th>
-          <th style="width:18%">楽天（平均/件数）</th>
-          <th style="width:18%">じゃらん（平均/件数）</th>
-          <th style="width:28%">価格レンジ（直近28日）</th>
-        </tr>
-      </thead>
-      <tbody id="tbody"></tbody>
-    </table>
+    <div class="table-wrap">
+      <table id="tbl">
+        <thead>
+          <tr>
+            <th style="width:28%">ホテル</th>
+            <th style="width:8%">客室数</th>
+            <th style="width:18%">楽天（平均/件数）</th>
+            <th style="width:18%">じゃらん（平均/件数）</th>
+            <th style="width:28%">価格レンジ（直近28日）</th>
+          </tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
 
     <div class="footnote muted">
       ※ 価格レンジは直近28日分の最安値（nullは除外）から <strong>最小～最大（中央値）</strong> を表示します。<br/>
@@ -140,12 +159,10 @@
   </div>
 
   <script>
-    // ===== 設定 =====
     const PATH_MASTER = "./data/hotel_master.json";
     const PATH_META   = "./data/ota_facility_meta.json";
     const PATH_PRICE  = "./data/competitor_min_prices.json";
 
-    // ===== ユーティリティ =====
     const yen = n => (typeof n === "number" ? "¥" + n.toLocaleString("ja-JP") : "—");
     const fmtAvg = v => (typeof v === "number" ? v.toFixed(2) : "—");
     const fmtCnt = v => (typeof v === "number" ? v.toLocaleString("ja-JP") : "—");
@@ -157,10 +174,8 @@
     }
     const pick = (o, path) => path.split(".").reduce((x,k)=> (x && k in x ? x[k] : undefined), o || {});
 
-    // ===== 状態 =====
     let master={}, meta={}, prices={}, rows=[];
 
-    // ===== 初期化 =====
     init().catch(err=>{
       console.error(err);
       document.getElementById("tbody").innerHTML =
@@ -176,22 +191,18 @@
       ]);
       master = m; meta = ot; prices = pr;
 
-      // ヘッダーの最終更新
       const lu = prices?.last_updated || meta?.last_updated || "";
       document.getElementById("lastUpdated").textContent = lu ? `最終更新: ${lu}` : "最終更新: —";
 
-      // 行データ作成
       rows = (master.hotels || [])
         .filter(h => h.enabled)
         .map(h => {
-          // 28日価格配列作成（null除外）
           const priceDays = prices?.days || {};
           const vals = Object.values(priceDays).map(dayMap => dayMap?.[h.id]).filter(v => typeof v === "number");
           const min = vals.length ? Math.min(...vals) : null;
           const max = vals.length ? Math.max(...vals) : null;
           const med = vals.length ? median(vals) : null;
 
-          // 口コミ（楽天/じゃらん）
           const r = pick(meta, `hotels.${h.id}.rakuten`) || {};
           const j = pick(meta, `hotels.${h.id}.jalan`) || {};
 
@@ -205,25 +216,21 @@
           };
         });
 
-      // イベント
       document.getElementById("search").addEventListener("input", render);
       document.getElementById("sort").addEventListener("change", render);
 
       render();
     }
 
-    // ===== 描画 =====
     function render(){
       const q = (document.getElementById("search").value || "").trim().toLowerCase();
       const sortKey = document.getElementById("sort").value;
 
       let list = rows.slice();
-
       if(q){
         list = list.filter(r => r.name.toLowerCase().includes(q) || r.id.toLowerCase().includes(q));
       }
 
-      // 並び替え
       const dir = sortKey.endsWith(".desc") ? -1 : 1;
       if(sortKey.startsWith("name")){
         list.sort((a,b) => a.name.localeCompare(b.name,"ja") * dir);
@@ -245,7 +252,6 @@
       for(const r of list){
         const tr = document.createElement("tr");
 
-        // 1) ホテル
         const tdName = document.createElement("td");
         tdName.setAttribute("data-th","ホテル");
         const a = document.createElement("a");
@@ -256,25 +262,21 @@
         tdName.appendChild(a);
         tr.appendChild(tdName);
 
-        // 2) 客室数
         const tdRooms = document.createElement("td");
         tdRooms.setAttribute("data-th","客室数");
         tdRooms.textContent = (typeof r.rooms === "number") ? r.rooms : "—";
         tr.appendChild(tdRooms);
 
-        // 3) 楽天
         const tdR = document.createElement("td");
         tdR.setAttribute("data-th","楽天");
         tdR.innerHTML = `${fmtAvg(r.rakuten.avg)} <span class="muted">/</span> ${fmtCnt(r.rakuten.count)}`;
         tr.appendChild(tdR);
 
-        // 4) じゃらん
         const tdJ = document.createElement("td");
         tdJ.setAttribute("data-th","じゃらん");
         tdJ.innerHTML = `${fmtAvg(r.jalan.avg)} <span class="muted">/</span> ${fmtCnt(r.jalan.count)}`;
         tr.appendChild(tdJ);
 
-        // 5) 価格レンジ
         const tdPrice = document.createElement("td");
         tdPrice.setAttribute("data-th","価格レンジ（直近28日）");
         if(r.price.min==null && r.price.max==null){
@@ -289,7 +291,6 @@
       }
     }
 
-    // ===== モーダル =====
     const backdrop = document.getElementById("backdrop");
     const mTitle = document.getElementById("m-title");
     const mContent = document.getElementById("m-content");
@@ -300,7 +301,6 @@
     function openModal(r){
       mTitle.textContent = r.name;
       const lu = (prices?.last_updated || meta?.last_updated || "—");
-
       const priceText = (r.price.min==null && r.price.max==null)
         ? "—"
         : `${yen(r.price.min)} ～ ${yen(r.price.max)}（中央値: ${r.price.median!=null?yen(r.price.median):"—"}）`;
