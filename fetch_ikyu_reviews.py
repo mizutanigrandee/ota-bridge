@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # fetch_ikyu_reviews.py
-# 一休の口コミ 平均/件数を取得し、data/ota_facility_meta.json に「安全マージ」保存
+# 一休/Yahoo!トラベルの口コミ 平均/件数を取得し、data/ota_facility_meta.json に「安全マージ」保存
+# 優先: ikyu_url / フォールバック: yahoo_travel_url（値は実務上同等のため ikyu ブロックに格納）
 
 import os, json, re
 import datetime as dt
@@ -113,20 +114,36 @@ def try_get_content(page, url: str) -> Optional[str]:
             page.wait_for_timeout(w)
     return None
 
+def pick_target_url(h: Dict[str, Any]) -> Optional[Tuple[str, str]]:
+    """
+    優先: ikyu_url / フォールバック: yahoo_travel_url
+    戻り値: (url, source_label) 例: ("https://www.ikyu.com/...", "ikyu")
+    """
+    ikyu = (h.get("ikyu_url") or "").strip()
+    if ikyu:
+        return ikyu, "ikyu"
+    yahoo = (h.get("yahoo_travel_url") or "").strip()
+    if yahoo:
+        return yahoo, "yahoo"
+    return None
+
 def main():
     master = load_json(MASTER_PATH)
     if not master or "hotels" not in master:
         raise SystemExit("❌ data/hotel_master.json が読めません")
 
-    # 対象抽出（enabled & ikyu_urlあり）
+    # 対象抽出（enabled かつ ikyu_url or yahoo_travel_url のどちらかがある）
     targets = []
     for h in master["hotels"]:
-        url = (h.get("ikyu_url") or "").strip()
-        if h.get("enabled") and url:
-            targets.append({"id": h["id"], "url": url})
+        if not h.get("enabled"):
+            continue
+        picked = pick_target_url(h)
+        if picked:
+            url, src = picked
+            targets.append({"id": h["id"], "url": url, "src": src})
 
     if not targets:
-        print("ℹ️ 対象ホテル（ikyu_urlあり）がありません。処理を終了します。")
+        print("ℹ️ 対象ホテル（ikyu_url/yahoo_travel_urlあり）がありません。処理を終了します。")
         return
 
     results: Dict[str, Dict[str, Any]] = {}
@@ -141,24 +158,24 @@ def main():
         page = ctx.new_page()
 
         for t in targets:
-            url, hid = t["url"], t["id"]
+            url, hid, src = t["url"], t["id"], t["src"]
             try:
                 html = try_get_content(page, url)
                 if not html:
-                    print(f"⚠️ {hid}: 取得できず（リトライ尽き）")
+                    print(f"⚠️ {hid}: 取得できず（リトライ尽き） from={src} {url}")
                 else:
                     pair = extract_from_ldjson(html) or extract_from_text(html)
                     if pair:
                         rating, count = pair
                         r = float(rating) if isinstance(rating, (int, float)) else None
-                        c = int(count) if isinstance(count, int) else None
+                        c = int(count)    if isinstance(count, int) else None
                         if r is not None or c is not None:
                             results[hid] = {"review_avg": r, "review_count": c}
-                            print(f"✅ {hid}: ikyu rating={r} count={c}")
+                            print(f"✅ {hid}: rating={r} count={c} from={src} {url}")
                     else:
-                        print(f"⚠️ {hid}: パターン不一致で抽出不可")
+                        print(f"⚠️ {hid}: パターン不一致で抽出不可 from={src} {url}")
             except Exception as e:
-                print(f"⚠️ {hid}: エラー {e}")
+                print(f"⚠️ {hid}: エラー {e} from={src} {url}")
             finally:
                 page.wait_for_timeout(DELAY_MS)
 
