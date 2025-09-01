@@ -1,6 +1,6 @@
 {
-  "date": "2025-08-29",
-  "last_updated": "2025-08-30T08:55:59Z",
+  "date": "2025-09-01",
+  "last_updated": "2025-09-01T02:33:19Z",
   "hotels": {
     "hotel_grandee": {
       "rakuten": {
@@ -39,7 +39,7 @@
       },
       "jalan": {
         "review_avg": 4.1,
-        "review_count": 136
+        "review_count": 137
       }
     },
     "hotel_sobial_namba_daikokucho": {
@@ -49,7 +49,7 @@
       },
       "jalan": {
         "review_avg": 4.5,
-        "review_count": 1249
+        "review_count": 1251
       }
     },
     "delstyle_osaka_shinsaibashi": {
@@ -88,8 +88,8 @@
         "review_count": 574
       },
       "jalan": {
-        "review_avg": 4.4,
-        "review_count": 510
+        "review_avg": 4.3,
+        "review_count": 511
       }
     },
     "dormy_inn_premium_namba_annex": {
@@ -98,8 +98,8 @@
         "review_count": 1232
       },
       "jalan": {
-        "review_avg": null,
-        "review_count": null
+        "review_avg": 4.4,
+        "review_count": 104
       }
     },
     "sotetsu_grand_fresa_osaka_namba": {
