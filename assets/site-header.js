@@ -35,14 +35,26 @@
   const exist = document.querySelector("header.site-header");
   exist ? exist.replaceWith(hdr) : document.body.prepend(hdr);
 
-    // ▼ ハンバーガー開閉（生成した要素に直接バインド）
+  // ▼ ハンバーガー開閉
   const toggle = hdr.querySelector(".menu-toggle");
   const navEl = hdr.querySelector(".site-nav");
   if (toggle && navEl) {
-    toggle.addEventListener("click", () => {
+    const closeMenu = () => { navEl.classList.remove("open"); toggle.setAttribute("aria-expanded","false"); };
+    toggle.setAttribute("aria-expanded","false");
+    toggle.addEventListener("click", (e) => {
+      e.stopPropagation();
+      const willOpen = !navEl.classList.contains("open");
       navEl.classList.toggle("open");
+      toggle.setAttribute("aria-expanded", willOpen ? "true" : "false");
     });
+    // メニュー外クリックで閉じる
+    document.addEventListener("click", (e) => {
+      if (!hdr.contains(e.target)) closeMenu();
+    });
+    // メニュー内リンクを押したら閉じる
+    navEl.querySelectorAll("a").forEach(a => a.addEventListener("click", closeMenu));
   }
+
 
 
   const hereFile = (location.pathname.split("/").pop() || "").toLowerCase();
