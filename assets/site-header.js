@@ -61,11 +61,15 @@
 
     // メニュー外クリックで閉じる
     document.addEventListener("click", (e) => {
-      if (!hdr.contains(e.target)) closeMenu();
+      // navEl 内か toggle 自身なら閉じない
+      if (hdr.contains(e.target)) return;
+      closeMenu();
     });
     document.addEventListener("touchstart", (e) => {
-      if (!hdr.contains(e.target)) closeMenu();
+      if (hdr.contains(e.target)) return;
+      closeMenu();
     }, {passive:true});
+
 
     // メニュー内リンクを押したら閉じる
     navEl.querySelectorAll("a").forEach(a => {
