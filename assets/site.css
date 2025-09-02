@@ -86,40 +86,38 @@ img{max-width:100%;height:auto;display:block}
   border: none;
 }
 
+/* ===== モバイルメニュー最終版（優先度強化） ===== */
 @media (max-width: 768px){
-  /* ヘッダーはスクロール固定しない。ドロップダウンの基準にするため relative */
-  .site-header{ position: relative !important; }
+  .site-header{ position: relative !important; } /* 絶対配置ドロップダウンの基準 */
   .site-header .wrap{ padding: 10px 12px !important; }
   .site-header .brand img{ max-height: 28px !important; }
 
-  /* ハンバーガー表示 */
   .menu-toggle{
     display:block !important;
-    font-size:24px;
-    line-height:1;
-    margin-left:auto;     /* 右端寄せ */
+    font-size:24px; line-height:1;
+    margin-left:auto;
     background:none; border:none; color:#fff; cursor:pointer;
+    z-index: 10001;
   }
 
-  /* メニューは初期状態で隠す（デスクトップの display:flex を確実に上書き） */
   .site-nav{
-    display:none !important;
+    display:none !important;              /* 初期は隠す（優先度強化） */
     flex-direction:column;
-    position:absolute;
-    top:100%; right:0;
-    width: 200px;
+    position:absolute; top:100%; right:0;
+    width: 210px;
     background: linear-gradient(90deg,#2D9CDB 0%, #E743B2 100%);
-    border-radius: 0 0 8px 8px;
-    box-shadow: 0 4px 12px rgba(0,0,0,.18);
+    border-radius: 0 0 10px 10px;
+    box-shadow: 0 6px 14px rgba(0,0,0,.18);
     padding:10px 0;
-    z-index: 9999;
+    z-index: 10000;
   }
-  .site-nav.open{ display:flex !important; }
+  .site-nav.open{ display:flex !important; }     /* 開いた時だけ表示（優先度強化） */
 
   .site-nav a{
-    padding:10px 14px;
+    padding:12px 14px;
     color:#fff; text-decoration:none;
+    font-weight:600;
   }
-  .site-nav a:hover{ background:rgba(255,255,255,.15); }
+  .site-nav a:hover{ background:rgba(255,255,255,.16); }
 }
 
