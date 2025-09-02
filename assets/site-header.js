@@ -1,30 +1,32 @@
-// assets/site-header.js — 共通ヘッダー + モバイルメニュー（確実動作版）
+// assets/site-header.js — 共通ヘッダー + モバイルメニュー（自動判別版）
 (() => {
   const script = document.currentScript;
   const active = script?.dataset?.active || "";
 
-  // ▼ 必要に応じてパスだけ各リポジトリ用に調整してください
-  const CFG = {
-    logo: "assets/バナー画像3.png",
-    title: "めちゃいいツール",
-    menu: [
-      // 本家 vacancy-dashboard 側なら：
-      // { id: "calendar",  label: "料金カレンダー", path: "https://mizutanigrandee.github.io/vacancy-dashboard/" },
-      // { id: "reviews",   label: "クチコミ比較",   path: "https://mizutanigrandee.github.io/ota-bridge/reviews.html" },
-      // { id: "compete",   label: "競合比較",       path: "https://mizutanigrandee.github.io/ota-bridge/daily_preview.html" }
-
-    ]
+  // ここだけあなたの公開URLに合わせて確認
+  const BASE = {
+    vac: "https://mizutanigrandee.github.io/vacancy-dashboard/",
+    ota: "https://mizutanigrandee.github.io/ota-bridge/"
   };
 
-  // すでにメニューが空のままにならないよう、デフォルトを安全に補う
-  if (!CFG.menu.length) {
-    CFG.menu = [
-      { id: "calendar",  label: "料金カレンダー", path: "index.html" },
-      { id: "reviews",   label: "クチコミ比較",   path: "reviews.html" },
-      { id: "compete",   label: "競合比較",       path: "daily_preview.html" }
-    ];
-  }
+  const path = (location.pathname || "").toLowerCase();
+  const isVac = path.includes("/vacancy-dashboard/");
+  const isOta = path.includes("/ota-bridge/");
 
+  // どのページでも正しいリンクになるよう自動生成
+  const MENU = [
+    { id: "calendar",  label: "料金カレンダー", path: BASE.vac },
+    { id: "reviews",   label: "クチコミ比較",   path: BASE.ota + "reviews.html" },
+    { id: "compete",   label: "競合比較",       path: BASE.ota + "daily_preview.html" }
+  ];
+
+  const CFG = {
+    logo: "assets/バナー画像3.png",   // 両リポに同名で置いてある想定
+    title: "めちゃいいツール",
+    menu: MENU
+  };
+
+  // ヘッダー描画
   const hdr = document.createElement("header");
   hdr.className = "site-header";
   hdr.innerHTML = `
@@ -33,9 +35,7 @@
         <img src="${CFG.logo}" alt="${CFG.title} logo" decoding="async" />
         <strong>${CFG.title}</strong>
       </a>
-
       <button class="menu-toggle" aria-label="メニュー" aria-expanded="false">☰</button>
-
       <nav class="site-nav" role="navigation" aria-label="Main">
         ${CFG.menu.map(m => `<a href="${m.path}" data-mid="${m.id}">${m.label}</a>`).join("")}
       </nav>
@@ -46,20 +46,15 @@
   if (exist) exist.replaceWith(hdr); else document.body.prepend(hdr);
 
   // アクティブ表示
-  const here = (location.pathname || "").toLowerCase();
+  const hereUrl = (location.href || "").toLowerCase();
   hdr.querySelectorAll(".site-nav a").forEach(a => {
     const id = a.getAttribute("data-mid");
     const href = (a.getAttribute("href") || "").toLowerCase();
-    if (active === id) {
-      a.classList.add("is-active");
-      a.setAttribute("aria-current", "page");
-    } else if (href && here.endsWith(href.split("/").pop())) {
-      a.classList.add("is-active");
-      a.setAttribute("aria-current","page");
-    }
+    const isMatch = active === id || hereUrl.startsWith(href);
+    if (isMatch) { a.classList.add("is-active"); a.setAttribute("aria-current","page"); }
   });
 
-  // --- モバイルメニュー（リンク遷移と競合しない版） ---
+  // --- モバイルメニュー（リンク遷移優先版） ---
   const toggle = hdr.querySelector(".menu-toggle");
   const navEl  = hdr.querySelector(".site-nav");
   if (toggle && navEl) {
@@ -67,22 +62,13 @@
     const openMenu  = () => { navEl.classList.add(OPEN);  toggle.setAttribute("aria-expanded","true");  };
     const closeMenu = () => { navEl.classList.remove(OPEN); toggle.setAttribute("aria-expanded","false"); };
 
-    const onToggle = (e) => {
-      e.stopPropagation();
-      if (navEl.classList.contains(OPEN)) closeMenu(); else openMenu();
-    };
+    const onToggle = (e) => { e.stopPropagation(); navEl.classList.toggle(OPEN); 
+      toggle.setAttribute("aria-expanded", navEl.classList.contains(OPEN) ? "true" : "false"); };
     toggle.addEventListener("pointerup", onToggle);
-    toggle.addEventListener("click", onToggle); // 保険
+    toggle.addEventListener("click", onToggle);
 
-    // 外側タップで閉じる（遷移を阻害しないよう次フレームで閉じる）
-    const onOutside = (e) => {
-      if (!hdr.contains(e.target)) setTimeout(closeMenu, 0);
-    };
+    // 外側タップで閉じる（遷移は阻害しない）
+    const onOutside = (e) => { if (!hdr.contains(e.target)) setTimeout(closeMenu, 0); };
     document.addEventListener("pointerdown", onOutside, {passive:true});
-
-    // a要素に closeMenu をバインドしない（遷移を優先）
-    // もし過去のコードで付けていたら、下記のような行は削除してください：
-    // navEl.querySelectorAll("a").forEach(a => a.addEventListener("click", closeMenu));
-    // navEl.querySelectorAll("a").forEach(a => a.addEventListener("touchstart", closeMenu, {passive:true}));
   }
 })();
