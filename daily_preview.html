@@ -315,6 +315,24 @@
 </script>
 
 <script defer src="assets/site-header.js" data-active="compete"></script>
+
+<script>
+(async () => {
+  const el = document.getElementById('lastUpdated');
+  if (!el) return;
+  try {
+    // ▼ daily_preview.html と同じリポに last_updated.json がある場合
+    const res = await fetch('last_updated.json', { cache: 'no-store' });
+    if (!res.ok) return;
+    const data = await res.json();
+    const ts = data?.jst || data?.updated || data?.timestamp;
+    if (ts) el.textContent = '最終更新: ' + ts;
+  } catch (e) {
+    // 読み込み失敗時は "—" のまま
+  }
+})();
+</script>
+
   
 </body>
 </html>
