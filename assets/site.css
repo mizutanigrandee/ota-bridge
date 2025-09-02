@@ -39,3 +39,32 @@ img{max-width:100%;height:auto;display:block}
 /* ヘッダー高さと見た目を daily_preview に完全合わせ */
 .site-header .wrap{ padding:10px 16px !important; }
 .site-header .brand img{ height:32px !important; } /* 30〜32でお好み調整OK */
+
+/* === 本家めちゃいいツールのヘッダーデザインに寄せる === */
+.site-header {
+  display: flex;
+  justify-content: center;   /* 中央揃え */
+  align-items: center;
+  padding: 16px 0;           /* 本家と同じ高さ */
+  background: linear-gradient(90deg, #2D9CDB 0%, #E743B2 100%);
+}
+
+.site-header .wrap {
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* 左：ロゴ / 右：メニュー */
+  padding: 0 16px;
+}
+
+.site-header .brand img {
+  height: auto;
+  max-height: 42px;   /* 本家バナーの高さに近づける */
+  width: auto;
+}
+
+.site-header .brand strong {
+  display: none;      /* ロゴ横のテキストは非表示 */
+}
