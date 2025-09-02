@@ -76,3 +76,41 @@ img{max-width:100%;height:auto;display:block}
   .site-header .brand img{ max-height: 28px !important; } /* 少し小さめに */
 }
 
+/* === スマホ用ハンバーガーメニュー === */
+.menu-toggle {
+  display: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #fff;
+  background: none;
+  border: none;
+}
+
+@media (max-width: 768px){
+  .site-nav {
+    display: none;
+    flex-direction: column;
+    background: linear-gradient(90deg,#2D9CDB 0%, #E743B2 100%);
+    position: absolute;
+    top: 100%;
+    right: 0;
+    width: 180px;
+    border-radius: 0 0 8px 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    padding: 10px 0;
+  }
+  .site-nav.open { display: flex; }
+
+  .site-nav a {
+    color: #fff;
+    padding: 10px 15px;
+    text-decoration: none;
+  }
+  .site-nav a:hover {
+    background: rgba(255,255,255,0.15);
+  }
+
+  .menu-toggle {
+    display: block;
+  }
+}
