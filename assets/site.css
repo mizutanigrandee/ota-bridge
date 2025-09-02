@@ -121,3 +121,7 @@ img{max-width:100%;height:auto;display:block}
   .site-nav a:hover{ background:rgba(255,255,255,.16); }
 }
 
+/* クリックヒット確認（保険） */
+@media (max-width: 768px){
+  .site-nav, .site-nav a { pointer-events: auto; }
+}
