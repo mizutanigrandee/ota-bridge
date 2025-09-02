@@ -35,25 +35,35 @@
   const exist = document.querySelector("header.site-header");
   exist ? exist.replaceWith(hdr) : document.body.prepend(hdr);
 
-  // ▼ ハンバーガー開閉（iOS Safari 対応: touchstart と click の両方を拾う）
+  // ▼ ハンバーガー開閉（リンク遷移と競合しない版）
   const toggle = hdr.querySelector(".menu-toggle");
-  const navEl = hdr.querySelector(".site-nav");
-
+  const navEl  = hdr.querySelector(".site-nav");
   if (toggle && navEl) {
-    const openClass = "open";
-    const openMenu = () => { navEl.classList.add(openClass);  toggle.setAttribute("aria-expanded","true");  };
-    const closeMenu = () => { navEl.classList.remove(openClass); toggle.setAttribute("aria-expanded","false"); };
+    const OPEN = "open";
+    const openMenu  = () => { navEl.classList.add(OPEN);  toggle.setAttribute("aria-expanded","true");  };
+    const closeMenu = () => { navEl.classList.remove(OPEN); toggle.setAttribute("aria-expanded","false"); };
 
+    // トグル（iOS対応：pointer系で統一。preventDefaultはしない）
     const onToggle = (e) => {
-      // タップとクリックが両方飛ぶ端末向けの二重起動防止
-      if (e.type === "touchstart") e.preventDefault();
       e.stopPropagation();
-      if (navEl.classList.contains(openClass)) {
-        closeMenu();
-      } else {
-        openMenu();
+      if (navEl.classList.contains(OPEN)) closeMenu(); else openMenu();
+    };
+    toggle.setAttribute("aria-expanded","false");
+    toggle.addEventListener("pointerup", onToggle);
+    toggle.addEventListener("click", onToggle); // 念のため
+
+    // メニュー内リンクは“そのまま遷移”させる（閉じ処理は遷移後でOK）
+    // → 何もバインドしない
+
+    // メニュー外タップで閉じる（遷移等のデフォルト動作と競合しないよう“次のtick”で閉じる）
+    const onOutside = (e) => {
+      if (!hdr.contains(e.target)) {
+        setTimeout(closeMenu, 0);  // ← これがポイント：ナビゲーションを先に実行させる
       }
     };
+    document.addEventListener("pointerdown", onOutside, {passive:true});
+  }
+
 
     toggle.setAttribute("aria-expanded","false");
     toggle.addEventListener("touchstart", onToggle, {passive:false});
