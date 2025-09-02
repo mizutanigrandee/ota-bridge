@@ -87,30 +87,39 @@ img{max-width:100%;height:auto;display:block}
 }
 
 @media (max-width: 768px){
-  .site-nav {
-    display: none;
-    flex-direction: column;
+  /* ヘッダーはスクロール固定しない。ドロップダウンの基準にするため relative */
+  .site-header{ position: relative !important; }
+  .site-header .wrap{ padding: 10px 12px !important; }
+  .site-header .brand img{ max-height: 28px !important; }
+
+  /* ハンバーガー表示 */
+  .menu-toggle{
+    display:block !important;
+    font-size:24px;
+    line-height:1;
+    margin-left:auto;     /* 右端寄せ */
+    background:none; border:none; color:#fff; cursor:pointer;
+  }
+
+  /* メニューは初期状態で隠す（デスクトップの display:flex を確実に上書き） */
+  .site-nav{
+    display:none !important;
+    flex-direction:column;
+    position:absolute;
+    top:100%; right:0;
+    width: 200px;
     background: linear-gradient(90deg,#2D9CDB 0%, #E743B2 100%);
-    position: absolute;
-    top: 100%;
-    right: 0;
-    width: 180px;
     border-radius: 0 0 8px 8px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-    padding: 10px 0;
+    box-shadow: 0 4px 12px rgba(0,0,0,.18);
+    padding:10px 0;
+    z-index: 9999;
   }
-  .site-nav.open { display: flex; }
+  .site-nav.open{ display:flex !important; }
 
-  .site-nav a {
-    color: #fff;
-    padding: 10px 15px;
-    text-decoration: none;
+  .site-nav a{
+    padding:10px 14px;
+    color:#fff; text-decoration:none;
   }
-  .site-nav a:hover {
-    background: rgba(255,255,255,0.15);
-  }
-
-  .menu-toggle {
-    display: block;
-  }
+  .site-nav a:hover{ background:rgba(255,255,255,.15); }
 }
+
