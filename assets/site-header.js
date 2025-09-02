@@ -13,10 +13,6 @@
       // { id: "reviews",   label: "クチコミ比較",   path: "https://mizutanigrandee.github.io/ota-bridge/reviews.html" },
       // { id: "compete",   label: "競合比較",       path: "https://mizutanigrandee.github.io/ota-bridge/daily_preview.html" }
 
-      // ota-bridge 側なら：
-      // { id: "calendar",  label: "料金カレンダー", path: "https://mizutanigrandee.github.io/vacancy-dashboard/" },
-      // { id: "reviews",   label: "クチコミ比較",   path: "reviews.html" },
-      // { id: "compete",   label: "競合比較",       path: "daily_preview.html" }
     ]
   };
 
