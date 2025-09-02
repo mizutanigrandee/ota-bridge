@@ -18,14 +18,19 @@
   hdr.innerHTML = `
     <div class="wrap">
       <a class="brand" href="${CFG.menu[0].path}">
-        <img src="${CFG.logo}" alt="${CFG.title} logo" decoding="async"/>
+        <img src="${CFG.logo}" alt="${CFG.title} logo" decoding="async" />
         <strong>${CFG.title}</strong>
       </a>
+
+      <!-- ▼ ここが追加：ハンバーガーボタン -->
+      <button class="menu-toggle" aria-label="メニュー">☰</button>
+
       <nav class="site-nav" role="navigation" aria-label="Main">
         ${CFG.menu.map(m => `<a href="${m.path}" data-mid="${m.id}">${m.label}</a>`).join("")}
       </nav>
     </div>
   `;
+
 
   const exist = document.querySelector("header.site-header");
   exist ? exist.replaceWith(hdr) : document.body.prepend(hdr);
