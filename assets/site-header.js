@@ -35,6 +35,16 @@
   const exist = document.querySelector("header.site-header");
   exist ? exist.replaceWith(hdr) : document.body.prepend(hdr);
 
+    // ▼ ハンバーガー開閉（生成した要素に直接バインド）
+  const toggle = hdr.querySelector(".menu-toggle");
+  const navEl = hdr.querySelector(".site-nav");
+  if (toggle && navEl) {
+    toggle.addEventListener("click", () => {
+      navEl.classList.toggle("open");
+    });
+  }
+
+
   const hereFile = (location.pathname.split("/").pop() || "").toLowerCase();
   document.querySelectorAll(".site-nav a").forEach(a => {
     const id = a.getAttribute("data-mid");
