@@ -1,17 +1,33 @@
-// assets/site-header.js
+// assets/site-header.js — 共通ヘッダー + モバイルメニュー（確実動作版）
 (() => {
   const script = document.currentScript;
   const active = script?.dataset?.active || "";
 
+  // ▼ 必要に応じてパスだけ各リポジトリ用に調整してください
   const CFG = {
-    logo: "assets/バナー画像3.png",  // ロゴファイル名は後で差し替え可
+    logo: "assets/バナー画像3.png",
     title: "めちゃいいツール",
     menu: [
-      { id: "calendar",  label: "料金カレンダー", path: "https://mizutanigrandee.github.io/vacancy-dashboard/" },
-      { id: "reviews",   label: "クチコミ比較",   path: "reviews.html" },
-      { id: "compete",   label: "競合比較",       path: "daily_preview.html" }
+      // 本家 vacancy-dashboard 側なら：
+      // { id: "calendar",  label: "料金カレンダー", path: "https://mizutanigrandee.github.io/vacancy-dashboard/" },
+      // { id: "reviews",   label: "クチコミ比較",   path: "https://mizutanigrandee.github.io/ota-bridge/reviews.html" },
+      // { id: "compete",   label: "競合比較",       path: "https://mizutanigrandee.github.io/ota-bridge/daily_preview.html" }
+
+      // ota-bridge 側なら：
+      // { id: "calendar",  label: "料金カレンダー", path: "https://mizutanigrandee.github.io/vacancy-dashboard/" },
+      // { id: "reviews",   label: "クチコミ比較",   path: "reviews.html" },
+      // { id: "compete",   label: "競合比較",       path: "daily_preview.html" }
     ]
   };
+
+  // すでにメニューが空のままにならないよう、デフォルトを安全に補う
+  if (!CFG.menu.length) {
+    CFG.menu = [
+      { id: "calendar",  label: "料金カレンダー", path: "index.html" },
+      { id: "reviews",   label: "クチコミ比較",   path: "reviews.html" },
+      { id: "compete",   label: "競合比較",       path: "daily_preview.html" }
+    ];
+  }
 
   const hdr = document.createElement("header");
   hdr.className = "site-header";
@@ -22,8 +38,7 @@
         <strong>${CFG.title}</strong>
       </a>
 
-      <!-- ▼ ここが追加：ハンバーガーボタン -->
-      <button class="menu-toggle" aria-label="メニュー">☰</button>
+      <button class="menu-toggle" aria-label="メニュー" aria-expanded="false">☰</button>
 
       <nav class="site-nav" role="navigation" aria-label="Main">
         ${CFG.menu.map(m => `<a href="${m.path}" data-mid="${m.id}">${m.label}</a>`).join("")}
@@ -31,11 +46,24 @@
     </div>
   `;
 
-
   const exist = document.querySelector("header.site-header");
-  exist ? exist.replaceWith(hdr) : document.body.prepend(hdr);
+  if (exist) exist.replaceWith(hdr); else document.body.prepend(hdr);
 
-  // ▼ ハンバーガー開閉（リンク遷移と競合しない版）
+  // アクティブ表示
+  const here = (location.pathname || "").toLowerCase();
+  hdr.querySelectorAll(".site-nav a").forEach(a => {
+    const id = a.getAttribute("data-mid");
+    const href = (a.getAttribute("href") || "").toLowerCase();
+    if (active === id) {
+      a.classList.add("is-active");
+      a.setAttribute("aria-current", "page");
+    } else if (href && here.endsWith(href.split("/").pop())) {
+      a.classList.add("is-active");
+      a.setAttribute("aria-current","page");
+    }
+  });
+
+  // --- モバイルメニュー（リンク遷移と競合しない版） ---
   const toggle = hdr.querySelector(".menu-toggle");
   const navEl  = hdr.querySelector(".site-nav");
   if (toggle && navEl) {
@@ -43,72 +71,22 @@
     const openMenu  = () => { navEl.classList.add(OPEN);  toggle.setAttribute("aria-expanded","true");  };
     const closeMenu = () => { navEl.classList.remove(OPEN); toggle.setAttribute("aria-expanded","false"); };
 
-    // トグル（iOS対応：pointer系で統一。preventDefaultはしない）
     const onToggle = (e) => {
       e.stopPropagation();
       if (navEl.classList.contains(OPEN)) closeMenu(); else openMenu();
     };
-    toggle.setAttribute("aria-expanded","false");
     toggle.addEventListener("pointerup", onToggle);
-    toggle.addEventListener("click", onToggle); // 念のため
+    toggle.addEventListener("click", onToggle); // 保険
 
-    // メニュー内リンクは“そのまま遷移”させる（閉じ処理は遷移後でOK）
-    // → 何もバインドしない
-
-    // メニュー外タップで閉じる（遷移等のデフォルト動作と競合しないよう“次のtick”で閉じる）
+    // 外側タップで閉じる（遷移を阻害しないよう次フレームで閉じる）
     const onOutside = (e) => {
-      if (!hdr.contains(e.target)) {
-        setTimeout(closeMenu, 0);  // ← これがポイント：ナビゲーションを先に実行させる
-      }
+      if (!hdr.contains(e.target)) setTimeout(closeMenu, 0);
     };
     document.addEventListener("pointerdown", onOutside, {passive:true});
+
+    // a要素に closeMenu をバインドしない（遷移を優先）
+    // もし過去のコードで付けていたら、下記のような行は削除してください：
+    // navEl.querySelectorAll("a").forEach(a => a.addEventListener("click", closeMenu));
+    // navEl.querySelectorAll("a").forEach(a => a.addEventListener("touchstart", closeMenu, {passive:true}));
   }
-
-
-    toggle.setAttribute("aria-expanded","false");
-    toggle.addEventListener("touchstart", onToggle, {passive:false});
-    toggle.addEventListener("click", onToggle);
-
-    // メニュー外クリックで閉じる
-    document.addEventListener("click", (e) => {
-      // navEl 内か toggle 自身なら閉じない
-      if (hdr.contains(e.target)) return;
-      closeMenu();
-    });
-    document.addEventListener("touchstart", (e) => {
-      if (hdr.contains(e.target)) return;
-      closeMenu();
-    }, {passive:true});
-
-
-    // メニュー内リンクを押したら閉じる
-    navEl.querySelectorAll("a").forEach(a => {
-      a.addEventListener("click", closeMenu);
-      a.addEventListener("touchstart", closeMenu, {passive:true});
-    });
-  }
-
-
-
-  const hereFile = (location.pathname.split("/").pop() || "").toLowerCase();
-  document.querySelectorAll(".site-nav a").forEach(a => {
-    const id = a.getAttribute("data-mid");
-    const file = (a.getAttribute("href") || "").split("/").pop().toLowerCase();
-    if (active === id || file === hereFile) {
-      a.classList.add("is-active");
-      a.setAttribute("aria-current","page");
-    }
-  });
 })();
-
-// === スマホ用ハンバーガーメニュー ===
-document.addEventListener("DOMContentLoaded", ()=>{
-  const toggle = document.querySelector(".menu-toggle");
-  const nav = document.querySelector(".site-nav");
-
-  if(toggle && nav){
-    toggle.addEventListener("click", ()=>{
-      nav.classList.toggle("open");
-    });
-  }
-});
