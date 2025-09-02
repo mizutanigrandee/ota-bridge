@@ -7,7 +7,7 @@
     logo: "assets/バナー画像3.png",  // ロゴファイル名は後で差し替え可
     title: "めちゃいいツール",
     menu: [
-      { id: "calendar",  label: "料金カレンダー", path: "index.html" },
+      { id: "calendar",  label: "料金カレンダー", path: "https://mizutanigrandee.github.io/vacancy-dashboard/" },
       { id: "reviews",   label: "クチコミ比較",   path: "reviews.html" },
       { id: "compete",   label: "競合比較",       path: "daily_preview.html" }
     ]
