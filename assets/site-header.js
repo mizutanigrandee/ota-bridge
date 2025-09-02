@@ -35,24 +35,43 @@
   const exist = document.querySelector("header.site-header");
   exist ? exist.replaceWith(hdr) : document.body.prepend(hdr);
 
-  // ▼ ハンバーガー開閉
+  // ▼ ハンバーガー開閉（iOS Safari 対応: touchstart と click の両方を拾う）
   const toggle = hdr.querySelector(".menu-toggle");
   const navEl = hdr.querySelector(".site-nav");
+
   if (toggle && navEl) {
-    const closeMenu = () => { navEl.classList.remove("open"); toggle.setAttribute("aria-expanded","false"); };
-    toggle.setAttribute("aria-expanded","false");
-    toggle.addEventListener("click", (e) => {
+    const openClass = "open";
+    const openMenu = () => { navEl.classList.add(openClass);  toggle.setAttribute("aria-expanded","true");  };
+    const closeMenu = () => { navEl.classList.remove(openClass); toggle.setAttribute("aria-expanded","false"); };
+
+    const onToggle = (e) => {
+      // タップとクリックが両方飛ぶ端末向けの二重起動防止
+      if (e.type === "touchstart") e.preventDefault();
       e.stopPropagation();
-      const willOpen = !navEl.classList.contains("open");
-      navEl.classList.toggle("open");
-      toggle.setAttribute("aria-expanded", willOpen ? "true" : "false");
-    });
+      if (navEl.classList.contains(openClass)) {
+        closeMenu();
+      } else {
+        openMenu();
+      }
+    };
+
+    toggle.setAttribute("aria-expanded","false");
+    toggle.addEventListener("touchstart", onToggle, {passive:false});
+    toggle.addEventListener("click", onToggle);
+
     // メニュー外クリックで閉じる
     document.addEventListener("click", (e) => {
       if (!hdr.contains(e.target)) closeMenu();
     });
+    document.addEventListener("touchstart", (e) => {
+      if (!hdr.contains(e.target)) closeMenu();
+    }, {passive:true});
+
     // メニュー内リンクを押したら閉じる
-    navEl.querySelectorAll("a").forEach(a => a.addEventListener("click", closeMenu));
+    navEl.querySelectorAll("a").forEach(a => {
+      a.addEventListener("click", closeMenu);
+      a.addEventListener("touchstart", closeMenu, {passive:true});
+    });
   }
 
 
