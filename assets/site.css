@@ -71,7 +71,7 @@ img{max-width:100%;height:auto;display:block}
 
 /* --- Mobile: ヘッダー固定を解除して高さも少し抑える --- */
 @media (max-width: 768px){
-  .site-header{ position: static !important; }     /* ← sticky解除 */
+  .site-header{ position: relative !important; }   
   .site-header .wrap{ padding: 10px 12px !important; }
   .site-header .brand img{ max-height: 28px !important; } /* 少し小さめに */
 }
