@@ -29,7 +29,15 @@
     #chart { display:block; width:100%; }
     @media (max-width: 768px) { .chart-wrap { height:360px; } }
 
-    .table-wrap { margin-top:12px; background:#fff; border:1px solid var(--line); border-radius:10px; overflow:auto; }
+    .table-wrap{
+      margin-top:12px;
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:10px;
+      overflow:auto;
+      -webkit-overflow-scrolling: touch; /* ← iOSでの横スクロールを滑らかに */
+    }
+
     table { width:100%; border-collapse:collapse; font-size:13px; }
     th, td { padding:8px 10px; border-bottom:1px solid var(--line); white-space:nowrap; text-align:right; }
     th:first-child, td:first-child { text-align:left; position:sticky; left:0; background:#fff; }
@@ -39,6 +47,25 @@
 
     select[multiple] { min-width:220px; min-height:120px; }
     @media (max-width: 768px) { select[multiple] { min-width:180px; min-height:100px; } }
+    /* ===== スマホ幅では先頭列stickyを無効化し、横スクロール前提にする ===== */
+    @media (max-width: 768px){
+      /* 横スクロールで全列を見せるため、テーブル自体を“内容幅”に */
+      #grid{
+        width: max-content;     /* 列数ぶんの横幅を確保 */
+        min-width: 680px;       /* 列が少ないときの下限（好みで調整可） */
+      }
+      /* 先頭列のstickyを無効化（ホテル名が価格セルにかぶるのを防止） */
+      th:first-child,
+      td:first-child{
+        position: static !important;
+        left: auto !important;
+        z-index: auto !important;
+        box-shadow: none !important;
+        background: #fff; /* 念のため背景は据え置き */
+        text-align: left; /* 見た目を維持 */
+      }
+    }
+
   </style>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1"></script>
 </head>
