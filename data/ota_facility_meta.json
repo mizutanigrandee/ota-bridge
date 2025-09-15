@@ -1,6 +1,6 @@
 {
-  "date": "2025-09-08",
-  "last_updated": "2025-09-08T02:11:37Z",
+  "date": "2025-09-15",
+  "last_updated": "2025-09-15T02:13:56Z",
   "hotels": {
     "hotel_grandee": {
       "rakuten": {
@@ -9,7 +9,7 @@
       },
       "jalan": {
         "review_avg": 4.6,
-        "review_count": 2706
+        "review_count": 2708
       }
     },
     "comp_a": {
@@ -19,7 +19,7 @@
       },
       "jalan": {
         "review_avg": 4.2,
-        "review_count": 291
+        "review_count": 299
       }
     },
     "comp_b": {
@@ -29,7 +29,7 @@
       },
       "jalan": {
         "review_avg": 4.5,
-        "review_count": 3486
+        "review_count": 3488
       }
     },
     "hotel_hillarys_shinsaibashi": {
@@ -39,7 +39,7 @@
       },
       "jalan": {
         "review_avg": 4.1,
-        "review_count": 140
+        "review_count": 146
       }
     },
     "hotel_sobial_namba_daikokucho": {
@@ -49,7 +49,7 @@
       },
       "jalan": {
         "review_avg": 4.5,
-        "review_count": 1262
+        "review_count": 1266
       }
     },
     "delstyle_osaka_shinsaibashi": {
@@ -89,7 +89,7 @@
       },
       "jalan": {
         "review_avg": 4.3,
-        "review_count": 512
+        "review_count": 514
       }
     },
     "dormy_inn_premium_namba_annex": {
@@ -118,8 +118,8 @@
         "review_count": 243
       },
       "jalan": {
-        "review_avg": 4.7,
-        "review_count": 240
+        "review_avg": 4.6,
+        "review_count": 241
       }
     },
     "shizutetsu_prezio_osaka_shinsaibashi": {
@@ -129,7 +129,7 @@
       },
       "jalan": {
         "review_avg": 4.6,
-        "review_count": 109
+        "review_count": 110
       }
     },
     "via_inn_shinsaibashi": {
@@ -139,7 +139,7 @@
       },
       "jalan": {
         "review_avg": 4.2,
-        "review_count": 2443
+        "review_count": 2444
       }
     },
     "sotetsu_fresa_inn_osaka_shinsaibashi": {
@@ -159,7 +159,7 @@
       },
       "jalan": {
         "review_avg": 4.3,
-        "review_count": 63
+        "review_count": 65
       }
     },
     "tokyustay_mercure_osaka_namba": {
@@ -168,7 +168,7 @@
         "review_count": 100
       },
       "jalan": {
-        "review_avg": 4.3,
+        "review_avg": 4.4,
         "review_count": 33
       }
     },
