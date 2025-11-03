@@ -1,6 +1,6 @@
 {
-  "date": "2025-10-27",
-  "last_updated": "2025-10-27T02:26:55Z",
+  "date": "2025-11-03",
+  "last_updated": "2025-11-03T02:23:47Z",
   "hotels": {
     "hotel_grandee": {
       "rakuten": {
@@ -19,7 +19,7 @@
       },
       "jalan": {
         "review_avg": 4.2,
-        "review_count": 341
+        "review_count": 343
       }
     },
     "comp_b": {
@@ -29,7 +29,7 @@
       },
       "jalan": {
         "review_avg": 4.5,
-        "review_count": 3507
+        "review_count": 3508
       }
     },
     "hotel_hillarys_shinsaibashi": {
@@ -49,7 +49,7 @@
       },
       "jalan": {
         "review_avg": 4.5,
-        "review_count": 1291
+        "review_count": 1293
       }
     },
     "delstyle_osaka_shinsaibashi": {
@@ -98,7 +98,7 @@
         "review_count": 1232
       },
       "jalan": {
-        "review_avg": 4.2,
+        "review_avg": 4.4,
         "review_count": 106
       }
     },
@@ -118,7 +118,7 @@
         "review_count": 243
       },
       "jalan": {
-        "review_avg": 4.5,
+        "review_avg": 4.6,
         "review_count": 243
       }
     },
@@ -138,8 +138,8 @@
         "review_count": 1569
       },
       "jalan": {
-        "review_avg": 4.3,
-        "review_count": 2449
+        "review_avg": 4.2,
+        "review_count": 2450
       }
     },
     "sotetsu_fresa_inn_osaka_shinsaibashi": {
