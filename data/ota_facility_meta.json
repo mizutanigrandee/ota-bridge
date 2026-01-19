@@ -1,6 +1,6 @@
 {
-  "date": "2026-01-12",
-  "last_updated": "2026-01-12T02:40:49Z",
+  "date": "2026-01-19",
+  "last_updated": "2026-01-19T02:39:34Z",
   "hotels": {
     "hotel_grandee": {
       "rakuten": {
@@ -9,7 +9,7 @@
       },
       "jalan": {
         "review_avg": 4.6,
-        "review_count": 2730
+        "review_count": 2731
       }
     },
     "comp_a": {
@@ -19,7 +19,7 @@
       },
       "jalan": {
         "review_avg": 4.2,
-        "review_count": 390
+        "review_count": 382
       }
     },
     "comp_b": {
@@ -29,7 +29,7 @@
       },
       "jalan": {
         "review_avg": 4.5,
-        "review_count": 3518
+        "review_count": 3520
       }
     },
     "hotel_hillarys_shinsaibashi": {
@@ -39,7 +39,7 @@
       },
       "jalan": {
         "review_avg": 4.2,
-        "review_count": 179
+        "review_count": 183
       }
     },
     "hotel_sobial_namba_daikokucho": {
@@ -48,8 +48,8 @@
         "review_count": 1249
       },
       "jalan": {
-        "review_avg": 4.5,
-        "review_count": 1324
+        "review_avg": 4.4,
+        "review_count": 1331
       }
     },
     "delstyle_osaka_shinsaibashi": {
@@ -68,7 +68,7 @@
         "review_count": 3441
       },
       "jalan": {
-        "review_avg": 4.1,
+        "review_avg": 4.2,
         "review_count": 2047
       }
     },
@@ -109,7 +109,7 @@
       },
       "jalan": {
         "review_avg": 4.0,
-        "review_count": 536
+        "review_count": 537
       }
     },
     "hotel_code_shinsaibashi": {
@@ -139,7 +139,7 @@
       },
       "jalan": {
         "review_avg": 4.3,
-        "review_count": 2456
+        "review_count": 2457
       }
     },
     "sotetsu_fresa_inn_osaka_shinsaibashi": {
@@ -159,7 +159,7 @@
       },
       "jalan": {
         "review_avg": 4.5,
-        "review_count": 75
+        "review_count": 76
       }
     },
     "tokyustay_mercure_osaka_namba": {
@@ -198,8 +198,8 @@
         "review_count": 170
       },
       "jalan": {
-        "review_avg": 4.3,
-        "review_count": 71
+        "review_avg": 4.4,
+        "review_count": 72
       }
     }
   }
