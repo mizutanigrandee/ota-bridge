@@ -42,9 +42,9 @@ jobs:
       - name: Run fetch_rakuten_min_prices.py
         env:
           RAKUTEN_APP_ID: ${{ secrets.RAKUTEN_APP_ID }}
-        run: |
-          python fetch_rakuten_min_prices.py
-
+          RAKUTEN_ACCESS_KEY: ${{ secrets.RAKUTEN_ACCESS_KEY }}
+        run: python fetch_rakuten_min_prices.py
+        
       - name: Commit & Push JSON (auto-rebase with retry)
         run: |
           set -e
