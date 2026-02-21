@@ -282,6 +282,9 @@ def main():
         "person": 1,
         "pricing_basis": "dailyCharge",
         "api": "openapi",
+        # ★追加：実際の取得期間とメタを一致させる
+        "window_days": WINDOW_DAYS,
+        "note": f"次の{WINDOW_DAYS}日分を日次更新。UIでは7日単位でページング表示。",
     })
 
     # まず「空の84日×全ホテルID」を作る
