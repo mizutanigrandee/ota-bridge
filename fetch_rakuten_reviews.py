@@ -180,6 +180,17 @@ def fetch_rakuten_review(hotel_no):
         "hotelNo": hotel_no,
     }
 
+    # ✅ 新API（accessKeyあり）
+    if RAKUTEN_ACCESS_KEY:
+        headers = {"Authorization": f"Bearer {RAKUTEN_ACCESS_KEY}"}
+        params["accessKey"] = RAKUTEN_ACCESS_KEY  # ★保険：パラメータでも渡す
+        return _request_with_retry(ENDPOINT_NEW, headers, params)
+
+    # ✅ 旧API（フォールバック）
+    headers = {}
+    return _request_with_retry(ENDPOINT_OLD, headers, params)
+    
+
 if RAKUTEN_ACCESS_KEY:
     headers = {"Authorization": f"Bearer {RAKUTEN_ACCESS_KEY}"}
     params["accessKey"] = RAKUTEN_ACCESS_KEY  # ★保険：パラメータでも渡す
