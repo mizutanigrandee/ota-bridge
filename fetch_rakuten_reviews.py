@@ -141,7 +141,11 @@ def fetch_rakuten_detail(hotel_no):
         "responseType": "middle",
         "hotelNo": hotel_no,
     }
-    headers = {"Authorization": f"Bearer {RAKUTEN_ACCESS_KEY}"}  # ★ヘッダーでも渡す（保険）
+    headers = {
+    "Authorization": f"Bearer {RAKUTEN_ACCESS_KEY}",
+    "User-Agent": "Mozilla/5.0 (compatible; ota-bridge/1.0; +https://github.com/mizutanigrandee/ota-bridge)",
+    "Accept": "application/json",
+}
 
     return _request_with_retry(ENDPOINT_NEW, headers, params)
 
