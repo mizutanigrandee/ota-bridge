@@ -178,6 +178,9 @@ def main():
     if not hotels:
         raise SystemExit("❌ hotel_master.json に enabled & rakuten_hotel_no のホテルが見つかりません")
 
+    print(f"[rakuten reviews] accessKey={'YES' if bool(RAKUTEN_ACCESS_KEY) else 'NO'}")
+    print(f"[rakuten reviews] endpoint={'NEW' if bool(RAKUTEN_ACCESS_KEY) else 'OLD'}")
+
     results = {}
     for hid, hotel_no in hotels.items():
         payload = fetch_rakuten_review(hotel_no)
