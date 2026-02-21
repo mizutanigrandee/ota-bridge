@@ -133,19 +133,29 @@ def fetch_rakuten_detail(hotel_no):
     if not RAKUTEN_ACCESS_KEY:
         raise SystemExit("❌ Secrets に RAKUTEN_ACCESS_KEY が必要です（新API必須）")
 
+    # ★Rakuten Developers の「許可されたWebサイト」に合わせる
+    ALLOWED_ORIGIN = "https://mizutanigrandee.github.io"
+    ALLOWED_REFERER = "https://mizutanigrandee.github.io/ota-bridge/"
+
     params = {
         "applicationId": RAKUTEN_APP_ID,
-        "accessKey": RAKUTEN_ACCESS_KEY,   # ★パラメータでも渡す
+        "accessKey": RAKUTEN_ACCESS_KEY,   # ★クエリでも渡す
         "format": "json",
         "formatVersion": 2,
         "responseType": "middle",
         "hotelNo": hotel_no,
     }
+
     headers = {
-    "Authorization": f"Bearer {RAKUTEN_ACCESS_KEY}",
-    "User-Agent": "Mozilla/5.0 (compatible; ota-bridge/1.0; +https://github.com/mizutanigrandee/ota-bridge)",
-    "Accept": "application/json",
-}
+        # ★認証（ヘッダーでも渡す：保険）
+        "Authorization": f"Bearer {RAKUTEN_ACCESS_KEY}",
+        # ★WAF/ポリシー対策
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120.0.0.0",
+        "Accept": "application/json",
+        # ★403対策（許可ドメイン/参照元）
+        "Origin": ALLOWED_ORIGIN,
+        "Referer": ALLOWED_REFERER,
+    }
 
     return _request_with_retry(ENDPOINT_NEW, headers, params)
 
