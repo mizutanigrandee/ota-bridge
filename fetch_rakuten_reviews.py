@@ -136,18 +136,33 @@ def _request_with_retry(url, headers, params):
     for i in range(1, MAX_RETRIES + 1):
         try:
             r = requests.get(url, headers=headers, params=params, timeout=TIMEOUT_SEC)
+
+            # 429だけは待ってリトライ
             if r.status_code == 429:
                 ra = r.headers.get("Retry-After")
                 wait = float(ra) if ra and ra.isdigit() else backoff
                 time.sleep(wait)
                 backoff = min(backoff * 2, 30)
                 continue
-            r.raise_for_status()
-            return r.json()
+
+            # 200は通常JSON
+            if r.status_code == 200:
+                return r.json()
+
+            # 200以外は「エラーJSON」を返す（main側でログできる）
+            try:
+                err = r.json()
+            except Exception:
+                err = {"error": "http_error", "error_description": r.text[:300]}
+            err["_http_status"] = r.status_code
+            return err
+
         except Exception as e:
             time.sleep(backoff)
             backoff = min(backoff * 2, 30)
-    return None
+
+    return {"error": "retry_exhausted", "error_description": f"failed after {MAX_RETRIES} retries"}
+    
 
 def fetch_rakuten_review(hotel_no):
     """
@@ -165,10 +180,11 @@ def fetch_rakuten_review(hotel_no):
         "hotelNo": hotel_no,
     }
 
-    if RAKUTEN_ACCESS_KEY:
-        headers = {"Authorization": f"Bearer {RAKUTEN_ACCESS_KEY}"}
-        return _request_with_retry(ENDPOINT_NEW, headers, params)
-
+if RAKUTEN_ACCESS_KEY:
+    headers = {"Authorization": f"Bearer {RAKUTEN_ACCESS_KEY}"}
+    params["accessKey"] = RAKUTEN_ACCESS_KEY  # ★保険：パラメータでも渡す
+    return _request_with_retry(ENDPOINT_NEW, headers, params)
+    
     # フォールバック（旧API）
     headers = {}
     return _request_with_retry(ENDPOINT_OLD, headers, params)
