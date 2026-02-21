@@ -21,9 +21,20 @@ MASTER_PATH = os.path.join(DATA_DIR, "hotel_master.json")
 OUT_PATH    = os.path.join(DATA_DIR, "competitor_min_prices.json")
 LAST_PATH   = os.path.join(DATA_DIR, "last_updated.json")
 
-APP_ID = os.environ.get("RAKUTEN_APP_ID", "")
-if not APP_ID:
-    raise SystemExit("❌ RAKUTEN_APP_ID が未設定です（GitHub Secrets に設定してください）")
+ACCESS_KEY = os.environ.get("RAKUTEN_ACCESS_KEY", "")
+if not ACCESS_KEY:
+    raise SystemExit("❌ RAKUTEN_ACCESS_KEY が未設定です（GitHub Secrets に設定してください）")
+
+ALLOWED_ORIGIN = "https://mizutanigrandee.github.io"
+ALLOWED_REFERER = "https://mizutanigrandee.github.io/ota-bridge/"
+
+RAKUTEN_HEADERS = {
+    "Authorization": f"Bearer {ACCESS_KEY}",
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120.0.0.0",
+    "Accept": "application/json",
+    "Origin": ALLOWED_ORIGIN,
+    "Referer": ALLOWED_REFERER,
+}
 
 # ===== 収集期間・レート制御（必要に応じて調整可） =====
 WINDOW_DAYS       = 84        # ← 28 から 84（約12週）へ拡張
@@ -77,7 +88,7 @@ def build_empty_days(enabled_ids: List[str], dates: List[str]) -> Dict[str, Dict
 
 # --- 最小の楽天取得（成功すれば上書き、失敗しても無視） ---
 # 窓口：VacantHotelSearch 20170426（detailClassCode=D / 施設番号直接指定）
-RAKUTEN_ENDPOINT = "https://app.rakuten.co.jp/services/api/Travel/VacantHotelSearch/20170426"
+RAKUTEN_ENDPOINT = "https://openapi.rakuten.co.jp/engine/api/Travel/VacantHotelSearch/20170426"
 
 def fetch_min_price_for_date(hotels: List[Dict[str, Any]], ymd: str) -> Dict[str, int]:
     """
@@ -93,18 +104,21 @@ def fetch_min_price_for_date(hotels: List[Dict[str, Any]], ymd: str) -> Dict[str
         hotel_no = h["rakuten_hotel_no"]
 
         params = {
-            "applicationId": APP_ID,
-            "format": "json",
-            "checkinDate": ymd,
-            "checkoutDate": checkout,
-            "hotelNo": hotel_no,   # 施設を直接指定
-            "carrier": 0,
-            "responseType": "large",
-            "hits": 10,
-            "adultNum": 1
-        }
+    "applicationId": APP_ID,
+    "accessKey": ACCESS_KEY,     # ★追加（新API必須）
+    "format": "json",
+    "formatVersion": 2,          # ★追加（レビュー側と揃える・安定化）
+    "checkinDate": ymd,
+    "checkoutDate": checkout,
+    "hotelNo": hotel_no,
+    "carrier": 0,
+    "responseType": "large",
+    "hits": 10,
+    "adultNum": 1
+}
+        
         try:
-            resp = requests.get(RAKUTEN_ENDPOINT, params=params, timeout=HTTP_TIMEOUT_SEC)
+            resp = requests.get(RAKUTEN_ENDPOINT, headers=RAKUTEN_HEADERS, params=params, timeout=HTTP_TIMEOUT_SEC)
             resp.raise_for_status()
             data = resp.json()
         except Exception:
