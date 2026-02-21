@@ -157,42 +157,65 @@ def _request_json_with_retry(params: Dict[str, Any]) -> Optional[Dict[str, Any]]
 def _extract_min_daily_charge(data: Dict[str, Any], target_hotel_no: int) -> Optional[int]:
     """
     レスポンスから「その日付の dailyCharge 最小値」を拾う
+    - hotels要素が dict / list の両方に対応
     """
     cand_daily: Optional[int] = None
 
     items = data.get("hotels", []) or []
     for item in items:
-        parts = item.get("hotel", []) or []
+        # ✅ openapi側で item が list になるケースがある
+        if isinstance(item, dict):
+            parts = item.get("hotel", []) or []
+        elif isinstance(item, list):
+            parts = item
+        else:
+            continue
 
         got_hotel_no = None
 
         for part in parts:
-            # basic
+            if not isinstance(part, dict):
+                continue
+
+            # hotelBasicInfo
             basic = part.get("hotelBasicInfo")
             if isinstance(basic, dict):
                 got_hotel_no = basic.get("hotelNo", got_hotel_no)
 
-            # rooms
-            room_list = part.get("roomInfo")
-            if isinstance(room_list, list):
-                for r in room_list:
-                    dc = r.get("dailyCharge", {})
-                    if not isinstance(dc, dict):
-                        continue
+            # roomInfo（list / dict の両対応）
+            room_info = part.get("roomInfo")
+            room_iter: List[Any] = []
+            if isinstance(room_info, list):
+                room_iter = room_info
+            elif isinstance(room_info, dict):
+                # {"room":[...]} の形式にも対応
+                if isinstance(room_info.get("room"), list):
+                    room_iter = room_info.get("room", [])
+                else:
+                    room_iter = [room_info]
 
-                    v = dc.get("rakutenCharge")
-                    if v is None:
-                        v = dc.get("total")
+            for r in room_iter:
+                if not isinstance(r, dict):
+                    continue
 
-                    if isinstance(v, (int, float)) and v >= 0:
-                        v = int(v)
-                        cand_daily = v if cand_daily is None else min(cand_daily, v)
+                dc = r.get("dailyCharge")
+                # dailyCharge が dict 以外でも落ちないように保険
+                if not isinstance(dc, dict):
+                    continue
 
+                v = dc.get("rakutenCharge")
+                if v is None:
+                    v = dc.get("total")
+
+                if isinstance(v, (int, float)) and v >= 0:
+                    v = int(v)
+                    cand_daily = v if cand_daily is None else min(cand_daily, v)
+
+        # hotelNo が一致していて cand_daily が見つかったら返す
         if got_hotel_no == target_hotel_no and isinstance(cand_daily, int):
             return cand_daily
 
     return None
-
 
 def fetch_min_price_for_date(hotels: List[Dict[str, Any]], ymd: str) -> Dict[str, int]:
     """
