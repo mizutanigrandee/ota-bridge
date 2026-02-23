@@ -1,6 +1,6 @@
 {
   "date": "2026-02-23",
-  "last_updated": "2026-02-22T23:59:13Z",
+  "last_updated": "2026-02-23T03:23:05Z",
   "hotels": {
     "hotel_grandee": {
       "rakuten": {
@@ -9,7 +9,7 @@
       },
       "jalan": {
         "review_avg": 4.6,
-        "review_count": 2735
+        "review_count": 2736
       }
     },
     "comp_a": {
@@ -19,7 +19,7 @@
       },
       "jalan": {
         "review_avg": 4.2,
-        "review_count": 392
+        "review_count": 391
       }
     },
     "comp_b": {
@@ -39,7 +39,7 @@
       },
       "jalan": {
         "review_avg": 4.2,
-        "review_count": 196
+        "review_count": 193
       }
     },
     "hotel_sobial_namba_daikokucho": {
@@ -49,7 +49,7 @@
       },
       "jalan": {
         "review_avg": 4.4,
-        "review_count": 1342
+        "review_count": 1347
       }
     },
     "delstyle_osaka_shinsaibashi": {
@@ -59,7 +59,7 @@
       },
       "jalan": {
         "review_avg": 4.7,
-        "review_count": 217
+        "review_count": 218
       }
     },
     "ark_hotel_osaka_shinsaibashi": {
@@ -68,8 +68,8 @@
         "review_count": 3497
       },
       "jalan": {
-        "review_avg": 4.2,
-        "review_count": 2052
+        "review_avg": 4.1,
+        "review_count": 2053
       }
     },
     "richmond_namba_daikokucho": {
@@ -78,8 +78,8 @@
         "review_count": 1943
       },
       "jalan": {
-        "review_avg": 4.4,
-        "review_count": 1080
+        "review_avg": 4.3,
+        "review_count": 1081
       }
     },
     "hennna_hotel_osaka_namba": {
@@ -129,7 +129,7 @@
       },
       "jalan": {
         "review_avg": 4.6,
-        "review_count": 131
+        "review_count": 133
       }
     },
     "via_inn_shinsaibashi": {
@@ -169,7 +169,7 @@
       },
       "jalan": {
         "review_avg": 4.2,
-        "review_count": 37
+        "review_count": 38
       }
     },
     "quintessa_hotel_osaka_shinsaibashi": {
@@ -198,8 +198,8 @@
         "review_count": 249
       },
       "jalan": {
-        "review_avg": 4.6,
-        "review_count": 77
+        "review_avg": 4.5,
+        "review_count": 78
       }
     }
   }
