@@ -1,6 +1,6 @@
 {
   "date": "2026-03-30",
-  "last_updated": "2026-03-30T00:03:53Z",
+  "last_updated": "2026-03-30T03:45:29Z",
   "hotels": {
     "hotel_grandee": {
       "rakuten": {
@@ -19,7 +19,7 @@
       },
       "jalan": {
         "review_avg": 4.2,
-        "review_count": 408
+        "review_count": 411
       }
     },
     "comp_b": {
@@ -58,7 +58,7 @@
         "review_count": 249
       },
       "jalan": {
-        "review_avg": 4.8,
+        "review_avg": 4.7,
         "review_count": 219
       }
     },
@@ -68,7 +68,7 @@
         "review_count": 3523
       },
       "jalan": {
-        "review_avg": 4.1,
+        "review_avg": 4.2,
         "review_count": 2059
       }
     },
@@ -79,7 +79,7 @@
       },
       "jalan": {
         "review_avg": 4.3,
-        "review_count": 1085
+        "review_count": 1086
       }
     },
     "hennna_hotel_osaka_namba": {
@@ -88,7 +88,7 @@
         "review_count": 650
       },
       "jalan": {
-        "review_avg": 4.2,
+        "review_avg": 4.1,
         "review_count": 535
       }
     },
@@ -109,7 +109,7 @@
       },
       "jalan": {
         "review_avg": 3.9,
-        "review_count": 539
+        "review_count": 541
       }
     },
     "hotel_code_shinsaibashi": {
@@ -129,7 +129,7 @@
       },
       "jalan": {
         "review_avg": 4.5,
-        "review_count": 139
+        "review_count": 142
       }
     },
     "via_inn_shinsaibashi": {
@@ -199,7 +199,7 @@
       },
       "jalan": {
         "review_avg": 4.5,
-        "review_count": 81
+        "review_count": 82
       }
     }
   }
