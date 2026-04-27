@@ -1,6 +1,6 @@
 {
   "date": "2026-04-27",
-  "last_updated": "2026-04-27T01:15:32Z",
+  "last_updated": "2026-04-27T04:04:15Z",
   "hotels": {
     "hotel_grandee": {
       "rakuten": {
@@ -19,7 +19,7 @@
       },
       "jalan": {
         "review_avg": 4.2,
-        "review_count": 417
+        "review_count": 415
       }
     },
     "comp_b": {
@@ -39,7 +39,7 @@
       },
       "jalan": {
         "review_avg": 4.1,
-        "review_count": 206
+        "review_count": 209
       }
     },
     "hotel_sobial_namba_daikokucho": {
@@ -49,7 +49,7 @@
       },
       "jalan": {
         "review_avg": 4.4,
-        "review_count": 1363
+        "review_count": 1366
       }
     },
     "delstyle_osaka_shinsaibashi": {
@@ -69,7 +69,7 @@
       },
       "jalan": {
         "review_avg": 4.2,
-        "review_count": 2063
+        "review_count": 2064
       }
     },
     "richmond_namba_daikokucho": {
@@ -89,7 +89,7 @@
       },
       "jalan": {
         "review_avg": 4.1,
-        "review_count": 535
+        "review_count": 537
       }
     },
     "dormy_inn_premium_namba_annex": {
@@ -98,8 +98,8 @@
         "review_count": 1423
       },
       "jalan": {
-        "review_avg": 4.2,
-        "review_count": 112
+        "review_avg": 4.3,
+        "review_count": 113
       }
     },
     "sotetsu_grand_fresa_osaka_namba": {
@@ -108,7 +108,7 @@
         "review_count": 600
       },
       "jalan": {
-        "review_avg": 4.0,
+        "review_avg": 3.9,
         "review_count": 542
       }
     },
@@ -139,7 +139,7 @@
       },
       "jalan": {
         "review_avg": 4.2,
-        "review_count": 2462
+        "review_count": 2463
       }
     },
     "sotetsu_fresa_inn_osaka_shinsaibashi": {
@@ -159,7 +159,7 @@
       },
       "jalan": {
         "review_avg": 4.4,
-        "review_count": 88
+        "review_count": 85
       }
     },
     "tokyustay_mercure_osaka_namba": {
@@ -168,7 +168,7 @@
         "review_count": 137
       },
       "jalan": {
-        "review_avg": 4.3,
+        "review_avg": 4.6,
         "review_count": 38
       }
     },
@@ -198,7 +198,7 @@
         "review_count": 310
       },
       "jalan": {
-        "review_avg": 4.4,
+        "review_avg": 4.3,
         "review_count": 86
       }
     }
