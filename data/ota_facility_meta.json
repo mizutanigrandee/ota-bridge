@@ -1,6 +1,6 @@
 {
   "date": "2026-05-04",
-  "last_updated": "2026-05-04T01:20:41Z",
+  "last_updated": "2026-05-04T04:10:31Z",
   "hotels": {
     "hotel_grandee": {
       "rakuten": {
@@ -9,7 +9,7 @@
       },
       "jalan": {
         "review_avg": 4.6,
-        "review_count": 2748
+        "review_count": 2749
       }
     },
     "comp_a": {
@@ -19,7 +19,7 @@
       },
       "jalan": {
         "review_avg": 4.2,
-        "review_count": 415
+        "review_count": 413
       }
     },
     "comp_b": {
@@ -29,7 +29,7 @@
       },
       "jalan": {
         "review_avg": 4.5,
-        "review_count": 3529
+        "review_count": 3530
       }
     },
     "hotel_hillarys_shinsaibashi": {
@@ -39,7 +39,7 @@
       },
       "jalan": {
         "review_avg": 4.1,
-        "review_count": 209
+        "review_count": 208
       }
     },
     "hotel_sobial_namba_daikokucho": {
@@ -49,7 +49,7 @@
       },
       "jalan": {
         "review_avg": 4.4,
-        "review_count": 1366
+        "review_count": 1370
       }
     },
     "delstyle_osaka_shinsaibashi": {
@@ -79,7 +79,7 @@
       },
       "jalan": {
         "review_avg": 4.4,
-        "review_count": 1086
+        "review_count": 1087
       }
     },
     "hennna_hotel_osaka_namba": {
@@ -89,7 +89,7 @@
       },
       "jalan": {
         "review_avg": 4.1,
-        "review_count": 537
+        "review_count": 538
       }
     },
     "dormy_inn_premium_namba_annex": {
@@ -128,8 +128,8 @@
         "review_count": 392
       },
       "jalan": {
-        "review_avg": 4.6,
-        "review_count": 144
+        "review_avg": 4.5,
+        "review_count": 146
       }
     },
     "via_inn_shinsaibashi": {
@@ -159,7 +159,7 @@
       },
       "jalan": {
         "review_avg": 4.4,
-        "review_count": 85
+        "review_count": 86
       }
     },
     "tokyustay_mercure_osaka_namba": {
@@ -168,7 +168,7 @@
         "review_count": 140
       },
       "jalan": {
-        "review_avg": 4.6,
+        "review_avg": 4.5,
         "review_count": 38
       }
     },
