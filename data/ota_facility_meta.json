@@ -1,11 +1,11 @@
 {
-  "date": "2026-05-16",
-  "last_updated": "2026-05-16T01:25:09Z",
+  "date": "2026-05-17",
+  "last_updated": "2026-05-17T01:31:03Z",
   "hotels": {
     "hotel_grandee": {
       "rakuten": {
-        "review_avg": 4.37,
-        "review_count": 1885
+        "review_avg": 4.36,
+        "review_count": 1889
       },
       "jalan": {
         "review_avg": 4.6,
@@ -15,7 +15,7 @@
     "comp_a": {
       "rakuten": {
         "review_avg": 4.33,
-        "review_count": 1504
+        "review_count": 1539
       },
       "jalan": {
         "review_avg": 4.2,
@@ -25,7 +25,7 @@
     "comp_b": {
       "rakuten": {
         "review_avg": 4.33,
-        "review_count": 3695
+        "review_count": 3698
       },
       "jalan": {
         "review_avg": 4.4,
@@ -34,8 +34,8 @@
     },
     "hotel_hillarys_shinsaibashi": {
       "rakuten": {
-        "review_avg": 4.17,
-        "review_count": 1162
+        "review_avg": 4.18,
+        "review_count": 1178
       },
       "jalan": {
         "review_avg": 4.1,
@@ -45,7 +45,7 @@
     "hotel_sobial_namba_daikokucho": {
       "rakuten": {
         "review_avg": 4.42,
-        "review_count": 1574
+        "review_count": 1583
       },
       "jalan": {
         "review_avg": 4.4,
@@ -55,7 +55,7 @@
     "delstyle_osaka_shinsaibashi": {
       "rakuten": {
         "review_avg": 4.54,
-        "review_count": 267
+        "review_count": 269
       },
       "jalan": {
         "review_avg": 4.7,
@@ -64,8 +64,8 @@
     },
     "ark_hotel_osaka_shinsaibashi": {
       "rakuten": {
-        "review_avg": 3.93,
-        "review_count": 3550
+        "review_avg": 3.9,
+        "review_count": 3556
       },
       "jalan": {
         "review_avg": 4.2,
@@ -74,8 +74,8 @@
     },
     "richmond_namba_daikokucho": {
       "rakuten": {
-        "review_avg": 4.38,
-        "review_count": 1999
+        "review_avg": 4.39,
+        "review_count": 2003
       },
       "jalan": {
         "review_avg": 4.5,
@@ -85,7 +85,7 @@
     "hennna_hotel_osaka_namba": {
       "rakuten": {
         "review_avg": 4.06,
-        "review_count": 670
+        "review_count": 673
       },
       "jalan": {
         "review_avg": 4.1,
@@ -95,7 +95,7 @@
     "dormy_inn_premium_namba_annex": {
       "rakuten": {
         "review_avg": 4.37,
-        "review_count": 1436
+        "review_count": 1444
       },
       "jalan": {
         "review_avg": 4.3,
@@ -104,8 +104,8 @@
     },
     "sotetsu_grand_fresa_osaka_namba": {
       "rakuten": {
-        "review_avg": 4.1,
-        "review_count": 604
+        "review_avg": 4.09,
+        "review_count": 605
       },
       "jalan": {
         "review_avg": 3.9,
@@ -115,7 +115,7 @@
     "hotel_code_shinsaibashi": {
       "rakuten": {
         "review_avg": 4.26,
-        "review_count": 293
+        "review_count": 295
       },
       "jalan": {
         "review_avg": 4.3,
@@ -125,7 +125,7 @@
     "shizutetsu_prezio_osaka_shinsaibashi": {
       "rakuten": {
         "review_avg": 4.51,
-        "review_count": 392
+        "review_count": 394
       },
       "jalan": {
         "review_avg": 4.6,
@@ -134,8 +134,8 @@
     },
     "via_inn_shinsaibashi": {
       "rakuten": {
-        "review_avg": 4.16,
-        "review_count": 1605
+        "review_avg": 4.15,
+        "review_count": 1606
       },
       "jalan": {
         "review_avg": 4.2,
@@ -145,7 +145,7 @@
     "sotetsu_fresa_inn_osaka_shinsaibashi": {
       "rakuten": {
         "review_avg": 4.0,
-        "review_count": 267
+        "review_count": 268
       },
       "jalan": {
         "review_avg": 4.3,
@@ -154,8 +154,8 @@
     },
     "hearton_hotel_shinsaibashi": {
       "rakuten": {
-        "review_avg": 4.07,
-        "review_count": 2971
+        "review_avg": 4.06,
+        "review_count": 2982
       },
       "jalan": {
         "review_avg": 4.3,
@@ -164,8 +164,8 @@
     },
     "tokyustay_mercure_osaka_namba": {
       "rakuten": {
-        "review_avg": 4.31,
-        "review_count": 145
+        "review_avg": 4.32,
+        "review_count": 146
       },
       "jalan": {
         "review_avg": 4.5,
@@ -185,7 +185,7 @@
     "bestwestern_hotel_fino_osaka_shinsaibashi": {
       "rakuten": {
         "review_avg": 3.66,
-        "review_count": 651
+        "review_count": 652
       },
       "jalan": {
         "review_avg": 3.7,
@@ -194,8 +194,8 @@
     },
     "koko_hotel_osaka_shinsaibashi": {
       "rakuten": {
-        "review_avg": 4.45,
-        "review_count": 321
+        "review_avg": 4.46,
+        "review_count": 323
       },
       "jalan": {
         "review_avg": 4.4,
