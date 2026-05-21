@@ -10,140 +10,118 @@
     "api": "openapi"
   },
   "days": {
-    "2026-05-20": {
-      "hotel_grandee": 16000,
-      "comp_a": 10300,
-      "comp_b": 28400,
-      "hotel_hillarys_shinsaibashi": 11300,
-      "hotel_sobial_namba_daikokucho": 11700,
-      "delstyle_osaka_shinsaibashi": 18050,
-      "ark_hotel_osaka_shinsaibashi": 10400,
-      "richmond_namba_daikokucho": null,
-      "hennna_hotel_osaka_namba": 12000,
-      "dormy_inn_premium_namba_annex": 15500,
-      "sotetsu_grand_fresa_osaka_namba": 7000,
-      "hotel_code_shinsaibashi": null,
-      "shizutetsu_prezio_osaka_shinsaibashi": 14820,
-      "via_inn_shinsaibashi": 10490,
-      "sotetsu_fresa_inn_osaka_shinsaibashi": null,
-      "hearton_hotel_shinsaibashi": null,
-      "tokyustay_mercure_osaka_namba": 34200,
-      "quintessa_hotel_osaka_shinsaibashi": 14800,
-      "bestwestern_hotel_fino_osaka_shinsaibashi": 10450,
-      "koko_hotel_osaka_shinsaibashi": 14535
-    },
     "2026-05-21": {
-      "hotel_grandee": 27300,
-      "comp_a": 13700,
-      "comp_b": 35600,
-      "hotel_hillarys_shinsaibashi": 19200,
-      "hotel_sobial_namba_daikokucho": 15700,
-      "delstyle_osaka_shinsaibashi": 31350,
-      "ark_hotel_osaka_shinsaibashi": 24600,
+      "hotel_grandee": 32000,
+      "comp_a": 18000,
+      "comp_b": 38000,
+      "hotel_hillarys_shinsaibashi": null,
+      "hotel_sobial_namba_daikokucho": 10200,
+      "delstyle_osaka_shinsaibashi": null,
+      "ark_hotel_osaka_shinsaibashi": 12900,
       "richmond_namba_daikokucho": null,
-      "hennna_hotel_osaka_namba": 17200,
+      "hennna_hotel_osaka_namba": null,
       "dormy_inn_premium_namba_annex": null,
-      "sotetsu_grand_fresa_osaka_namba": 12394,
+      "sotetsu_grand_fresa_osaka_namba": null,
       "hotel_code_shinsaibashi": null,
       "shizutetsu_prezio_osaka_shinsaibashi": null,
-      "via_inn_shinsaibashi": 21620,
+      "via_inn_shinsaibashi": null,
       "sotetsu_fresa_inn_osaka_shinsaibashi": null,
       "hearton_hotel_shinsaibashi": null,
-      "tokyustay_mercure_osaka_namba": 39200,
-      "quintessa_hotel_osaka_shinsaibashi": 16600,
+      "tokyustay_mercure_osaka_namba": 37200,
+      "quintessa_hotel_osaka_shinsaibashi": null,
       "bestwestern_hotel_fino_osaka_shinsaibashi": null,
       "koko_hotel_osaka_shinsaibashi": null
     },
     "2026-05-22": {
-      "hotel_grandee": 12800,
+      "hotel_grandee": 11800,
       "comp_a": 9100,
       "comp_b": null,
       "hotel_hillarys_shinsaibashi": 10400,
       "hotel_sobial_namba_daikokucho": 8800,
       "delstyle_osaka_shinsaibashi": 24700,
-      "ark_hotel_osaka_shinsaibashi": 8800,
-      "richmond_namba_daikokucho": 14300,
-      "hennna_hotel_osaka_namba": 12500,
-      "dormy_inn_premium_namba_annex": 12000,
+      "ark_hotel_osaka_shinsaibashi": 8400,
+      "richmond_namba_daikokucho": null,
+      "hennna_hotel_osaka_namba": 10000,
+      "dormy_inn_premium_namba_annex": 14000,
       "sotetsu_grand_fresa_osaka_namba": 9504,
-      "hotel_code_shinsaibashi": 9100,
+      "hotel_code_shinsaibashi": 10500,
       "shizutetsu_prezio_osaka_shinsaibashi": 18240,
-      "via_inn_shinsaibashi": 16640,
-      "sotetsu_fresa_inn_osaka_shinsaibashi": null,
+      "via_inn_shinsaibashi": 16530,
+      "sotetsu_fresa_inn_osaka_shinsaibashi": 10935,
       "hearton_hotel_shinsaibashi": 9300,
       "tokyustay_mercure_osaka_namba": 46200,
-      "quintessa_hotel_osaka_shinsaibashi": 17600,
-      "bestwestern_hotel_fino_osaka_shinsaibashi": 10450,
+      "quintessa_hotel_osaka_shinsaibashi": 16200,
+      "bestwestern_hotel_fino_osaka_shinsaibashi": 9500,
       "koko_hotel_osaka_shinsaibashi": 15130
     },
     "2026-05-23": {
-      "hotel_grandee": 26000,
+      "hotel_grandee": 36800,
       "comp_a": 26400,
-      "comp_b": 41200,
+      "comp_b": null,
       "hotel_hillarys_shinsaibashi": null,
-      "hotel_sobial_namba_daikokucho": 19200,
+      "hotel_sobial_namba_daikokucho": 30100,
       "delstyle_osaka_shinsaibashi": 44650,
-      "ark_hotel_osaka_shinsaibashi": 28000,
-      "richmond_namba_daikokucho": 49500,
-      "hennna_hotel_osaka_namba": 23000,
+      "ark_hotel_osaka_shinsaibashi": 25400,
+      "richmond_namba_daikokucho": null,
+      "hennna_hotel_osaka_namba": 26500,
       "dormy_inn_premium_namba_annex": null,
-      "sotetsu_grand_fresa_osaka_namba": 27720,
+      "sotetsu_grand_fresa_osaka_namba": 23760,
       "hotel_code_shinsaibashi": null,
       "shizutetsu_prezio_osaka_shinsaibashi": 35910,
-      "via_inn_shinsaibashi": 27770,
+      "via_inn_shinsaibashi": 33490,
       "sotetsu_fresa_inn_osaka_shinsaibashi": 24300,
       "hearton_hotel_shinsaibashi": null,
       "tokyustay_mercure_osaka_namba": 49200,
-      "quintessa_hotel_osaka_shinsaibashi": 34700,
+      "quintessa_hotel_osaka_shinsaibashi": 32300,
       "bestwestern_hotel_fino_osaka_shinsaibashi": null,
-      "koko_hotel_osaka_shinsaibashi": 37750
+      "koko_hotel_osaka_shinsaibashi": 35750
     },
     "2026-05-24": {
-      "hotel_grandee": 15200,
+      "hotel_grandee": 14200,
       "comp_a": 8000,
-      "comp_b": 36400,
-      "hotel_hillarys_shinsaibashi": 14300,
-      "hotel_sobial_namba_daikokucho": 12100,
+      "comp_b": null,
+      "hotel_hillarys_shinsaibashi": 14100,
+      "hotel_sobial_namba_daikokucho": 8800,
       "delstyle_osaka_shinsaibashi": 24700,
-      "ark_hotel_osaka_shinsaibashi": 8400,
+      "ark_hotel_osaka_shinsaibashi": 7900,
       "richmond_namba_daikokucho": 11685,
-      "hennna_hotel_osaka_namba": 16000,
+      "hennna_hotel_osaka_namba": 15500,
       "dormy_inn_premium_namba_annex": 11500,
       "sotetsu_grand_fresa_osaka_namba": 9504,
-      "hotel_code_shinsaibashi": 8400,
+      "hotel_code_shinsaibashi": 9100,
       "shizutetsu_prezio_osaka_shinsaibashi": 15675,
       "via_inn_shinsaibashi": 12290,
       "sotetsu_fresa_inn_osaka_shinsaibashi": 10935,
       "hearton_hotel_shinsaibashi": 10000,
       "tokyustay_mercure_osaka_namba": 43200,
-      "quintessa_hotel_osaka_shinsaibashi": 21400,
+      "quintessa_hotel_osaka_shinsaibashi": 19800,
       "bestwestern_hotel_fino_osaka_shinsaibashi": 18050,
       "koko_hotel_osaka_shinsaibashi": 16915
     },
     "2026-05-25": {
-      "hotel_grandee": 12000,
+      "hotel_grandee": 13000,
       "comp_a": 8000,
-      "comp_b": 24800,
+      "comp_b": 22800,
       "hotel_hillarys_shinsaibashi": 8300,
       "hotel_sobial_namba_daikokucho": 7800,
       "delstyle_osaka_shinsaibashi": 19950,
-      "ark_hotel_osaka_shinsaibashi": 6800,
+      "ark_hotel_osaka_shinsaibashi": 6900,
       "richmond_namba_daikokucho": 10925,
       "hennna_hotel_osaka_namba": 9200,
-      "dormy_inn_premium_namba_annex": 11500,
+      "dormy_inn_premium_namba_annex": 12000,
       "sotetsu_grand_fresa_osaka_namba": 9266,
-      "hotel_code_shinsaibashi": 8400,
+      "hotel_code_shinsaibashi": 9100,
       "shizutetsu_prezio_osaka_shinsaibashi": 13965,
       "via_inn_shinsaibashi": 10280,
-      "sotetsu_fresa_inn_osaka_shinsaibashi": 10125,
+      "sotetsu_fresa_inn_osaka_shinsaibashi": 9639,
       "hearton_hotel_shinsaibashi": 7100,
       "tokyustay_mercure_osaka_namba": 37200,
-      "quintessa_hotel_osaka_shinsaibashi": 12400,
+      "quintessa_hotel_osaka_shinsaibashi": 11200,
       "bestwestern_hotel_fino_osaka_shinsaibashi": 8430,
       "koko_hotel_osaka_shinsaibashi": 9010
     },
     "2026-05-26": {
-      "hotel_grandee": 11200,
+      "hotel_grandee": 11000,
       "comp_a": 8000,
       "comp_b": 30800,
       "hotel_hillarys_shinsaibashi": 8300,
@@ -152,55 +130,55 @@
       "ark_hotel_osaka_shinsaibashi": 6900,
       "richmond_namba_daikokucho": null,
       "hennna_hotel_osaka_namba": 13000,
-      "dormy_inn_premium_namba_annex": 11500,
+      "dormy_inn_premium_namba_annex": 12500,
       "sotetsu_grand_fresa_osaka_namba": 9266,
-      "hotel_code_shinsaibashi": 8400,
+      "hotel_code_shinsaibashi": 9100,
       "shizutetsu_prezio_osaka_shinsaibashi": 13965,
       "via_inn_shinsaibashi": 10810,
-      "sotetsu_fresa_inn_osaka_shinsaibashi": 10773,
-      "hearton_hotel_shinsaibashi": null,
+      "sotetsu_fresa_inn_osaka_shinsaibashi": 9639,
+      "hearton_hotel_shinsaibashi": 8300,
       "tokyustay_mercure_osaka_namba": 34200,
-      "quintessa_hotel_osaka_shinsaibashi": 12900,
+      "quintessa_hotel_osaka_shinsaibashi": 11600,
       "bestwestern_hotel_fino_osaka_shinsaibashi": 7885,
       "koko_hotel_osaka_shinsaibashi": 10710
     },
     "2026-05-27": {
-      "hotel_grandee": 14800,
+      "hotel_grandee": 14600,
       "comp_a": 8000,
-      "comp_b": 24800,
+      "comp_b": 27200,
       "hotel_hillarys_shinsaibashi": 11300,
       "hotel_sobial_namba_daikokucho": 9900,
       "delstyle_osaka_shinsaibashi": 19950,
       "ark_hotel_osaka_shinsaibashi": 8400,
       "richmond_namba_daikokucho": null,
       "hennna_hotel_osaka_namba": 19500,
-      "dormy_inn_premium_namba_annex": 12000,
+      "dormy_inn_premium_namba_annex": 14000,
       "sotetsu_grand_fresa_osaka_namba": 9266,
-      "hotel_code_shinsaibashi": 8400,
+      "hotel_code_shinsaibashi": 9100,
       "shizutetsu_prezio_osaka_shinsaibashi": 13965,
       "via_inn_shinsaibashi": 9960,
-      "sotetsu_fresa_inn_osaka_shinsaibashi": 14175,
-      "hearton_hotel_shinsaibashi": null,
+      "sotetsu_fresa_inn_osaka_shinsaibashi": 9639,
+      "hearton_hotel_shinsaibashi": 8300,
       "tokyustay_mercure_osaka_namba": 37200,
-      "quintessa_hotel_osaka_shinsaibashi": 14300,
-      "bestwestern_hotel_fino_osaka_shinsaibashi": 7290,
+      "quintessa_hotel_osaka_shinsaibashi": 13300,
+      "bestwestern_hotel_fino_osaka_shinsaibashi": 8170,
       "koko_hotel_osaka_shinsaibashi": 11985
     },
     "2026-05-28": {
-      "hotel_grandee": 13600,
+      "hotel_grandee": 12600,
       "comp_a": 9100,
       "comp_b": 21200,
       "hotel_hillarys_shinsaibashi": 11300,
       "hotel_sobial_namba_daikokucho": 9300,
-      "delstyle_osaka_shinsaibashi": 20900,
+      "delstyle_osaka_shinsaibashi": 27550,
       "ark_hotel_osaka_shinsaibashi": 8400,
-      "richmond_namba_daikokucho": 13600,
+      "richmond_namba_daikokucho": null,
       "hennna_hotel_osaka_namba": 12200,
-      "dormy_inn_premium_namba_annex": 12000,
+      "dormy_inn_premium_namba_annex": 12500,
       "sotetsu_grand_fresa_osaka_namba": 9266,
-      "hotel_code_shinsaibashi": 8400,
+      "hotel_code_shinsaibashi": 9100,
       "shizutetsu_prezio_osaka_shinsaibashi": 15675,
-      "via_inn_shinsaibashi": 15580,
+      "via_inn_shinsaibashi": 10490,
       "sotetsu_fresa_inn_osaka_shinsaibashi": 9396,
       "hearton_hotel_shinsaibashi": 8300,
       "tokyustay_mercure_osaka_namba": 37200,
@@ -209,36 +187,36 @@
       "koko_hotel_osaka_shinsaibashi": 13005
     },
     "2026-05-29": {
-      "hotel_grandee": 12800,
+      "hotel_grandee": 11800,
       "comp_a": 10300,
       "comp_b": 31600,
       "hotel_hillarys_shinsaibashi": 12200,
       "hotel_sobial_namba_daikokucho": 9800,
       "delstyle_osaka_shinsaibashi": 21850,
       "ark_hotel_osaka_shinsaibashi": null,
-      "richmond_namba_daikokucho": null,
-      "hennna_hotel_osaka_namba": 12700,
+      "richmond_namba_daikokucho": 12800,
+      "hennna_hotel_osaka_namba": 14700,
       "dormy_inn_premium_namba_annex": 17500,
-      "sotetsu_grand_fresa_osaka_namba": 10296,
-      "hotel_code_shinsaibashi": 10500,
+      "sotetsu_grand_fresa_osaka_namba": 10692,
+      "hotel_code_shinsaibashi": 9100,
       "shizutetsu_prezio_osaka_shinsaibashi": 15675,
       "via_inn_shinsaibashi": 16640,
       "sotetsu_fresa_inn_osaka_shinsaibashi": 9639,
-      "hearton_hotel_shinsaibashi": null,
+      "hearton_hotel_shinsaibashi": 9500,
       "tokyustay_mercure_osaka_namba": 40200,
       "quintessa_hotel_osaka_shinsaibashi": 15400,
       "bestwestern_hotel_fino_osaka_shinsaibashi": 12780,
-      "koko_hotel_osaka_shinsaibashi": 23205
+      "koko_hotel_osaka_shinsaibashi": 18785
     },
     "2026-05-30": {
-      "hotel_grandee": 18600,
+      "hotel_grandee": 17600,
       "comp_a": 15900,
       "comp_b": 31200,
       "hotel_hillarys_shinsaibashi": 13700,
       "hotel_sobial_namba_daikokucho": 15000,
       "delstyle_osaka_shinsaibashi": 25650,
       "ark_hotel_osaka_shinsaibashi": null,
-      "richmond_namba_daikokucho": 31000,
+      "richmond_namba_daikokucho": 20900,
       "hennna_hotel_osaka_namba": 27000,
       "dormy_inn_premium_namba_annex": 17000,
       "sotetsu_grand_fresa_osaka_namba": 16632,
@@ -246,46 +224,46 @@
       "shizutetsu_prezio_osaka_shinsaibashi": 14535,
       "via_inn_shinsaibashi": 17170,
       "sotetsu_fresa_inn_osaka_shinsaibashi": 17820,
-      "hearton_hotel_shinsaibashi": null,
+      "hearton_hotel_shinsaibashi": 13200,
       "tokyustay_mercure_osaka_namba": 43200,
       "quintessa_hotel_osaka_shinsaibashi": 22500,
-      "bestwestern_hotel_fino_osaka_shinsaibashi": 19980,
+      "bestwestern_hotel_fino_osaka_shinsaibashi": null,
       "koko_hotel_osaka_shinsaibashi": 18190
     },
     "2026-05-31": {
-      "hotel_grandee": 10400,
+      "hotel_grandee": 9400,
       "comp_a": 8000,
       "comp_b": 30800,
-      "hotel_hillarys_shinsaibashi": 7400,
+      "hotel_hillarys_shinsaibashi": 6500,
       "hotel_sobial_namba_daikokucho": 7900,
       "delstyle_osaka_shinsaibashi": 18050,
       "ark_hotel_osaka_shinsaibashi": 6900,
       "richmond_namba_daikokucho": 11685,
-      "hennna_hotel_osaka_namba": 12000,
+      "hennna_hotel_osaka_namba": 16000,
       "dormy_inn_premium_namba_annex": 11500,
-      "sotetsu_grand_fresa_osaka_namba": 7444,
+      "sotetsu_grand_fresa_osaka_namba": 6652,
       "hotel_code_shinsaibashi": 7700,
       "shizutetsu_prezio_osaka_shinsaibashi": 12825,
       "via_inn_shinsaibashi": 9110,
       "sotetsu_fresa_inn_osaka_shinsaibashi": 8910,
       "hearton_hotel_shinsaibashi": 7100,
       "tokyustay_mercure_osaka_namba": 28200,
-      "quintessa_hotel_osaka_shinsaibashi": 12900,
+      "quintessa_hotel_osaka_shinsaibashi": 10800,
       "bestwestern_hotel_fino_osaka_shinsaibashi": 7020,
       "koko_hotel_osaka_shinsaibashi": 10100
     },
     "2026-06-01": {
-      "hotel_grandee": 10800,
+      "hotel_grandee": 9800,
       "comp_a": 8000,
       "comp_b": 15600,
-      "hotel_hillarys_shinsaibashi": 7400,
+      "hotel_hillarys_shinsaibashi": 6500,
       "hotel_sobial_namba_daikokucho": 7400,
       "delstyle_osaka_shinsaibashi": 16150,
       "ark_hotel_osaka_shinsaibashi": 7400,
       "richmond_namba_daikokucho": 12800,
       "hennna_hotel_osaka_namba": 14500,
       "dormy_inn_premium_namba_annex": 11500,
-      "sotetsu_grand_fresa_osaka_namba": 8078,
+      "sotetsu_grand_fresa_osaka_namba": 8236,
       "hotel_code_shinsaibashi": 7700,
       "shizutetsu_prezio_osaka_shinsaibashi": 9975,
       "via_inn_shinsaibashi": 8580,
@@ -297,11 +275,11 @@
       "koko_hotel_osaka_shinsaibashi": 12600
     },
     "2026-06-02": {
-      "hotel_grandee": 10000,
+      "hotel_grandee": 9000,
       "comp_a": 8000,
       "comp_b": 24800,
-      "hotel_hillarys_shinsaibashi": 7400,
-      "hotel_sobial_namba_daikokucho": 7400,
+      "hotel_hillarys_shinsaibashi": 6800,
+      "hotel_sobial_namba_daikokucho": 6800,
       "delstyle_osaka_shinsaibashi": 16150,
       "ark_hotel_osaka_shinsaibashi": 7400,
       "richmond_namba_daikokucho": 12635,
@@ -311,7 +289,7 @@
       "hotel_code_shinsaibashi": 7700,
       "shizutetsu_prezio_osaka_shinsaibashi": 9975,
       "via_inn_shinsaibashi": 8580,
-      "sotetsu_fresa_inn_osaka_shinsaibashi": 9153,
+      "sotetsu_fresa_inn_osaka_shinsaibashi": 9396,
       "hearton_hotel_shinsaibashi": 7100,
       "tokyustay_mercure_osaka_namba": 32200,
       "quintessa_hotel_osaka_shinsaibashi": 9700,
@@ -319,13 +297,13 @@
       "koko_hotel_osaka_shinsaibashi": 11600
     },
     "2026-06-03": {
-      "hotel_grandee": 10000,
+      "hotel_grandee": 9000,
       "comp_a": 8000,
       "comp_b": 19200,
-      "hotel_hillarys_shinsaibashi": 7400,
+      "hotel_hillarys_shinsaibashi": 6800,
       "hotel_sobial_namba_daikokucho": 7400,
       "delstyle_osaka_shinsaibashi": 16150,
-      "ark_hotel_osaka_shinsaibashi": 7300,
+      "ark_hotel_osaka_shinsaibashi": 7400,
       "richmond_namba_daikokucho": 10925,
       "hennna_hotel_osaka_namba": 14000,
       "dormy_inn_premium_namba_annex": 11500,
@@ -335,13 +313,13 @@
       "via_inn_shinsaibashi": 10700,
       "sotetsu_fresa_inn_osaka_shinsaibashi": 8910,
       "hearton_hotel_shinsaibashi": 7100,
-      "tokyustay_mercure_osaka_namba": 30590,
-      "quintessa_hotel_osaka_shinsaibashi": 8600,
+      "tokyustay_mercure_osaka_namba": 32200,
+      "quintessa_hotel_osaka_shinsaibashi": 9600,
       "bestwestern_hotel_fino_osaka_shinsaibashi": 8190,
       "koko_hotel_osaka_shinsaibashi": 10285
     },
     "2026-06-04": {
-      "hotel_grandee": 10400,
+      "hotel_grandee": 9400,
       "comp_a": 8000,
       "comp_b": 19200,
       "hotel_hillarys_shinsaibashi": 7400,
@@ -355,7 +333,7 @@
       "hotel_code_shinsaibashi": 7700,
       "shizutetsu_prezio_osaka_shinsaibashi": 9405,
       "via_inn_shinsaibashi": 10280,
-      "sotetsu_fresa_inn_osaka_shinsaibashi": 10773,
+      "sotetsu_fresa_inn_osaka_shinsaibashi": 9639,
       "hearton_hotel_shinsaibashi": 7300,
       "tokyustay_mercure_osaka_namba": 34390,
       "quintessa_hotel_osaka_shinsaibashi": 11200,
@@ -363,7 +341,7 @@
       "koko_hotel_osaka_shinsaibashi": 10710
     },
     "2026-06-05": {
-      "hotel_grandee": 11200,
+      "hotel_grandee": 10200,
       "comp_a": 8000,
       "comp_b": 28800,
       "hotel_hillarys_shinsaibashi": 9200,
@@ -377,7 +355,7 @@
       "hotel_code_shinsaibashi": 7700,
       "shizutetsu_prezio_osaka_shinsaibashi": 9975,
       "via_inn_shinsaibashi": 10700,
-      "sotetsu_fresa_inn_osaka_shinsaibashi": 9639,
+      "sotetsu_fresa_inn_osaka_shinsaibashi": 10125,
       "hearton_hotel_shinsaibashi": 7700,
       "tokyustay_mercure_osaka_namba": 34390,
       "quintessa_hotel_osaka_shinsaibashi": 11600,
@@ -385,33 +363,33 @@
       "koko_hotel_osaka_shinsaibashi": 14535
     },
     "2026-06-06": {
-      "hotel_grandee": 16400,
+      "hotel_grandee": 15400,
       "comp_a": 13700,
-      "comp_b": 33200,
+      "comp_b": 34000,
       "hotel_hillarys_shinsaibashi": 14600,
       "hotel_sobial_namba_daikokucho": 14000,
       "delstyle_osaka_shinsaibashi": 22800,
-      "ark_hotel_osaka_shinsaibashi": 12300,
+      "ark_hotel_osaka_shinsaibashi": 12400,
       "richmond_namba_daikokucho": 17385,
-      "hennna_hotel_osaka_namba": 22500,
-      "dormy_inn_premium_namba_annex": 16500,
+      "hennna_hotel_osaka_namba": 26000,
+      "dormy_inn_premium_namba_annex": 17500,
       "sotetsu_grand_fresa_osaka_namba": 15048,
       "hotel_code_shinsaibashi": 15400,
-      "shizutetsu_prezio_osaka_shinsaibashi": 21100,
+      "shizutetsu_prezio_osaka_shinsaibashi": 15675,
       "via_inn_shinsaibashi": 18550,
       "sotetsu_fresa_inn_osaka_shinsaibashi": 14580,
       "hearton_hotel_shinsaibashi": null,
-      "tokyustay_mercure_osaka_namba": 35340,
+      "tokyustay_mercure_osaka_namba": 37240,
       "quintessa_hotel_osaka_shinsaibashi": 18300,
       "bestwestern_hotel_fino_osaka_shinsaibashi": 12150,
       "koko_hotel_osaka_shinsaibashi": 18870
     },
     "2026-06-07": {
-      "hotel_grandee": 10000,
+      "hotel_grandee": 9000,
       "comp_a": 8000,
       "comp_b": 16000,
       "hotel_hillarys_shinsaibashi": 9500,
-      "hotel_sobial_namba_daikokucho": 7400,
+      "hotel_sobial_namba_daikokucho": 8800,
       "delstyle_osaka_shinsaibashi": 18050,
       "ark_hotel_osaka_shinsaibashi": 7300,
       "richmond_namba_daikokucho": 9975,
@@ -429,7 +407,7 @@
       "koko_hotel_osaka_shinsaibashi": 9860
     },
     "2026-06-08": {
-      "hotel_grandee": 10000,
+      "hotel_grandee": 9000,
       "comp_a": 8000,
       "comp_b": 16000,
       "hotel_hillarys_shinsaibashi": 7400,
@@ -437,7 +415,7 @@
       "delstyle_osaka_shinsaibashi": 17100,
       "ark_hotel_osaka_shinsaibashi": 7300,
       "richmond_namba_daikokucho": 12635,
-      "hennna_hotel_osaka_namba": 11700,
+      "hennna_hotel_osaka_namba": 13700,
       "dormy_inn_premium_namba_annex": 11500,
       "sotetsu_grand_fresa_osaka_namba": 8395,
       "hotel_code_shinsaibashi": 7700,
@@ -446,14 +424,14 @@
       "sotetsu_fresa_inn_osaka_shinsaibashi": 8667,
       "hearton_hotel_shinsaibashi": 7100,
       "tokyustay_mercure_osaka_namba": 28690,
-      "quintessa_hotel_osaka_shinsaibashi": 8600,
+      "quintessa_hotel_osaka_shinsaibashi": 9300,
       "bestwestern_hotel_fino_osaka_shinsaibashi": 7020,
       "koko_hotel_osaka_shinsaibashi": 11135
     },
     "2026-06-09": {
-      "hotel_grandee": 10000,
+      "hotel_grandee": 9000,
       "comp_a": 8000,
-      "comp_b": 20800,
+      "comp_b": 21600,
       "hotel_hillarys_shinsaibashi": 7400,
       "hotel_sobial_namba_daikokucho": 7400,
       "delstyle_osaka_shinsaibashi": 17100,
@@ -468,12 +446,12 @@
       "sotetsu_fresa_inn_osaka_shinsaibashi": 7938,
       "hearton_hotel_shinsaibashi": 7100,
       "tokyustay_mercure_osaka_namba": 28690,
-      "quintessa_hotel_osaka_shinsaibashi": 8600,
+      "quintessa_hotel_osaka_shinsaibashi": 9300,
       "bestwestern_hotel_fino_osaka_shinsaibashi": 7560,
       "koko_hotel_osaka_shinsaibashi": 10285
     },
     "2026-06-10": {
-      "hotel_grandee": 10400,
+      "hotel_grandee": 9400,
       "comp_a": 8000,
       "comp_b": 18400,
       "hotel_hillarys_shinsaibashi": 7400,
@@ -490,12 +468,12 @@
       "sotetsu_fresa_inn_osaka_shinsaibashi": 8667,
       "hearton_hotel_shinsaibashi": 7100,
       "tokyustay_mercure_osaka_namba": 28690,
-      "quintessa_hotel_osaka_shinsaibashi": 9300,
+      "quintessa_hotel_osaka_shinsaibashi": 10000,
       "bestwestern_hotel_fino_osaka_shinsaibashi": 7560,
       "koko_hotel_osaka_shinsaibashi": 10285
     },
     "2026-06-11": {
-      "hotel_grandee": 10400,
+      "hotel_grandee": 9400,
       "comp_a": 8000,
       "comp_b": 19200,
       "hotel_hillarys_shinsaibashi": 7400,
@@ -512,12 +490,12 @@
       "sotetsu_fresa_inn_osaka_shinsaibashi": 9396,
       "hearton_hotel_shinsaibashi": 7500,
       "tokyustay_mercure_osaka_namba": 28690,
-      "quintessa_hotel_osaka_shinsaibashi": 10400,
+      "quintessa_hotel_osaka_shinsaibashi": 11200,
       "bestwestern_hotel_fino_osaka_shinsaibashi": 7560,
       "koko_hotel_osaka_shinsaibashi": 11560
     },
     "2026-06-12": {
-      "hotel_grandee": 12000,
+      "hotel_grandee": 11000,
       "comp_a": 8000,
       "comp_b": 18400,
       "hotel_hillarys_shinsaibashi": 9200,
@@ -532,14 +510,14 @@
       "shizutetsu_prezio_osaka_shinsaibashi": 11115,
       "via_inn_shinsaibashi": 11760,
       "sotetsu_fresa_inn_osaka_shinsaibashi": 9396,
-      "hearton_hotel_shinsaibashi": 9100,
+      "hearton_hotel_shinsaibashi": null,
       "tokyustay_mercure_osaka_namba": 30590,
       "quintessa_hotel_osaka_shinsaibashi": 12000,
       "bestwestern_hotel_fino_osaka_shinsaibashi": 7560,
       "koko_hotel_osaka_shinsaibashi": 10285
     },
     "2026-06-13": {
-      "hotel_grandee": 17200,
+      "hotel_grandee": 16200,
       "comp_a": 12500,
       "comp_b": 27600,
       "hotel_hillarys_shinsaibashi": 13700,
@@ -547,9 +525,9 @@
       "delstyle_osaka_shinsaibashi": 19000,
       "ark_hotel_osaka_shinsaibashi": 12900,
       "richmond_namba_daikokucho": 17385,
-      "hennna_hotel_osaka_namba": 18500,
+      "hennna_hotel_osaka_namba": 19000,
       "dormy_inn_premium_namba_annex": 18500,
-      "sotetsu_grand_fresa_osaka_namba": 15048,
+      "sotetsu_grand_fresa_osaka_namba": 15840,
       "hotel_code_shinsaibashi": 15400,
       "shizutetsu_prezio_osaka_shinsaibashi": 19095,
       "via_inn_shinsaibashi": 18550,
@@ -561,7 +539,7 @@
       "koko_hotel_osaka_shinsaibashi": 17510
     },
     "2026-06-14": {
-      "hotel_grandee": 10000,
+      "hotel_grandee": 9000,
       "comp_a": 8000,
       "comp_b": 17600,
       "hotel_hillarys_shinsaibashi": 9500,
@@ -583,7 +561,7 @@
       "koko_hotel_osaka_shinsaibashi": 10710
     },
     "2026-06-15": {
-      "hotel_grandee": 10000,
+      "hotel_grandee": 9000,
       "comp_a": 8000,
       "comp_b": 21600,
       "hotel_hillarys_shinsaibashi": 7400,
@@ -591,7 +569,7 @@
       "delstyle_osaka_shinsaibashi": 18050,
       "ark_hotel_osaka_shinsaibashi": 7300,
       "richmond_namba_daikokucho": 9000,
-      "hennna_hotel_osaka_namba": 10700,
+      "hennna_hotel_osaka_namba": 11200,
       "dormy_inn_premium_namba_annex": 11500,
       "sotetsu_grand_fresa_osaka_namba": 7761,
       "hotel_code_shinsaibashi": 7700,
@@ -605,9 +583,9 @@
       "koko_hotel_osaka_shinsaibashi": 8585
     },
     "2026-06-16": {
-      "hotel_grandee": 10000,
+      "hotel_grandee": 9000,
       "comp_a": 8000,
-      "comp_b": 21600,
+      "comp_b": 23200,
       "hotel_hillarys_shinsaibashi": 7400,
       "hotel_sobial_namba_daikokucho": 7900,
       "delstyle_osaka_shinsaibashi": 18050,
@@ -627,7 +605,7 @@
       "koko_hotel_osaka_shinsaibashi": 9010
     },
     "2026-06-17": {
-      "hotel_grandee": 10400,
+      "hotel_grandee": 9400,
       "comp_a": 8000,
       "comp_b": 16000,
       "hotel_hillarys_shinsaibashi": 7400,
@@ -649,7 +627,7 @@
       "koko_hotel_osaka_shinsaibashi": 9010
     },
     "2026-06-18": {
-      "hotel_grandee": 10400,
+      "hotel_grandee": 9400,
       "comp_a": 8000,
       "comp_b": 18400,
       "hotel_hillarys_shinsaibashi": 7400,
@@ -671,7 +649,7 @@
       "koko_hotel_osaka_shinsaibashi": 11135
     },
     "2026-06-19": {
-      "hotel_grandee": 12000,
+      "hotel_grandee": 11000,
       "comp_a": 8000,
       "comp_b": 26400,
       "hotel_hillarys_shinsaibashi": 7400,
@@ -679,23 +657,23 @@
       "delstyle_osaka_shinsaibashi": 22800,
       "ark_hotel_osaka_shinsaibashi": 7800,
       "richmond_namba_daikokucho": 9975,
-      "hennna_hotel_osaka_namba": 11400,
+      "hennna_hotel_osaka_namba": 12000,
       "dormy_inn_premium_namba_annex": 14000,
       "sotetsu_grand_fresa_osaka_namba": 10692,
       "hotel_code_shinsaibashi": 7700,
-      "shizutetsu_prezio_osaka_shinsaibashi": 11610,
-      "via_inn_shinsaibashi": 9430,
+      "shizutetsu_prezio_osaka_shinsaibashi": 12255,
+      "via_inn_shinsaibashi": 9540,
       "sotetsu_fresa_inn_osaka_shinsaibashi": 8910,
       "hearton_hotel_shinsaibashi": 9100,
-      "tokyustay_mercure_osaka_namba": 28980,
-      "quintessa_hotel_osaka_shinsaibashi": 11780,
+      "tokyustay_mercure_osaka_namba": 30590,
+      "quintessa_hotel_osaka_shinsaibashi": 12400,
       "bestwestern_hotel_fino_osaka_shinsaibashi": 7560,
       "koko_hotel_osaka_shinsaibashi": 11985
     },
     "2026-06-20": {
-      "hotel_grandee": 16400,
+      "hotel_grandee": 15400,
       "comp_a": 12500,
-      "comp_b": 23200,
+      "comp_b": 21600,
       "hotel_hillarys_shinsaibashi": 10100,
       "hotel_sobial_namba_daikokucho": 13100,
       "delstyle_osaka_shinsaibashi": 27550,
@@ -715,7 +693,7 @@
       "koko_hotel_osaka_shinsaibashi": 17510
     },
     "2026-06-21": {
-      "hotel_grandee": 10000,
+      "hotel_grandee": 9000,
       "comp_a": 8000,
       "comp_b": 17600,
       "hotel_hillarys_shinsaibashi": 7400,
@@ -723,7 +701,7 @@
       "delstyle_osaka_shinsaibashi": 18050,
       "ark_hotel_osaka_shinsaibashi": 7300,
       "richmond_namba_daikokucho": 11685,
-      "hennna_hotel_osaka_namba": 11110,
+      "hennna_hotel_osaka_namba": 13015,
       "dormy_inn_premium_namba_annex": 11500,
       "sotetsu_grand_fresa_osaka_namba": 7761,
       "hotel_code_shinsaibashi": 7700,
@@ -737,7 +715,7 @@
       "koko_hotel_osaka_shinsaibashi": 7820
     },
     "2026-06-22": {
-      "hotel_grandee": 10000,
+      "hotel_grandee": 9000,
       "comp_a": 8000,
       "comp_b": 20000,
       "hotel_hillarys_shinsaibashi": 7400,
@@ -749,7 +727,7 @@
       "dormy_inn_premium_namba_annex": 11500,
       "sotetsu_grand_fresa_osaka_namba": 7761,
       "hotel_code_shinsaibashi": 7700,
-      "shizutetsu_prezio_osaka_shinsaibashi": 9990,
+      "shizutetsu_prezio_osaka_shinsaibashi": 9450,
       "via_inn_shinsaibashi": 8160,
       "sotetsu_fresa_inn_osaka_shinsaibashi": 9639,
       "hearton_hotel_shinsaibashi": 7100,
@@ -759,7 +737,7 @@
       "koko_hotel_osaka_shinsaibashi": 8160
     },
     "2026-06-23": {
-      "hotel_grandee": 10400,
+      "hotel_grandee": 9400,
       "comp_a": 8000,
       "comp_b": 21600,
       "hotel_hillarys_shinsaibashi": 7400,
@@ -771,7 +749,7 @@
       "dormy_inn_premium_namba_annex": 11500,
       "sotetsu_grand_fresa_osaka_namba": 7761,
       "hotel_code_shinsaibashi": 7700,
-      "shizutetsu_prezio_osaka_shinsaibashi": 9990,
+      "shizutetsu_prezio_osaka_shinsaibashi": 9450,
       "via_inn_shinsaibashi": 8160,
       "sotetsu_fresa_inn_osaka_shinsaibashi": 9639,
       "hearton_hotel_shinsaibashi": 7100,
@@ -781,7 +759,7 @@
       "koko_hotel_osaka_shinsaibashi": 9860
     },
     "2026-06-24": {
-      "hotel_grandee": 10400,
+      "hotel_grandee": 9400,
       "comp_a": 8000,
       "comp_b": 18400,
       "hotel_hillarys_shinsaibashi": 7400,
@@ -789,11 +767,11 @@
       "delstyle_osaka_shinsaibashi": 18050,
       "ark_hotel_osaka_shinsaibashi": 7400,
       "richmond_namba_daikokucho": 12635,
-      "hennna_hotel_osaka_namba": 11110,
+      "hennna_hotel_osaka_namba": 10640,
       "dormy_inn_premium_namba_annex": 11500,
       "sotetsu_grand_fresa_osaka_namba": 7761,
       "hotel_code_shinsaibashi": 7700,
-      "shizutetsu_prezio_osaka_shinsaibashi": 9990,
+      "shizutetsu_prezio_osaka_shinsaibashi": 9450,
       "via_inn_shinsaibashi": 8160,
       "sotetsu_fresa_inn_osaka_shinsaibashi": 10125,
       "hearton_hotel_shinsaibashi": 7100,
@@ -803,7 +781,7 @@
       "koko_hotel_osaka_shinsaibashi": 11135
     },
     "2026-06-25": {
-      "hotel_grandee": 10400,
+      "hotel_grandee": 9400,
       "comp_a": 8000,
       "comp_b": 18400,
       "hotel_hillarys_shinsaibashi": 7400,
@@ -815,7 +793,7 @@
       "dormy_inn_premium_namba_annex": 11500,
       "sotetsu_grand_fresa_osaka_namba": 8078,
       "hotel_code_shinsaibashi": 7700,
-      "shizutetsu_prezio_osaka_shinsaibashi": 11070,
+      "shizutetsu_prezio_osaka_shinsaibashi": 9450,
       "via_inn_shinsaibashi": 8580,
       "sotetsu_fresa_inn_osaka_shinsaibashi": 10125,
       "hearton_hotel_shinsaibashi": 8100,
@@ -825,8 +803,8 @@
       "koko_hotel_osaka_shinsaibashi": 10285
     },
     "2026-06-26": {
-      "hotel_grandee": 12000,
-      "comp_a": 10300,
+      "hotel_grandee": 11000,
+      "comp_a": 9100,
       "comp_b": 19200,
       "hotel_hillarys_shinsaibashi": 7400,
       "hotel_sobial_namba_daikokucho": 8400,
@@ -837,7 +815,7 @@
       "dormy_inn_premium_namba_annex": 12000,
       "sotetsu_grand_fresa_osaka_namba": 9900,
       "hotel_code_shinsaibashi": 7700,
-      "shizutetsu_prezio_osaka_shinsaibashi": 11070,
+      "shizutetsu_prezio_osaka_shinsaibashi": 9450,
       "via_inn_shinsaibashi": 10810,
       "sotetsu_fresa_inn_osaka_shinsaibashi": 10935,
       "hearton_hotel_shinsaibashi": 9100,
@@ -847,8 +825,8 @@
       "koko_hotel_osaka_shinsaibashi": 10710
     },
     "2026-06-27": {
-      "hotel_grandee": 17600,
-      "comp_a": 15900,
+      "hotel_grandee": 17400,
+      "comp_a": 14700,
       "comp_b": 24000,
       "hotel_hillarys_shinsaibashi": 16700,
       "hotel_sobial_namba_daikokucho": 15000,
@@ -869,7 +847,7 @@
       "koko_hotel_osaka_shinsaibashi": 24395
     },
     "2026-06-28": {
-      "hotel_grandee": 10000,
+      "hotel_grandee": 9000,
       "comp_a": 8000,
       "comp_b": 19200,
       "hotel_hillarys_shinsaibashi": 9500,
@@ -891,7 +869,7 @@
       "koko_hotel_osaka_shinsaibashi": 10285
     },
     "2026-06-29": {
-      "hotel_grandee": 10000,
+      "hotel_grandee": 9000,
       "comp_a": 8000,
       "comp_b": 18400,
       "hotel_hillarys_shinsaibashi": 7400,
@@ -913,13 +891,13 @@
       "koko_hotel_osaka_shinsaibashi": 7480
     },
     "2026-06-30": {
-      "hotel_grandee": 10000,
+      "hotel_grandee": 9000,
       "comp_a": 8000,
       "comp_b": 20800,
       "hotel_hillarys_shinsaibashi": 7400,
       "hotel_sobial_namba_daikokucho": 7400,
       "delstyle_osaka_shinsaibashi": 18050,
-      "ark_hotel_osaka_shinsaibashi": 7300,
+      "ark_hotel_osaka_shinsaibashi": 6800,
       "richmond_namba_daikokucho": 11000,
       "hennna_hotel_osaka_namba": 10160,
       "dormy_inn_premium_namba_annex": 11500,
@@ -935,7 +913,7 @@
       "koko_hotel_osaka_shinsaibashi": 7820
     },
     "2026-07-01": {
-      "hotel_grandee": 12000,
+      "hotel_grandee": 11000,
       "comp_a": 9100,
       "comp_b": 21600,
       "hotel_hillarys_shinsaibashi": 10340,
@@ -957,7 +935,7 @@
       "koko_hotel_osaka_shinsaibashi": 12495
     },
     "2026-07-02": {
-      "hotel_grandee": 12000,
+      "hotel_grandee": 11000,
       "comp_a": 9100,
       "comp_b": 20000,
       "hotel_hillarys_shinsaibashi": 10622,
@@ -979,7 +957,7 @@
       "koko_hotel_osaka_shinsaibashi": 12495
     },
     "2026-07-03": {
-      "hotel_grandee": 12400,
+      "hotel_grandee": 11400,
       "comp_a": 8000,
       "comp_b": 18400,
       "hotel_hillarys_shinsaibashi": 11280,
@@ -1001,7 +979,7 @@
       "koko_hotel_osaka_shinsaibashi": 9860
     },
     "2026-07-04": {
-      "hotel_grandee": 17200,
+      "hotel_grandee": 16200,
       "comp_a": 14700,
       "comp_b": 23200,
       "hotel_hillarys_shinsaibashi": 15228,
@@ -1023,7 +1001,7 @@
       "koko_hotel_osaka_shinsaibashi": 15130
     },
     "2026-07-05": {
-      "hotel_grandee": 10000,
+      "hotel_grandee": 9000,
       "comp_a": 8000,
       "comp_b": 17600,
       "hotel_hillarys_shinsaibashi": 10904,
@@ -1045,7 +1023,7 @@
       "koko_hotel_osaka_shinsaibashi": 8585
     },
     "2026-07-06": {
-      "hotel_grandee": 10000,
+      "hotel_grandee": 9000,
       "comp_a": 8000,
       "comp_b": 17600,
       "hotel_hillarys_shinsaibashi": 10058,
@@ -1067,7 +1045,7 @@
       "koko_hotel_osaka_shinsaibashi": 8585
     },
     "2026-07-07": {
-      "hotel_grandee": 10000,
+      "hotel_grandee": 9000,
       "comp_a": 8000,
       "comp_b": 17600,
       "hotel_hillarys_shinsaibashi": 11280,
@@ -1089,9 +1067,9 @@
       "koko_hotel_osaka_shinsaibashi": 9435
     },
     "2026-07-08": {
-      "hotel_grandee": 10400,
+      "hotel_grandee": 9400,
       "comp_a": 8000,
-      "comp_b": 18400,
+      "comp_b": 17600,
       "hotel_hillarys_shinsaibashi": 12126,
       "hotel_sobial_namba_daikokucho": 9800,
       "delstyle_osaka_shinsaibashi": 18050,
@@ -1111,9 +1089,9 @@
       "koko_hotel_osaka_shinsaibashi": 11985
     },
     "2026-07-09": {
-      "hotel_grandee": 10400,
+      "hotel_grandee": 9400,
       "comp_a": 8000,
-      "comp_b": 18400,
+      "comp_b": 17600,
       "hotel_hillarys_shinsaibashi": 12408,
       "hotel_sobial_namba_daikokucho": 9300,
       "delstyle_osaka_shinsaibashi": 18050,
@@ -1133,7 +1111,7 @@
       "koko_hotel_osaka_shinsaibashi": 11560
     },
     "2026-07-10": {
-      "hotel_grandee": 12400,
+      "hotel_grandee": 11400,
       "comp_a": 9100,
       "comp_b": 21600,
       "hotel_hillarys_shinsaibashi": 14100,
@@ -1155,8 +1133,8 @@
       "koko_hotel_osaka_shinsaibashi": 10710
     },
     "2026-07-11": {
-      "hotel_grandee": 17200,
-      "comp_a": 19400,
+      "hotel_grandee": 16200,
+      "comp_a": 18100,
       "comp_b": 23200,
       "hotel_hillarys_shinsaibashi": 17202,
       "hotel_sobial_namba_daikokucho": 15000,
@@ -1177,7 +1155,7 @@
       "koko_hotel_osaka_shinsaibashi": 18190
     },
     "2026-07-12": {
-      "hotel_grandee": 10400,
+      "hotel_grandee": 9400,
       "comp_a": 9100,
       "comp_b": 17600,
       "hotel_hillarys_shinsaibashi": 10904,
@@ -1190,7 +1168,7 @@
       "sotetsu_grand_fresa_osaka_namba": 8791,
       "hotel_code_shinsaibashi": 7700,
       "shizutetsu_prezio_osaka_shinsaibashi": 11610,
-      "via_inn_shinsaibashi": 8580,
+      "via_inn_shinsaibashi": 8690,
       "sotetsu_fresa_inn_osaka_shinsaibashi": 10935,
       "hearton_hotel_shinsaibashi": 11000,
       "tokyustay_mercure_osaka_namba": 25380,
@@ -1199,7 +1177,7 @@
       "koko_hotel_osaka_shinsaibashi": 11560
     },
     "2026-07-13": {
-      "hotel_grandee": 10000,
+      "hotel_grandee": 9000,
       "comp_a": 8000,
       "comp_b": 17600,
       "hotel_hillarys_shinsaibashi": 10058,
@@ -1221,7 +1199,7 @@
       "koko_hotel_osaka_shinsaibashi": 11560
     },
     "2026-07-14": {
-      "hotel_grandee": 10000,
+      "hotel_grandee": 9000,
       "comp_a": 9100,
       "comp_b": 18400,
       "hotel_hillarys_shinsaibashi": 11280,
@@ -1243,7 +1221,7 @@
       "koko_hotel_osaka_shinsaibashi": 10710
     },
     "2026-07-15": {
-      "hotel_grandee": 10400,
+      "hotel_grandee": 9400,
       "comp_a": 9100,
       "comp_b": 17600,
       "hotel_hillarys_shinsaibashi": 12126,
@@ -1265,7 +1243,7 @@
       "koko_hotel_osaka_shinsaibashi": 16915
     },
     "2026-07-16": {
-      "hotel_grandee": 10400,
+      "hotel_grandee": 9400,
       "comp_a": 9100,
       "comp_b": 18400,
       "hotel_hillarys_shinsaibashi": 12408,
@@ -1287,8 +1265,8 @@
       "koko_hotel_osaka_shinsaibashi": 15725
     },
     "2026-07-17": {
-      "hotel_grandee": 12400,
-      "comp_a": 11400,
+      "hotel_grandee": 11400,
+      "comp_a": 10300,
       "comp_b": 18400,
       "hotel_hillarys_shinsaibashi": 14100,
       "hotel_sobial_namba_daikokucho": 10200,
@@ -1309,7 +1287,7 @@
       "koko_hotel_osaka_shinsaibashi": 12495
     },
     "2026-07-18": {
-      "hotel_grandee": 17200,
+      "hotel_grandee": 16200,
       "comp_a": 19400,
       "comp_b": 28400,
       "hotel_hillarys_shinsaibashi": 17900,
@@ -1331,19 +1309,19 @@
       "koko_hotel_osaka_shinsaibashi": 18190
     },
     "2026-07-19": {
-      "hotel_grandee": 17600,
+      "hotel_grandee": 16600,
       "comp_a": 17000,
       "comp_b": 23200,
       "hotel_hillarys_shinsaibashi": 17900,
       "hotel_sobial_namba_daikokucho": 16900,
       "delstyle_osaka_shinsaibashi": 22800,
-      "ark_hotel_osaka_shinsaibashi": 16000,
+      "ark_hotel_osaka_shinsaibashi": 16900,
       "richmond_namba_daikokucho": 14535,
-      "hennna_hotel_osaka_namba": 26040,
+      "hennna_hotel_osaka_namba": 26600,
       "dormy_inn_premium_namba_annex": 17500,
       "sotetsu_grand_fresa_osaka_namba": 16632,
       "hotel_code_shinsaibashi": 15400,
-      "shizutetsu_prezio_osaka_shinsaibashi": 18610,
+      "shizutetsu_prezio_osaka_shinsaibashi": 19710,
       "via_inn_shinsaibashi": 16530,
       "sotetsu_fresa_inn_osaka_shinsaibashi": 19440,
       "hearton_hotel_shinsaibashi": 12000,
@@ -1353,11 +1331,11 @@
       "koko_hotel_osaka_shinsaibashi": 15725
     },
     "2026-07-20": {
-      "hotel_grandee": 10000,
+      "hotel_grandee": 9000,
       "comp_a": 8000,
       "comp_b": 18400,
       "hotel_hillarys_shinsaibashi": 10622,
-      "hotel_sobial_namba_daikokucho": 9800,
+      "hotel_sobial_namba_daikokucho": 8400,
       "delstyle_osaka_shinsaibashi": 19950,
       "ark_hotel_osaka_shinsaibashi": 7000,
       "richmond_namba_daikokucho": null,
@@ -1372,10 +1350,10 @@
       "tokyustay_mercure_osaka_namba": 25380,
       "quintessa_hotel_osaka_shinsaibashi": 9720,
       "bestwestern_hotel_fino_osaka_shinsaibashi": 11520,
-      "koko_hotel_osaka_shinsaibashi": 9280
+      "koko_hotel_osaka_shinsaibashi": 9860
     },
     "2026-07-21": {
-      "hotel_grandee": 10800,
+      "hotel_grandee": 9000,
       "comp_a": 9100,
       "comp_b": 18400,
       "hotel_hillarys_shinsaibashi": 11280,
@@ -1397,7 +1375,7 @@
       "koko_hotel_osaka_shinsaibashi": 9680
     },
     "2026-07-22": {
-      "hotel_grandee": 16000,
+      "hotel_grandee": 15000,
       "comp_a": 10300,
       "comp_b": 18400,
       "hotel_hillarys_shinsaibashi": 12126,
@@ -1414,12 +1392,12 @@
       "sotetsu_fresa_inn_osaka_shinsaibashi": 12150,
       "hearton_hotel_shinsaibashi": 11000,
       "tokyustay_mercure_osaka_namba": 27180,
-      "quintessa_hotel_osaka_shinsaibashi": 9990,
+      "quintessa_hotel_osaka_shinsaibashi": 11160,
       "bestwestern_hotel_fino_osaka_shinsaibashi": 11520,
       "koko_hotel_osaka_shinsaibashi": 11280
     },
     "2026-07-23": {
-      "hotel_grandee": 14400,
+      "hotel_grandee": 12600,
       "comp_a": 10300,
       "comp_b": 19200,
       "hotel_hillarys_shinsaibashi": 12408,
@@ -1441,8 +1419,8 @@
       "koko_hotel_osaka_shinsaibashi": 10080
     },
     "2026-07-24": {
-      "hotel_grandee": 12400,
-      "comp_a": 11400,
+      "hotel_grandee": 11400,
+      "comp_a": 10300,
       "comp_b": 19200,
       "hotel_hillarys_shinsaibashi": 14100,
       "hotel_sobial_namba_daikokucho": 10200,
@@ -1463,7 +1441,7 @@
       "koko_hotel_osaka_shinsaibashi": 10080
     },
     "2026-07-25": {
-      "hotel_grandee": 17200,
+      "hotel_grandee": 16200,
       "comp_a": 17000,
       "comp_b": 23200,
       "hotel_hillarys_shinsaibashi": 17202,
@@ -1485,7 +1463,7 @@
       "koko_hotel_osaka_shinsaibashi": 16480
     },
     "2026-07-26": {
-      "hotel_grandee": 10000,
+      "hotel_grandee": 9000,
       "comp_a": 10300,
       "comp_b": 20000,
       "hotel_hillarys_shinsaibashi": 10904,
@@ -1507,7 +1485,7 @@
       "koko_hotel_osaka_shinsaibashi": 10480
     },
     "2026-07-27": {
-      "hotel_grandee": 10000,
+      "hotel_grandee": 9000,
       "comp_a": 10300,
       "comp_b": 19200,
       "hotel_hillarys_shinsaibashi": 10058,
@@ -1529,7 +1507,7 @@
       "koko_hotel_osaka_shinsaibashi": 12720
     },
     "2026-07-28": {
-      "hotel_grandee": 10000,
+      "hotel_grandee": 9000,
       "comp_a": 10300,
       "comp_b": 19200,
       "hotel_hillarys_shinsaibashi": 11280,
@@ -1551,7 +1529,7 @@
       "koko_hotel_osaka_shinsaibashi": 8880
     },
     "2026-07-29": {
-      "hotel_grandee": 10400,
+      "hotel_grandee": 9400,
       "comp_a": 10300,
       "comp_b": 18400,
       "hotel_hillarys_shinsaibashi": 12126,
@@ -1573,7 +1551,7 @@
       "koko_hotel_osaka_shinsaibashi": 8480
     },
     "2026-07-30": {
-      "hotel_grandee": 10400,
+      "hotel_grandee": 9400,
       "comp_a": 9100,
       "comp_b": 18400,
       "hotel_hillarys_shinsaibashi": 12408,
@@ -1595,7 +1573,7 @@
       "koko_hotel_osaka_shinsaibashi": 9280
     },
     "2026-07-31": {
-      "hotel_grandee": 12400,
+      "hotel_grandee": 11400,
       "comp_a": 9100,
       "comp_b": 18400,
       "hotel_hillarys_shinsaibashi": 14100,
@@ -1617,11 +1595,11 @@
       "koko_hotel_osaka_shinsaibashi": 9280
     },
     "2026-08-01": {
-      "hotel_grandee": 17600,
+      "hotel_grandee": 16600,
       "comp_a": 19400,
       "comp_b": 23200,
       "hotel_hillarys_shinsaibashi": 17202,
-      "hotel_sobial_namba_daikokucho": 16400,
+      "hotel_sobial_namba_daikokucho": 18300,
       "delstyle_osaka_shinsaibashi": 25650,
       "ark_hotel_osaka_shinsaibashi": 16000,
       "richmond_namba_daikokucho": null,
@@ -1639,7 +1617,7 @@
       "koko_hotel_osaka_shinsaibashi": 19760
     },
     "2026-08-02": {
-      "hotel_grandee": 11200,
+      "hotel_grandee": 10200,
       "comp_a": 10300,
       "comp_b": 18400,
       "hotel_hillarys_shinsaibashi": 12126,
@@ -1661,7 +1639,7 @@
       "koko_hotel_osaka_shinsaibashi": 11280
     },
     "2026-08-03": {
-      "hotel_grandee": 11200,
+      "hotel_grandee": 10200,
       "comp_a": 10300,
       "comp_b": 18400,
       "hotel_hillarys_shinsaibashi": 14100,
@@ -1670,7 +1648,7 @@
       "ark_hotel_osaka_shinsaibashi": 7500,
       "richmond_namba_daikokucho": 11685,
       "hennna_hotel_osaka_namba": 13950,
-      "dormy_inn_premium_namba_annex": 11500,
+      "dormy_inn_premium_namba_annex": 12000,
       "sotetsu_grand_fresa_osaka_namba": 12672,
       "hotel_code_shinsaibashi": 9100,
       "shizutetsu_prezio_osaka_shinsaibashi": 14280,
@@ -1683,7 +1661,7 @@
       "koko_hotel_osaka_shinsaibashi": 11280
     },
     "2026-08-04": {
-      "hotel_grandee": 11200,
+      "hotel_grandee": 10200,
       "comp_a": 11400,
       "comp_b": 18400,
       "hotel_hillarys_shinsaibashi": 14382,
@@ -1692,7 +1670,7 @@
       "ark_hotel_osaka_shinsaibashi": 7900,
       "richmond_namba_daikokucho": 11685,
       "hennna_hotel_osaka_namba": 15810,
-      "dormy_inn_premium_namba_annex": 14000,
+      "dormy_inn_premium_namba_annex": 15000,
       "sotetsu_grand_fresa_osaka_namba": 12672,
       "hotel_code_shinsaibashi": 9100,
       "shizutetsu_prezio_osaka_shinsaibashi": 14280,
@@ -1705,7 +1683,7 @@
       "koko_hotel_osaka_shinsaibashi": 11280
     },
     "2026-08-05": {
-      "hotel_grandee": 11200,
+      "hotel_grandee": 10200,
       "comp_a": 10300,
       "comp_b": 18400,
       "hotel_hillarys_shinsaibashi": 14382,
@@ -1727,7 +1705,7 @@
       "koko_hotel_osaka_shinsaibashi": 11280
     },
     "2026-08-06": {
-      "hotel_grandee": 11200,
+      "hotel_grandee": 10200,
       "comp_a": 10300,
       "comp_b": 18400,
       "hotel_hillarys_shinsaibashi": 15510,
@@ -1749,7 +1727,7 @@
       "koko_hotel_osaka_shinsaibashi": 11280
     },
     "2026-08-07": {
-      "hotel_grandee": 12800,
+      "hotel_grandee": 11800,
       "comp_a": 11400,
       "comp_b": 18400,
       "hotel_hillarys_shinsaibashi": 15228,
@@ -1771,7 +1749,7 @@
       "koko_hotel_osaka_shinsaibashi": 11280
     },
     "2026-08-08": {
-      "hotel_grandee": 18600,
+      "hotel_grandee": 17600,
       "comp_a": 18100,
       "comp_b": 23200,
       "hotel_hillarys_shinsaibashi": 17202,
@@ -1793,7 +1771,7 @@
       "koko_hotel_osaka_shinsaibashi": 19040
     },
     "2026-08-09": {
-      "hotel_grandee": 11200,
+      "hotel_grandee": 10200,
       "comp_a": 11400,
       "comp_b": 21200,
       "hotel_hillarys_shinsaibashi": 13818,
@@ -1815,7 +1793,7 @@
       "koko_hotel_osaka_shinsaibashi": 12720
     },
     "2026-08-10": {
-      "hotel_grandee": 11200,
+      "hotel_grandee": 10200,
       "comp_a": 10300,
       "comp_b": 21200,
       "hotel_hillarys_shinsaibashi": 14664,
@@ -1837,7 +1815,7 @@
       "koko_hotel_osaka_shinsaibashi": 13200
     },
     "2026-08-11": {
-      "hotel_grandee": 11200,
+      "hotel_grandee": 10200,
       "comp_a": 10300,
       "comp_b": 19200,
       "hotel_hillarys_shinsaibashi": 14664,
@@ -1857,7 +1835,29 @@
       "quintessa_hotel_osaka_shinsaibashi": 13410,
       "bestwestern_hotel_fino_osaka_shinsaibashi": 19980,
       "koko_hotel_osaka_shinsaibashi": 13680
+    },
+    "2026-08-12": {
+      "hotel_grandee": 10200,
+      "comp_a": 12500,
+      "comp_b": 19200,
+      "hotel_hillarys_shinsaibashi": 14664,
+      "hotel_sobial_namba_daikokucho": 10200,
+      "delstyle_osaka_shinsaibashi": 20900,
+      "ark_hotel_osaka_shinsaibashi": 8400,
+      "richmond_namba_daikokucho": 12635,
+      "hennna_hotel_osaka_namba": 15530,
+      "dormy_inn_premium_namba_annex": 13500,
+      "sotetsu_grand_fresa_osaka_namba": 17424,
+      "hotel_code_shinsaibashi": 11900,
+      "shizutetsu_prezio_osaka_shinsaibashi": 15040,
+      "via_inn_shinsaibashi": 8160,
+      "sotetsu_fresa_inn_osaka_shinsaibashi": 14580,
+      "hearton_hotel_shinsaibashi": 11000,
+      "tokyustay_mercure_osaka_namba": 28980,
+      "quintessa_hotel_osaka_shinsaibashi": 13410,
+      "bestwestern_hotel_fino_osaka_shinsaibashi": 25560,
+      "koko_hotel_osaka_shinsaibashi": 12720
     }
   },
-  "last_updated": "2026-05-20T02:45:17Z"
+  "last_updated": "2026-05-21T02:43:29Z"
 }
