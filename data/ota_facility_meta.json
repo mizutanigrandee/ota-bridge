@@ -1,6 +1,6 @@
 {
   "date": "2026-07-20",
-  "last_updated": "2026-07-20T01:14:39Z",
+  "last_updated": "2026-07-20T04:19:27Z",
   "hotels": {
     "hotel_grandee": {
       "rakuten": {
@@ -19,7 +19,7 @@
       },
       "jalan": {
         "review_avg": 4.2,
-        "review_count": 399
+        "review_count": 398
       }
     },
     "comp_b": {
@@ -39,7 +39,7 @@
       },
       "jalan": {
         "review_avg": 4.1,
-        "review_count": 200
+        "review_count": 199
       }
     },
     "hotel_sobial_namba_daikokucho": {
@@ -88,8 +88,8 @@
         "review_count": 699
       },
       "jalan": {
-        "review_avg": 4.0,
-        "review_count": 544
+        "review_avg": 4.1,
+        "review_count": 530
       }
     },
     "dormy_inn_premium_namba_annex": {
