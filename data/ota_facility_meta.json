@@ -1,6 +1,6 @@
 {
   "date": "2026-08-03",
-  "last_updated": "2026-08-03T01:15:54Z",
+  "last_updated": "2026-08-03T04:13:23Z",
   "hotels": {
     "hotel_grandee": {
       "rakuten": {
@@ -39,7 +39,7 @@
       },
       "jalan": {
         "review_avg": 4.1,
-        "review_count": 206
+        "review_count": 204
       }
     },
     "hotel_sobial_namba_daikokucho": {
@@ -49,7 +49,7 @@
       },
       "jalan": {
         "review_avg": 4.4,
-        "review_count": 1407
+        "review_count": 1409
       }
     },
     "delstyle_osaka_shinsaibashi": {
