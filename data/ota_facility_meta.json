@@ -1,11 +1,11 @@
 {
-  "date": "2026-08-08",
-  "last_updated": "2026-08-08T00:30:54Z",
+  "date": "2026-08-09",
+  "last_updated": "2026-08-09T00:03:32Z",
   "hotels": {
     "hotel_grandee": {
       "rakuten": {
         "review_avg": 4.39,
-        "review_count": 1916
+        "review_count": 1920
       },
       "jalan": {
         "review_avg": 4.6,
@@ -14,8 +14,8 @@
     },
     "comp_a": {
       "rakuten": {
-        "review_avg": 4.33,
-        "review_count": 1997
+        "review_avg": 4.34,
+        "review_count": 2048
       },
       "jalan": {
         "review_avg": 4.2,
@@ -24,8 +24,8 @@
     },
     "comp_b": {
       "rakuten": {
-        "review_avg": 4.37,
-        "review_count": 3742
+        "review_avg": 4.38,
+        "review_count": 3746
       },
       "jalan": {
         "review_avg": 4.4,
@@ -34,8 +34,8 @@
     },
     "hotel_hillarys_shinsaibashi": {
       "rakuten": {
-        "review_avg": 4.19,
-        "review_count": 1343
+        "review_avg": 4.17,
+        "review_count": 1352
       },
       "jalan": {
         "review_avg": 4.1,
@@ -44,8 +44,8 @@
     },
     "hotel_sobial_namba_daikokucho": {
       "rakuten": {
-        "review_avg": 4.4,
-        "review_count": 1680
+        "review_avg": 4.41,
+        "review_count": 1695
       },
       "jalan": {
         "review_avg": 4.4,
@@ -55,7 +55,7 @@
     "delstyle_osaka_shinsaibashi": {
       "rakuten": {
         "review_avg": 4.58,
-        "review_count": 291
+        "review_count": 292
       },
       "jalan": {
         "review_avg": 4.7,
@@ -64,8 +64,8 @@
     },
     "ark_hotel_osaka_shinsaibashi": {
       "rakuten": {
-        "review_avg": 3.97,
-        "review_count": 3612
+        "review_avg": 3.95,
+        "review_count": 3616
       },
       "jalan": {
         "review_avg": 4.2,
@@ -84,8 +84,8 @@
     },
     "hennna_hotel_osaka_namba": {
       "rakuten": {
-        "review_avg": 4.07,
-        "review_count": 700
+        "review_avg": 4.04,
+        "review_count": 703
       },
       "jalan": {
         "review_avg": 4.1,
@@ -94,8 +94,8 @@
     },
     "dormy_inn_premium_namba_annex": {
       "rakuten": {
-        "review_avg": 4.37,
-        "review_count": 1518
+        "review_avg": 4.38,
+        "review_count": 1525
       },
       "jalan": {
         "review_avg": 4.4,
@@ -104,8 +104,8 @@
     },
     "sotetsu_grand_fresa_osaka_namba": {
       "rakuten": {
-        "review_avg": 4.06,
-        "review_count": 638
+        "review_avg": 4.07,
+        "review_count": 642
       },
       "jalan": {
         "review_avg": 4.0,
@@ -114,8 +114,8 @@
     },
     "hotel_code_shinsaibashi": {
       "rakuten": {
-        "review_avg": 4.23,
-        "review_count": 312
+        "review_avg": 4.22,
+        "review_count": 316
       },
       "jalan": {
         "review_avg": 4.0,
@@ -124,8 +124,8 @@
     },
     "shizutetsu_prezio_osaka_shinsaibashi": {
       "rakuten": {
-        "review_avg": 4.51,
-        "review_count": 469
+        "review_avg": 4.5,
+        "review_count": 479
       },
       "jalan": {
         "review_avg": 4.6,
@@ -134,8 +134,8 @@
     },
     "via_inn_shinsaibashi": {
       "rakuten": {
-        "review_avg": 4.17,
-        "review_count": 1614
+        "review_avg": 4.22,
+        "review_count": 1615
       },
       "jalan": {
         "review_avg": 4.2,
@@ -155,7 +155,7 @@
     "hearton_hotel_shinsaibashi": {
       "rakuten": {
         "review_avg": 4.12,
-        "review_count": 3100
+        "review_count": 3125
       },
       "jalan": {
         "review_avg": 4.3,
@@ -174,8 +174,8 @@
     },
     "quintessa_hotel_osaka_shinsaibashi": {
       "rakuten": {
-        "review_avg": 3.6,
-        "review_count": 380
+        "review_avg": 3.71,
+        "review_count": 382
       },
       "jalan": {
         "review_avg": 4.4,
@@ -194,8 +194,8 @@
     },
     "koko_hotel_osaka_shinsaibashi": {
       "rakuten": {
-        "review_avg": 4.46,
-        "review_count": 359
+        "review_avg": 4.44,
+        "review_count": 360
       },
       "jalan": {
         "review_avg": 4.2,
