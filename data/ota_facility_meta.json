@@ -1,6 +1,6 @@
 {
   "date": "2026-08-10",
-  "last_updated": "2026-08-10T00:35:06Z",
+  "last_updated": "2026-08-10T02:52:59Z",
   "hotels": {
     "hotel_grandee": {
       "rakuten": {
@@ -108,8 +108,8 @@
         "review_count": 642
       },
       "jalan": {
-        "review_avg": 4.0,
-        "review_count": 545
+        "review_avg": 4.1,
+        "review_count": 549
       }
     },
     "hotel_code_shinsaibashi": {
@@ -148,8 +148,8 @@
         "review_count": 273
       },
       "jalan": {
-        "review_avg": 4.1,
-        "review_count": 223
+        "review_avg": 4.0,
+        "review_count": 224
       }
     },
     "hearton_hotel_shinsaibashi": {
