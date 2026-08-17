@@ -1,6 +1,6 @@
 {
   "date": "2026-08-17",
-  "last_updated": "2026-08-16T23:57:13Z",
+  "last_updated": "2026-08-17T02:16:43Z",
   "hotels": {
     "hotel_grandee": {
       "rakuten": {
@@ -39,7 +39,7 @@
       },
       "jalan": {
         "review_avg": 4.1,
-        "review_count": 204
+        "review_count": 203
       }
     },
     "hotel_sobial_namba_daikokucho": {
