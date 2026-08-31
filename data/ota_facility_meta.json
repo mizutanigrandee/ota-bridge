@@ -1,6 +1,6 @@
 {
   "date": "2026-08-31",
-  "last_updated": "2026-08-31T01:37:24Z",
+  "last_updated": "2026-08-31T05:49:20Z",
   "hotels": {
     "hotel_grandee": {
       "rakuten": {
@@ -39,7 +39,7 @@
       },
       "jalan": {
         "review_avg": 4.1,
-        "review_count": 203
+        "review_count": 209
       }
     },
     "hotel_sobial_namba_daikokucho": {
@@ -79,7 +79,7 @@
       },
       "jalan": {
         "review_avg": 4.5,
-        "review_count": 1089
+        "review_count": 1092
       }
     },
     "hennna_hotel_osaka_namba": {
@@ -129,7 +129,7 @@
       },
       "jalan": {
         "review_avg": 4.6,
-        "review_count": 156
+        "review_count": 165
       }
     },
     "via_inn_shinsaibashi": {
@@ -148,8 +148,8 @@
         "review_count": 273
       },
       "jalan": {
-        "review_avg": 4.0,
-        "review_count": 224
+        "review_avg": 4.3,
+        "review_count": 229
       }
     },
     "hearton_hotel_shinsaibashi": {
