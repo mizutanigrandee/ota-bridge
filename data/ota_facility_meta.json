@@ -1,6 +1,6 @@
 {
   "date": "2026-10-05",
-  "last_updated": "2026-10-05T02:24:56Z",
+  "last_updated": "2026-10-05T05:45:00Z",
   "hotels": {
     "hotel_grandee": {
       "rakuten": {
@@ -79,7 +79,7 @@
       },
       "jalan": {
         "review_avg": 4.5,
-        "review_count": 1096
+        "review_count": 1099
       }
     },
     "hennna_hotel_osaka_namba": {
@@ -88,8 +88,8 @@
         "review_count": 745
       },
       "jalan": {
-        "review_avg": 4.1,
-        "review_count": 544
+        "review_avg": 4.2,
+        "review_count": 545
       }
     },
     "dormy_inn_premium_namba_annex": {
@@ -98,7 +98,7 @@
         "review_count": 1656
       },
       "jalan": {
-        "review_avg": 4.2,
+        "review_avg": 4.3,
         "review_count": 122
       }
     },
@@ -109,7 +109,7 @@
       },
       "jalan": {
         "review_avg": 4.1,
-        "review_count": 557
+        "review_count": 559
       }
     },
     "hotel_code_shinsaibashi": {
@@ -159,7 +159,7 @@
       },
       "jalan": {
         "review_avg": 4.2,
-        "review_count": 101
+        "review_count": 102
       }
     },
     "tokyustay_mercure_osaka_namba": {
@@ -188,7 +188,7 @@
         "review_count": 679
       },
       "jalan": {
-        "review_avg": 3.8,
+        "review_avg": 3.7,
         "review_count": 734
       }
     },
@@ -198,7 +198,7 @@
         "review_count": 397
       },
       "jalan": {
-        "review_avg": 4.2,
+        "review_avg": 4.3,
         "review_count": 97
       }
     }
