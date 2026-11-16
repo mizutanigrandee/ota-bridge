@@ -1,6 +1,6 @@
 {
   "date": "2026-11-16",
-  "last_updated": "2026-11-16T03:10:12Z",
+  "last_updated": "2026-11-16T06:33:04Z",
   "hotels": {
     "hotel_grandee": {
       "rakuten": {
@@ -28,8 +28,8 @@
         "review_count": 3817
       },
       "jalan": {
-        "review_avg": 4.4,
-        "review_count": 3559
+        "review_avg": 4.5,
+        "review_count": 3560
       }
     },
     "hotel_hillarys_shinsaibashi": {
@@ -49,7 +49,7 @@
       },
       "jalan": {
         "review_avg": 4.4,
-        "review_count": 1446
+        "review_count": 1448
       }
     },
     "delstyle_osaka_shinsaibashi": {
@@ -58,8 +58,8 @@
         "review_count": 315
       },
       "jalan": {
-        "review_avg": 4.5,
-        "review_count": 228
+        "review_avg": 4.6,
+        "review_count": 231
       }
     },
     "ark_hotel_osaka_shinsaibashi": {
@@ -69,7 +69,7 @@
       },
       "jalan": {
         "review_avg": 4.3,
-        "review_count": 2098
+        "review_count": 2100
       }
     },
     "richmond_namba_daikokucho": {
@@ -79,7 +79,7 @@
       },
       "jalan": {
         "review_avg": 4.5,
-        "review_count": 1102
+        "review_count": 1103
       }
     },
     "hennna_hotel_osaka_namba": {
@@ -98,8 +98,8 @@
         "review_count": 1706
       },
       "jalan": {
-        "review_avg": 4.3,
-        "review_count": 122
+        "review_avg": 4.2,
+        "review_count": 124
       }
     },
     "sotetsu_grand_fresa_osaka_namba": {
@@ -118,8 +118,8 @@
         "review_count": 335
       },
       "jalan": {
-        "review_avg": 4.1,
-        "review_count": 260
+        "review_avg": 4.0,
+        "review_count": 261
       }
     },
     "shizutetsu_prezio_osaka_shinsaibashi": {
@@ -129,7 +129,7 @@
       },
       "jalan": {
         "review_avg": 4.6,
-        "review_count": 178
+        "review_count": 180
       }
     },
     "via_inn_shinsaibashi": {
@@ -198,8 +198,8 @@
         "review_count": 437
       },
       "jalan": {
-        "review_avg": 4.2,
-        "review_count": 99
+        "review_avg": 4.3,
+        "review_count": 101
       }
     }
   }
